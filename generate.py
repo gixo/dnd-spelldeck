@@ -59,8 +59,18 @@ def print_spell(name, level, school, range, time, ritual, duration, components,
 
     SPELLS_TOTAL += 1
 
+    # Split text by double newlines to preserve paragraph breaks
+    paragraphs = new_text.split('\n\n')
+    formatted_paragraphs = []
+    
+    for paragraph in paragraphs:
+        if paragraph.strip():  # Only process non-empty paragraphs
+            formatted_paragraphs.append(textwrap.fill(paragraph.strip(), 80))
+    
+    formatted_text = '\n\n'.join(formatted_paragraphs)
+
     print("\\begin{spell}{%s}{%s}{%s}{%s}{%s}{%s}{%s}\n\n%s\n\n\\end{spell}\n" %
-        (name, header, range, time, duration, ", ".join(components), source or '', textwrap.fill(new_text, 80)))
+        (name, header, range, time, duration, ", ".join(components), source or '', formatted_text))
 
 
 def get_spells(classes=None, levels=None, schools=None, names=None):
