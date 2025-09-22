@@ -16,7 +16,7 @@ Options:
     -l, --level LEVEL     Filter by level (can be used multiple times, supports ranges like 1-3)
     -s, --school SCHOOL   Filter by school (can be used multiple times)
     -n, --name NAME       Filter by spell name (can be used multiple times)
-    -o, --output DIR      Output directory (default: tex/)
+    -o, --output DIR      Output directory (default: pdf/)
     --clean               Clean up intermediate files after generation
     --no-compile          Skip LaTeX compilation (only generate spells.tex)
     --latex-compiler CMD  LaTeX compiler to use with latexmk (default: xelatex)
@@ -82,8 +82,32 @@ def run_command(cmd, cwd=None, check=True):
         return None
 
 
-def generate_spells_tex(args, output_dir):
-    """Generate the spells.tex file using generate.py."""
+def ensure_tex_templates():
+    """Ensure required LaTeX template files exist in tex/ directory."""
+    print("Checking LaTeX template files...")
+    
+    # Check if required files exist in tex/ directory
+    required_files = ['cards.tex', 'printable.tex']
+    
+    for template_file in required_files:
+        file_path = os.path.join('tex', template_file)
+        if not os.path.exists(file_path):
+            print(f"Error: Template file {file_path} not found")
+            return False
+        print(f"  Found {template_file}")
+    
+    # Check if images directory exists in root
+    images_dir = 'images'
+    if not os.path.exists(images_dir):
+        print(f"Warning: Images directory {images_dir} not found")
+    else:
+        print("  Found images directory")
+    
+    return True
+
+
+def generate_spells_tex(args):
+    """Generate the spells.tex file using generate.py in tex/ directory."""
     print("Generating spells.tex...")
     
     # Build the generate.py command
@@ -105,9 +129,9 @@ def generate_spells_tex(args, output_dir):
         for name in args.names:
             cmd_parts.extend(['-n', f'"{name}"'])
     
-    # Run the command and redirect output to spells.tex
+    # Run the command and redirect output to spells.tex in tex/ directory
     cmd = ' '.join(cmd_parts)
-    spells_tex_path = os.path.join(output_dir, 'spells.tex')
+    spells_tex_path = os.path.join('tex', 'spells.tex')
     
     result = run_command(f"{cmd} > {spells_tex_path}")
     if result is None:
@@ -122,12 +146,12 @@ def generate_spells_tex(args, output_dir):
 
 
 def compile_latex(output_dir, latex_compiler='xelatex'):
-    """Compile the LaTeX files to generate PDFs using latexmk."""
+    """Compile the LaTeX files in tex/ directory and copy PDFs to output directory."""
     print(f"Compiling LaTeX files using latexmk with {latex_compiler}...")
     
-    # Check if required files exist
-    cards_tex = os.path.join(output_dir, 'cards.tex')
-    printable_tex = os.path.join(output_dir, 'printable.tex')
+    # Check if required files exist in tex/ directory
+    cards_tex = os.path.join('tex', 'cards.tex')
+    printable_tex = os.path.join('tex', 'printable.tex')
     
     if not os.path.exists(cards_tex):
         print(f"Error: {cards_tex} not found")
@@ -137,39 +161,57 @@ def compile_latex(output_dir, latex_compiler='xelatex'):
         print(f"Error: {printable_tex} not found")
         return False
     
-    # Use latexmk to compile both files
+    # Use latexmk to compile both files in tex/ directory
     print("Compiling LaTeX files...")
-    cmd = f"latexmk -{latex_compiler} -cd {cards_tex} {printable_tex}"
+    cmd = f"latexmk -{latex_compiler} -cd tex/cards.tex tex/printable.tex"
     result = run_command(cmd)
     if result is None:
         return False
     
-    # Check if PDFs were generated
-    cards_pdf = os.path.join(output_dir, 'cards.pdf')
-    printable_pdf = os.path.join(output_dir, 'printable.pdf')
+    # Check if PDFs were generated in tex/ directory
+    tex_cards_pdf = os.path.join('tex', 'cards.pdf')
+    tex_printable_pdf = os.path.join('tex', 'printable.pdf')
     
-    if not os.path.exists(cards_pdf):
-        print("Error: cards.pdf was not generated")
+    if not os.path.exists(tex_cards_pdf):
+        print("Error: cards.pdf was not generated in tex/ directory")
         return False
     
-    if not os.path.exists(printable_pdf):
-        print("Error: printable.pdf was not generated")
+    if not os.path.exists(tex_printable_pdf):
+        print("Error: printable.pdf was not generated in tex/ directory")
         return False
     
-    print("✓ Generated cards.pdf")
-    print("✓ Generated printable.pdf")
+    # Copy PDFs to output directory
+    print("Copying PDF files to output directory...")
+    output_cards_pdf = os.path.join(output_dir, 'cards.pdf')
+    output_printable_pdf = os.path.join(output_dir, 'printable.pdf')
+    
+    try:
+        shutil.copy2(tex_cards_pdf, output_cards_pdf)
+        print(f"  Copied cards.pdf to {output_dir}")
+    except OSError as e:
+        print(f"Error copying cards.pdf: {e}")
+        return False
+    
+    try:
+        shutil.copy2(tex_printable_pdf, output_printable_pdf)
+        print(f"  Copied printable.pdf to {output_dir}")
+    except OSError as e:
+        print(f"Error copying printable.pdf: {e}")
+        return False
+    
+    print("✓ Generated and copied PDF files")
     return True
 
 
-def clean_intermediate_files(output_dir):
-    """Clean up intermediate LaTeX files."""
+def clean_intermediate_files():
+    """Clean up intermediate LaTeX files in tex/ directory."""
     print("Cleaning up intermediate files...")
     
-    intermediate_extensions = ['.aux', '.log', '.out', '.toc', '.fdb_latexmk', '.fls', '.synctex.gz']
+    intermediate_extensions = ['.aux', '.log', '.out', '.toc', '.fdb_latexmk', '.fls', '.synctex.gz', '.xdv']
     
     for ext in intermediate_extensions:
         pattern = f"*{ext}"
-        for file_path in Path(output_dir).glob(pattern):
+        for file_path in Path('tex').glob(pattern):
             try:
                 file_path.unlink()
                 print(f"  Removed {file_path.name}")
@@ -222,8 +264,8 @@ Examples:
     
     # Output options
     parser.add_argument(
-        "-o", "--output", type=str, default="tex",
-        help="output directory (default: tex/)"
+        "-o", "--output", type=str, default="pdf",
+        help="output directory (default: pdf/)"
     )
     
     # Processing options
@@ -253,8 +295,13 @@ Examples:
     print("D&D Spelldeck Generator")
     print("=" * 50)
     
+    # Check LaTeX template files
+    if not ensure_tex_templates():
+        print("Error: Required LaTeX template files not found")
+        sys.exit(1)
+    
     # Generate spells.tex
-    if not generate_spells_tex(args, output_dir):
+    if not generate_spells_tex(args):
         print("Error: Failed to generate spells.tex")
         sys.exit(1)
     
@@ -269,12 +316,12 @@ Examples:
         print(f"  - Printable sheets: {os.path.join(output_dir, 'printable.pdf')}")
     else:
         print("\n✓ spells.tex generated successfully!")
-        print(f"  - Output file: {os.path.join(output_dir, 'spells.tex')}")
+        print(f"  - Output file: {os.path.join('tex', 'spells.tex')}")
         print("  - Run LaTeX compilation manually to generate PDFs")
     
     # Clean up intermediate files if requested
     if args.clean and not args.no_compile:
-        clean_intermediate_files(output_dir)
+        clean_intermediate_files()
     
     print("\nDone!")
 
