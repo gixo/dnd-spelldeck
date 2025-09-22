@@ -181,3 +181,6 @@ TSWLatexianTemp*
 # DnD-Spelldeck
 spells.tex
 __pycache__/
+tex/cards.xdv
+tex/printable.xdv
+.DS_Store
