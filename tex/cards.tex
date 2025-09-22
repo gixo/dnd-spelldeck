@@ -39,11 +39,24 @@
     \else%
         \StrBefore{#1}{|}[\rangetext]%
         \StrBehind{#1}{|}[\showicon]%
-        {\italicfont\rangetext}%
         \ifx\showicon\empty%
+            {\italicfont\rangetext}%
         \else%
             \ifnum\pdfstrcmp{\showicon}{True}=0%
-                \hspace{1mm}\includesvg[width=0.15cm]{../images/cube}%
+                {\italicfont\rangetext}\hspace{1mm}\includesvg[width=0.15cm]{../images/cube}%
+                % Add closing parenthesis if the text contains an opening parenthesis
+                \ifx\rangetext\empty%
+                \else%
+                    \StrBefore{\rangetext}{(}[\beforeparen]%
+                    \StrBehind{\rangetext}{(}[\afterparen]%
+                    \ifx\beforeparen\rangetext%
+                        % No opening parenthesis found
+                    \else%
+                        )%
+                    \fi%
+                \fi%
+            \else%
+                {\italicfont\rangetext}%
             \fi%
         \fi%
     \fi%

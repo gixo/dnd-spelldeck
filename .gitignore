@@ -184,3 +184,4 @@ __pycache__/
 tex/cards.xdv
 tex/printable.xdv
 .DS_Store
+.pdf_tex

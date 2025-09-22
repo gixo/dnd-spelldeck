@@ -65,11 +65,26 @@ def print_spell(name, level, school, range, time, ritual, duration, components,
     
     formatted_text = '\n\n'.join(formatted_paragraphs)
 
-    # Check if range contains cube-related text and mark it for icon display
+    # Check if range contains cube-related text and extract size for icon display
     display_range = range
     show_cube_icon = False
-    if range and ('cube' in range.lower() or '5-foot cube' in range.lower() or '10-foot cube' in range.lower() or '15-foot cube' in range.lower() or '20-foot cube' in range.lower()):
-        show_cube_icon = True
+    if range and 'cube' in range.lower():
+        # Extract the size part and remove "cube" from anywhere in the range
+        import re
+        # Try to match size patterns before "cube", including "feet" variations
+        cube_match = re.search(r'(\d+(?:-\d+)?(?:-foot|-feet)?)\s*cube', range.lower())
+        if cube_match:
+            # Replace "cube" and any following closing parenthesis with empty string
+            display_range = re.sub(r'\s*cube\s*\)?', '', range, flags=re.IGNORECASE).strip()
+            # Convert "feet" to "foot" only in the part that was before "cube"
+            display_range = re.sub(r'(\d+(?:-\d+)?)\s+feet(?=\s*\)|$)', r'\1-foot', display_range, flags=re.IGNORECASE)
+            show_cube_icon = True
+        else:
+            # If no size pattern found, just remove "cube" and any following closing parenthesis
+            display_range = re.sub(r'\s*cube\s*\)?', '', range, flags=re.IGNORECASE).strip()
+            # Convert "feet" to "foot" only in the part that was before "cube"
+            display_range = re.sub(r'(\d+(?:-\d+)?)\s+feet(?=\s*\)|$)', r'\1-foot', display_range, flags=re.IGNORECASE)
+            show_cube_icon = True
 
     # Add cube icon flag to the range if needed
     range_with_icon = f"{display_range}|{show_cube_icon}"

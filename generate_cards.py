@@ -196,26 +196,26 @@ def compile_latex(output_dir, latex_compiler='xelatex'):
         print("Error: printable.pdf was not generated in tex/ directory")
         return False, 0
     
-    # Copy PDFs to output directory
-    print("Copying PDF files to output directory...")
+    # Move PDFs to output directory
+    print("Moving PDF files to output directory...")
     output_cards_pdf = os.path.join(output_dir, 'cards.pdf')
     output_printable_pdf = os.path.join(output_dir, 'printable.pdf')
     
     try:
-        shutil.copy2(tex_cards_pdf, output_cards_pdf)
-        print(f"  Copied cards.pdf to {output_dir}")
+        shutil.move(tex_cards_pdf, output_cards_pdf)
+        print(f"  Moved cards.pdf to {output_dir}")
     except OSError as e:
-        print(f"Error copying cards.pdf: {e}")
+        print(f"Error moving cards.pdf: {e}")
         return False, 0
     
     try:
-        shutil.copy2(tex_printable_pdf, output_printable_pdf)
-        print(f"  Copied printable.pdf to {output_dir}")
+        shutil.move(tex_printable_pdf, output_printable_pdf)
+        print(f"  Moved printable.pdf to {output_dir}")
     except OSError as e:
-        print(f"Error copying printable.pdf: {e}")
+        print(f"Error moving printable.pdf: {e}")
         return False, 0
     
-    print("✓ Generated and copied PDF files")
+    print("✓ Generated and moved PDF files")
     return True, 2  # 2 PDF files: cards.pdf and printable.pdf
 
 
