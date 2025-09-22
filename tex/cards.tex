@@ -32,18 +32,31 @@
 \cfoot{\if\relax\spellsource\relax\else\scriptsize\spellsource\fi}
 \setlength{\parindent}{0pt}
 
-% Command to display range with cube icon if applicable
+% Command to display range with area effect icons if applicable
 \newcommand{\displayrange}[1]{%
     \ifx\relax#1\relax%
         \relax%
     \else%
         \StrBefore{#1}{|}[\rangetext]%
-        \StrBehind{#1}{|}[\showicon]%
-        \ifx\showicon\empty%
-            {\italicfont\rangetext}%
+        \StrBehind{#1}{|}[\remaining]%
+        \StrBefore{\remaining}{|}[\showcubeicon]%
+        \StrBehind{\remaining}{|}[\showemanationicon]%
+        \ifnum\pdfstrcmp{\showcubeicon}{True}=0%
+            {\italicfont\rangetext}\hspace{0.5mm}\includesvg[width=0.15cm]{../images/cube}%
+            % Add closing parenthesis if the text contains an opening parenthesis
+            \ifx\rangetext\empty%
+            \else%
+                \StrBefore{\rangetext}{(}[\beforeparen]%
+                \StrBehind{\rangetext}{(}[\afterparen]%
+                \ifx\beforeparen\rangetext%
+                    % No opening parenthesis found
+                \else%
+                    {\italicfont)}%
+                \fi%
+            \fi%
         \else%
-            \ifnum\pdfstrcmp{\showicon}{True}=0%
-                {\italicfont\rangetext}\hspace{1mm}\includesvg[width=0.15cm]{../images/cube}%
+            \ifnum\pdfstrcmp{\showemanationicon}{True}=0%
+                {\italicfont\rangetext}\hspace{0.5mm}\includesvg[width=0.15cm]{../images/emanation}%
                 % Add closing parenthesis if the text contains an opening parenthesis
                 \ifx\rangetext\empty%
                 \else%
@@ -52,7 +65,7 @@
                     \ifx\beforeparen\rangetext%
                         % No opening parenthesis found
                     \else%
-                        )%
+                        {\italicfont)}%
                     \fi%
                 \fi%
             \else%
