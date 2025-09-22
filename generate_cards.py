@@ -135,14 +135,30 @@ def generate_spells_tex(args):
     
     result = run_command(f"{cmd} > {spells_tex_path}")
     if result is None:
-        return False
+        return False, 0, 0, 0
     
     if not os.path.exists(spells_tex_path) or os.path.getsize(spells_tex_path) == 0:
         print("Error: spells.tex was not generated or is empty")
-        return False
+        return False, 0, 0, 0
+    
+    # Parse the stderr output to get truncation statistics
+    spells_truncated = 0
+    spells_total = 0
+    if result.stderr:
+        # Look for the truncation statistics in stderr
+        for line in result.stderr.split('\n'):
+            if 'Had to truncate' in line and 'out of' in line:
+                try:
+                    # Parse: "Had to truncate X out of Y spells at Z characters."
+                    parts = line.split()
+                    spells_truncated = int(parts[3])
+                    spells_total = int(parts[6])
+                    break
+                except (ValueError, IndexError):
+                    pass
     
     print(f"✓ Generated {spells_tex_path}")
-    return True
+    return True, spells_total, spells_truncated, 0
 
 
 def compile_latex(output_dir, latex_compiler='xelatex'):
@@ -155,18 +171,18 @@ def compile_latex(output_dir, latex_compiler='xelatex'):
     
     if not os.path.exists(cards_tex):
         print(f"Error: {cards_tex} not found")
-        return False
+        return False, 0
     
     if not os.path.exists(printable_tex):
         print(f"Error: {printable_tex} not found")
-        return False
+        return False, 0
     
     # Use latexmk to compile both files in tex/ directory
     print("Compiling LaTeX files...")
     cmd = f"latexmk -{latex_compiler} -cd tex/cards.tex tex/printable.tex"
     result = run_command(cmd)
     if result is None:
-        return False
+        return False, 0
     
     # Check if PDFs were generated in tex/ directory
     tex_cards_pdf = os.path.join('tex', 'cards.pdf')
@@ -174,11 +190,11 @@ def compile_latex(output_dir, latex_compiler='xelatex'):
     
     if not os.path.exists(tex_cards_pdf):
         print("Error: cards.pdf was not generated in tex/ directory")
-        return False
+        return False, 0
     
     if not os.path.exists(tex_printable_pdf):
         print("Error: printable.pdf was not generated in tex/ directory")
-        return False
+        return False, 0
     
     # Copy PDFs to output directory
     print("Copying PDF files to output directory...")
@@ -190,17 +206,17 @@ def compile_latex(output_dir, latex_compiler='xelatex'):
         print(f"  Copied cards.pdf to {output_dir}")
     except OSError as e:
         print(f"Error copying cards.pdf: {e}")
-        return False
+        return False, 0
     
     try:
         shutil.copy2(tex_printable_pdf, output_printable_pdf)
         print(f"  Copied printable.pdf to {output_dir}")
     except OSError as e:
         print(f"Error copying printable.pdf: {e}")
-        return False
+        return False, 0
     
     print("✓ Generated and copied PDF files")
-    return True
+    return True, 2  # 2 PDF files: cards.pdf and printable.pdf
 
 
 def clean_intermediate_files():
@@ -301,13 +317,16 @@ Examples:
         sys.exit(1)
     
     # Generate spells.tex
-    if not generate_spells_tex(args):
+    success, spells_total, spells_truncated, _ = generate_spells_tex(args)
+    if not success:
         print("Error: Failed to generate spells.tex")
         sys.exit(1)
     
     # Compile LaTeX files if requested
+    pdf_files_generated = 0
     if not args.no_compile:
-        if not compile_latex(output_dir, args.latex_compiler):
+        success, pdf_files_generated = compile_latex(output_dir, args.latex_compiler)
+        if not success:
             print("Error: Failed to compile LaTeX files")
             sys.exit(1)
         
@@ -318,6 +337,15 @@ Examples:
         print("\n✓ spells.tex generated successfully!")
         print(f"  - Output file: {os.path.join('tex', 'spells.tex')}")
         print("  - Run LaTeX compilation manually to generate PDFs")
+    
+    # Display statistics
+    print(f"\n📊 Generation Statistics:")
+    print(f"  - Spells processed: {spells_total}")
+    if spells_truncated > 0:
+        print(f"  - Text truncated: {spells_truncated} spells (text too long for cards)")
+    else:
+        print(f"  - Text truncated: None (all spells fit within card limits)")
+    print(f"  - Output directory: {output_dir}")
     
     # Clean up intermediate files if requested
     if args.clean and not args.no_compile:
