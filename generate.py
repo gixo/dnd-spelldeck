@@ -42,7 +42,8 @@ def print_spell(name, level, school, range, time, ritual, duration, components,
         school=school.lower(), ritual='ritual' if ritual else '').strip()
 
     if material is not None:
-        text = "Requires " + material + ". " + text
+        text += "\n\n* - (" + material + ")"
+        components = [i.replace("M", "M *") for i in components]
 
     if source_page is not None:
         source += ' page %d' % source_page

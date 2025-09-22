@@ -49,26 +49,30 @@
     },
     "Aid": {
         "classes": [
+            "Artificer",
+            "Bard",
+            "Cleric",
+            "Druid",
             "Paladin",
-            "Cleric"
+            "Ranger"
         ],
         "components": [
-            "S",
             "V",
+            "S",
             "M"
         ],
         "duration": "8 hours",
         "level": 2,
-        "material": "a tiny strip of white cloth",
+        "material": "a strip of white cloth",
         "range": "30 feet",
         "ritual": false,
         "school": "Abjuration",
         "source": "Player's Handbook",
-        "source_page": 211,
-        "text": "Your spell bolsters your allies with toughness and resolve. Choose up to three creatures within range. Each target's hit point maximum and current hit points increase by 5 for the duration. At Higher Levels: When you cast this spell using a spell slot of 3rd level or higher, a target's hit points increase by an additional 5 for each slot level above 2nd.",
+        "source_page": 239,
+        "text": "Choose up to three creatures within range. Each target's Hit Point maximum and current Hit Points increase by 5 for the duration.\n\n{\\normalfont\\textbf{Using a Higher-Level Spell Slot.}} Each target's Hit Points increase by 5 for each spell slot level above 2.",
         "time": "1 action",
-        "attack_save": "Wisdom",
-        "damage_effect": "Necrotic"
+        "attack_save": "None",
+        "damage_effect": "Buff"
     },
     "Alarm": {
         "classes": [
