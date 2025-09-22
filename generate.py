@@ -5,7 +5,7 @@ import sys
 import textwrap
 import json
 
-MAX_TEXT_LENGTH = 600
+MAX_TEXT_LENGTH = 620
 
 SPELLS_TRUNCATED = 0
 SPELLS_TOTAL = 0
@@ -28,16 +28,11 @@ with open('data/spells.json') as json_data:
 
 
 def truncate_string(string, max_len=MAX_TEXT_LENGTH):
-    rv = ""
-
-    for sentence in string.split(".")[:-1]:
-        if len(rv + sentence) < MAX_TEXT_LENGTH - 2:
-            rv += sentence + "."
-        else:
-            rv += ".."
-            break
-
-    return rv
+    if len(string) <= max_len:
+        return string
+    
+    # Cut at max_len and add ellipsis
+    return string[:max_len-3] + "..."
 
 
 def print_spell(name, level, school, range, time, ritual, duration, components,
@@ -69,8 +64,9 @@ def print_spell(name, level, school, range, time, ritual, duration, components,
     
     formatted_text = '\n\n'.join(formatted_paragraphs)
 
-    print("\\begin{spell}{%s}{%s}{%s}{%s}{%s}{%s}{%s}\n\n%s\n\n\\end{spell}\n" %
-        (name, header, range, time, duration, ", ".join(components), source or '', formatted_text))
+    print("\\begin{spell}{%s}{%s}{%s}{%s}{%s}{%s}{%s}{%s}{%s}\n\n%s\n\n\\end{spell}\n" %
+        (name, header, range, time, duration, ", ".join(components), source or '', 
+         kwargs.get('attack_save', 'None'), kwargs.get('damage_effect', 'None'), formatted_text))
 
 
 def get_spells(classes=None, levels=None, schools=None, names=None):

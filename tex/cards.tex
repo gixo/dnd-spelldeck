@@ -14,7 +14,9 @@
 
 \ifxetex
 \usepackage{fontspec}
-\setmainfont{Mrs Eaves OT}
+\setmainfont{Mrs Eaves}
+\newfontfamily\italicfont{Mrs Eaves OT}
+\newfontfamily\bolditalicfont{Mrs Eaves XL Serif Nar OT}
 \fi
 
 \definecolor{headercolor}{RGB}{88,23,13}
@@ -27,7 +29,7 @@
 \cfoot{\if\relax\spellsource\relax\else\scriptsize\spellsource\fi}
 \setlength{\parindent}{0pt}
 
-\newenvironment{spell}[7]{
+\newenvironment{spell}[9]{
     \def\spelltitle{#1}
     \def\spellheader{#2}
     \def\castrange{#3}
@@ -35,35 +37,46 @@
     \def\duration{#5}
     \def\components{#6}
     \def\spellsource{#7}
+    \def\attacksave{#8}
+    \def\damageeffect{#9}
     \begin{minipage}[t][5cm][t]{\textwidth}
-    \vspace{-0.5em}
+    \vspace{-1em}
     \setlength{\parskip}{0.5em}
-    \begin{minipage}[t]{0.49\textwidth}
+    \begin{minipage}[t]{0.32\textwidth}
         \centering\footnotesize\scshape{\color{headercolor}Casting time}
 
-        \casttime
+        {\italicfont\casttime}
 	\end{minipage}
-    \hfill
-    \begin{minipage}[t]{0.49\textwidth}
+    \begin{minipage}[t]{0.32\textwidth}
         \centering\footnotesize\scshape{\color{headercolor}Range}
 
-        \castrange
-	\end{minipage}\\[3mm]
-    \begin{minipage}[t]{0.49\textwidth}
+        {\italicfont\castrange}
+	\end{minipage}
+    \begin{minipage}[t]{0.32\textwidth}
         \centering\footnotesize\scshape{\color{headercolor}Components}
 
-        \components
-	\end{minipage}
-    \hfill
-    \begin{minipage}[t]{0.49\textwidth}
+        {\italicfont\components}
+	\end{minipage}\\[3mm]
+    \begin{minipage}[t]{0.32\textwidth}
         \centering\footnotesize\scshape{\color{headercolor}Duration}
 
-        \duration
+        {\italicfont\duration}
+	\end{minipage}
+    \begin{minipage}[t]{0.32\textwidth}
+        \centering\footnotesize\scshape{\color{headercolor}Attack/Save}
+
+        {\italicfont\attacksave}
+	\end{minipage}
+    \begin{minipage}[t]{0.32\textwidth}
+        \centering\footnotesize\scshape{\color{headercolor}Damage/Effect}
+
+        {\italicfont\damageeffect}
 	\end{minipage}
     \vspace{3mm}
     \headrule
     \vspace{0.5em}
     \footnotesize
+    \italicfont
 }{
     \end{minipage}
     \newpage
