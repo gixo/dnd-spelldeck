@@ -2,6 +2,9 @@
 \usepackage{ifxetex}
 \usepackage{fancyhdr}
 \usepackage{background}
+\usepackage{graphicx}
+\usepackage{svg}
+\usepackage{xstring}
 \usepackage[paperheight=8.89cm,paperwidth=6.35cm,margin=0.6cm,top=22mm,bottom=10mm,headheight=1cm]{geometry}
 
 \backgroundsetup{
@@ -29,6 +32,23 @@
 \cfoot{\if\relax\spellsource\relax\else\scriptsize\spellsource\fi}
 \setlength{\parindent}{0pt}
 
+% Command to display range with cube icon if applicable
+\newcommand{\displayrange}[1]{%
+    \ifx\relax#1\relax%
+        \relax%
+    \else%
+        \StrBefore{#1}{|}[\rangetext]%
+        \StrBehind{#1}{|}[\showicon]%
+        {\italicfont\rangetext}%
+        \ifx\showicon\empty%
+        \else%
+            \ifnum\pdfstrcmp{\showicon}{True}=0%
+                \hspace{1mm}\includesvg[width=0.15cm]{../images/cube}%
+            \fi%
+        \fi%
+    \fi%
+}
+
 \newenvironment{spell}[9]{
     \def\spelltitle{#1}
     \def\spellheader{#2}
@@ -50,7 +70,7 @@
     \begin{minipage}[t]{0.32\textwidth}
         \centering\footnotesize\scshape{\color{headercolor}Range}
 
-        {\italicfont\castrange}
+        \displayrange{\castrange}
 	\end{minipage}
     \begin{minipage}[t]{0.32\textwidth}
         \centering\footnotesize\scshape{\color{headercolor}Components}

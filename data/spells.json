@@ -717,16 +717,18 @@
             "S",
             "V"
         ],
-        "duration": "1 round",
+        "duration": "Concentration, up to 1 minute",
         "level": 0,
         "material": null,
         "range": "Self",
         "ritual": false,
         "school": "Abjuration",
-        "source": "Player's Handbook",
+        "source": "Player's Handbook (2024)",
         "source_page": 218,
-        "text": "You extend your hand and trace a sigil of warding in the air. Until the end of your next turn, you have resistance against bludgeoning, piercing, and slashing damage dealt by weapon attacks.",
-        "time": "1 action"
+        "text": "You extend your hand and trace a sigil of warding in the air. Until the spell ends, you have a +1 bonus to AC and saving throws, and all creatures attacking you must subtract 1d4 from their attack rolls.",
+        "time": "1 action",
+        "attack_save": "None",
+        "damage_effect": "Buff"
     },
     "Bless": {
         "classes": [
@@ -856,7 +858,7 @@
         "text": "Your body becomes blurred, shifting and wavering to all who can see you. For the duration, any creature has disadvantage on attack rolls against you. An attacker is immune to this effect if it doesn't rely on sight, as with blindsight, or can see through illusions, as with truesight.",
         "time": "1 action"
     },
-    "Branding Smite": {
+    "Shining Smite": {
         "classes": [
             "Paladin"
         ],
@@ -869,10 +871,12 @@
         "range": "Self",
         "ritual": false,
         "school": "Evocation",
-        "source": "Player's Handbook",
+        "source": "Player's Handbook (2024)",
         "source_page": 219,
-        "text": "The next time you hit a creature with a weapon attack before this spell ends, the weapon gleams with astral radiance as you strike. The attack deals an extra 2d6 radiant damage to the target, which becomes visible if it is invisible, and the target sheds dim light in a 5-foot radius and can't become invisible until the spell ends. At Higher Levels: When you cast this spell using a spell slot of 3rd level or higher, the extra damage increases by 1d6 for each slot level above 2nd.",
-        "time": "1 bonus action"
+        "text": "The next time you hit a creature with a melee weapon attack during this spell's duration, your weapon gleams with astral radiance as you strike. The attack deals an extra 2d6 Radiant damage to the target, which becomes visible if it's invisible, and the target sheds bright light in a 5-foot radius and dim light for an additional 5 feet for the duration.\n\n{\\normalfont\\textbf{At Higher Levels:}} When you cast this spell using a spell slot of 3rd level or higher, the extra damage increases by 1d6 for each slot level above 2nd.",
+        "time": "1 bonus action",
+        "attack_save": "None",
+        "damage_effect": "Radiant"
     },
     "Burning Hands": {
         "classes": [
@@ -1824,10 +1828,12 @@
         "range": "Touch",
         "ritual": false,
         "school": "Evocation",
-        "source": "Player's Handbook",
+        "source": "Player's Handbook (2024)",
         "source_page": 230,
-        "text": "A creature you touch regains a number of hit points equal to 1d8 + your spellcasting ability modifier. This spell has no effect on undead or constructs. At Higher Levels: When you cast this spell using a spell slot of 2nd level or higher, the healing increases by 1d8 for each slot level above 1st.",
-        "time": "1 action"
+        "text": "A creature you touch regains a number of hit points equal to 2d8 + your spellcasting ability modifier. This spell has no effect on undead or constructs.\n\n{\\normalfont\\textbf{At Higher Levels:}} When you cast this spell using a spell slot of 2nd level or higher, the healing increases by 2d8 for each slot level above 1st.",
+        "time": "1 action",
+        "attack_save": "None",
+        "damage_effect": "Healing"
     },
     "Dancing Lights": {
         "classes": [
@@ -2776,17 +2782,16 @@
         "text": "Reaction - When you or a creature within 60 feet of you falls Choose up to five falling creatures within range. A falling creature's rate of descent slows to 60 feet per round until the spell ends. If the creature lands before the spell ends, it takes no falling damage and can land on its feet, and the spell ends for that creature.",
         "time": "1 reaction"
     },
-    "Feeblemind": {
+    "Befuddlement": {
         "classes": [
+            "Bard",
             "Druid",
             "Warlock",
-            "Rogue",
-            "Wizard",
-            "Bard"
+            "Wizard"
         ],
         "components": [
-            "S",
             "V",
+            "S",
             "M"
         ],
         "duration": "Instantaneous",
@@ -2795,10 +2800,12 @@
         "range": "150 feet",
         "ritual": false,
         "school": "Enchantment",
-        "source": "Player's Handbook",
+        "source": "Player's Handbook (2024)",
         "source_page": 239,
-        "text": "You blast the mind of a creature that you can see within range, attempting to shatter its intellect and personality. The target takes 4d6 psychic damage and must make an Intelligence saving throw. On a failed save, the creature's Intelligence and Charisma scores become 1. The creature can't cast spells, activate magic items, understand language, or communicate in any intelligible way. The creature can, however, identify its friends, follow them, and even protect them. At the end of every 30 days, the creature can repeat its saving throw against this spell. If it succeeds on its saving throw, the spell ends. The spell can also be ended by greater restoration, heal or wish.",
-        "time": "1 action"
+        "text": "You blast the mind of one creature, attempting to shatter its intellect and personality. The target takes 4d6 Psychic damage and must make an Intelligence saving throw. On a failed save, the creature's Intelligence and Charisma scores become 1. The creature can't cast spells, activate magic items, understand language, or communicate in any intelligible way. The creature can, however, identify its friends, follow them, and even protect them. At the end of every 30 days, the creature can repeat its saving throw against this spell. If it succeeds on its saving throw, the spell ends. The spell can also be ended by Greater Restoration, Heal, or Wish.",
+        "time": "1 action",
+        "attack_save": "Intelligence",
+        "damage_effect": "Psychic"
     },
     "Feign Death": {
         "classes": [
@@ -3781,10 +3788,12 @@
         "range": "60 feet",
         "ritual": false,
         "school": "Evocation",
-        "source": "Player's Handbook",
+        "source": "Player's Handbook (2024)",
         "source_page": 250,
-        "text": "A creature of your choice that you can see within range regains hit points equal to 1d4 + your spellcasting ability modifier. This spell has no effect on undead or constructs. At Higher Levels: When you cast this spell using a spell slot of 2nd level or higher, the healing increases by 1d4 for each slot level above 1st.",
-        "time": "1 bonus action"
+        "text": "A creature of your choice that you can see within range regains hit points equal to 2d4 + your spellcasting ability modifier. This spell has no effect on undead or constructs.\n\n{\\normalfont\\textbf{At Higher Levels:}} When you cast this spell using a spell slot of 2nd level or higher, the healing increases by 2d4 for each slot level above 1st.",
+        "time": "1 bonus action",
+        "attack_save": "None",
+        "damage_effect": "Healing"
     },
     "Heat Metal": {
         "classes": [
@@ -7778,5 +7787,113 @@
         "source_page": 289,
         "text": "You create a magical zone that guards against deception in a 15-foot-radius sphere centered on a point of your choice within range. Until the spell ends, a creature that enters the spell's area for the first time on a turn or starts its turn there must make a Charisma saving throw. On a failed save, a creature can't speak a deliberate lie while in the radius. You know whether each creature succeeds or fails on its saving throw. An affected creature is aware of the spell and can thus avoid answering questions to which it would normally respond with a lie. Such creatures can be evasive in its answers as long as it remains within the boundaries of the truth.",
         "time": "1 action"
+    },
+    "Arcane Vigor": {
+        "classes": [
+            "Sorcerer",
+            "Wizard"
+        ],
+        "components": [
+            "V",
+            "S"
+        ],
+        "duration": "Instantaneous",
+        "level": 2,
+        "material": null,
+        "range": "Self",
+        "ritual": false,
+        "school": "Abjuration",
+        "source": "Player's Handbook (2024)",
+        "source_page": null,
+        "text": "You tap into your life force to heal yourself. Roll one or two of your unexpended Hit Point Dice, and regain a number of Hit Points equal to the roll's total plus your spellcasting ability modifier. Those dice are then expended.\n\n{\\normalfont\\textbf{At Higher Levels:}} The number of unexpended Hit Dice you can roll increases by one for each spell slot level above 2.",
+        "time": "1 bonus action",
+        "attack_save": "None",
+        "damage_effect": "Healing"
+    },
+    "Divine Smite": {
+        "classes": [
+            "Paladin"
+        ],
+        "components": [
+            "V"
+        ],
+        "duration": "Instantaneous",
+        "level": 1,
+        "material": null,
+        "range": "Self",
+        "ritual": false,
+        "school": "Evocation",
+        "source": "Player's Handbook (2024)",
+        "source_page": null,
+        "text": "The target takes an extra 2d8 Radiant damage from the attack. The damage increases by 1d8 if the target is a Fiend or an Undead.\n\n{\\normalfont\\textbf{At Higher Levels:}} The damage increases by 1d8 for each spell slot level above 1.\n\n* - which you take immediately after hitting a target with a Melee weapon or an Unarmed Strike",
+        "time": "1 bonus action *",
+        "attack_save": "None",
+        "damage_effect": "Radiant"
+    },
+    "Sorcerous Burst": {
+        "classes": [
+            "Sorcerer"
+        ],
+        "components": [
+            "V",
+            "S"
+        ],
+        "duration": "Instantaneous",
+        "level": 0,
+        "material": null,
+        "range": "120 feet",
+        "ritual": false,
+        "school": "Evocation",
+        "source": "Player's Handbook (2024)",
+        "source_page": null,
+        "text": "You cast sorcerous energy at one creature or object within range. Make a ranged attack roll against the target. On a hit, the target takes 1d8 damage of a type you choose: Acid, Cold, Fire, Lightning, Poison, Psychic, or Thunder. If you roll an 8 on a d8 for this spell, you can roll another d8, and add it to the damage. When you cast this spell, the maximum number of these d8s you can add to the spell's damage equals your spellcasting ability modifier. The damage increases by 1d8 when you reach 5th level (2d8), 11th level (3d8), and 17th level (4d8).",
+        "time": "1 action",
+        "attack_save": "Ranged Spell Attack",
+        "damage_effect": "Acid, Cold, Fire, Lightning, Poison, Psychic, or Thunder"
+    },
+    "Elementalism": {
+        "classes": [
+            "Druid",
+            "Sorcerer",
+            "Wizard"
+        ],
+        "components": [
+            "V",
+            "S"
+        ],
+        "duration": "Instantaneous",
+        "level": 0,
+        "material": null,
+        "range": "30 feet (5 feet cube)",
+        "ritual": false,
+        "school": "Transmutation",
+        "source": "Player's Handbook (2024)",
+        "source_page": 267,
+        "text": "You exert control over the elements, creating one of the following effects within range:\n\n{\\normalfont\\textbf{Beckon Air:}} You create a breeze strong enough to ripple cloth, stir dust, rustle leaves, and close open doors and shutters, all in a 5-foot Cube. Doors and shutters being held open by someone or something aren't affected.\n\n{\\normalfont\\textbf{Beckon Earth:}} You create a thin shroud of dust or sand that covers surfaces in a 5-foot-square area, or you cause a single word to appear in your handwriting in a patch of dirt or sand.\n\n{\\normalfont\\textbf{Beckon Fire:}} You create a thin cloud of harmless embers and colored, scented smoke in a 5-foot Cube. You choose the color and scent, and the embers can light candles, torches, or lamps in that area. The smoke's scent lingers for 1 minute.\n\n{\\normalfont\\textbf{Beckon Water:}} You create a spray of cool mist that lightly dampens creatures and objects in a 5-foot Cube. Alternatively, you create 1 cup of clean water either in an open container or on a surface, and the water evaporates in 1 minute.\n\n{\\normalfont\\textbf{Sculpt Element:}} You cause dirt, sand, fire, smoke, mist, or water that can fit in a 1-foot Cube to assume a crude shape (such as that of a creature) for 1 hour.",
+        "time": "1 action",
+        "attack_save": "None",
+        "damage_effect": "Utility"
+    },
+    "Starry Wisp": {
+        "classes": [
+            "Bard",
+            "Druid"
+        ],
+        "components": [
+            "V",
+            "S"
+        ],
+        "duration": "Instantaneous",
+        "level": 0,
+        "material": null,
+        "range": "60 feet",
+        "ritual": false,
+        "school": "Evocation",
+        "source": "Player's Handbook (2024)",
+        "source_page": null,
+        "text": "You launch a mote of light at one creature or object within range. Make a ranged spell attack against the target. On a hit, the target takes 1d8 Radiant damage, and until the end of your next turn, it emits dim light in a 10-foot radius and can't benefit from the Invisible condition. The damage increases by 1d8 when you reach 5th level (2d8), 11th level (3d8), and 17th level (4d8).",
+        "time": "1 action",
+        "attack_save": "Ranged Spell Attack",
+        "damage_effect": "Radiant"
     }
 }

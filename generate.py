@@ -65,8 +65,17 @@ def print_spell(name, level, school, range, time, ritual, duration, components,
     
     formatted_text = '\n\n'.join(formatted_paragraphs)
 
+    # Check if range contains cube-related text and mark it for icon display
+    display_range = range
+    show_cube_icon = False
+    if range and ('cube' in range.lower() or '5-foot cube' in range.lower() or '10-foot cube' in range.lower() or '15-foot cube' in range.lower() or '20-foot cube' in range.lower()):
+        show_cube_icon = True
+
+    # Add cube icon flag to the range if needed
+    range_with_icon = f"{display_range}|{show_cube_icon}"
+    
     print("\\begin{spell}{%s}{%s}{%s}{%s}{%s}{%s}{%s}{%s}{%s}\n\n%s\n\n\\end{spell}\n" %
-        (name, header, range, time, duration, ", ".join(components), source or '', 
+        (name, header, range_with_icon, time, duration, ", ".join(components), source or '', 
          kwargs.get('attack_save', 'None'), kwargs.get('damage_effect', 'None'), formatted_text))
 
 

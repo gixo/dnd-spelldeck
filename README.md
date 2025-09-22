@@ -13,6 +13,13 @@ their text truncated because there is simply too much to put on a small card.
 
 ![An example of a spell card](http://i.imgur.com/gLl9PwI.png)
 
+## Requirements
+
+- **LaTeX**: XeLaTeX compiler (recommended) or standard LaTeX
+- **Inkscape**: Required for displaying icons on area effect spells
+  - Install from [inkscape.org](https://inkscape.org/) or your package manager
+  - Must be available in your system PATH
+
 ## Usage
 
 The first step is to create the appropriate LaTeX spell list. To do so, use the
@@ -39,7 +46,13 @@ a Magic: The Gathering card so your sleeves will work!). Then, compile
 `printable.tex` which will arrange them neatly on a sheet of paper so you can
 print them and then cut them to size. I like to use the following command:
 
-    $ latexmk -xelatex -cd tex/cards.tex tex/printable.tex
+    $ latexmk -xelatex -shell-escape -cd tex/cards.tex tex/printable.tex
+
+**Note**: The `-shell-escape` flag is required for Inkscape to process SVG cube icons.
+
+### Cube Icons
+
+Spells with cube area effects (e.g., "5-foot cube", "10-foot cube") will automatically display a cube icon next to the range text. This feature requires Inkscape to be installed and available in your system PATH.
 
 ### Paper sizes
 

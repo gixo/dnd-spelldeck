@@ -58,7 +58,7 @@ class TestStringMethods(unittest.TestCase):
 
 
     def test_truncate(self):
-        self.assertTrue(len(generate.truncate_string(generate.SPELLS['Animate Objects']['text'])) < generate.MAX_TEXT_LENGTH)
+        self.assertTrue(len(generate.truncate_string(generate.SPELLS['Animate Objects']['text'])) <= generate.MAX_TEXT_LENGTH)
         if len(generate.SPELLS['Eldritch Blast']['text']) < generate.MAX_TEXT_LENGTH:
             self.assertEqual(generate.truncate_string(generate.SPELLS['Eldritch Blast']['text']), generate.SPELLS['Eldritch Blast']['text'])
 

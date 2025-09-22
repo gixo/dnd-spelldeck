@@ -179,7 +179,7 @@ def compile_latex(output_dir, latex_compiler='xelatex'):
     
     # Use latexmk to compile both files in tex/ directory
     print("Compiling LaTeX files...")
-    cmd = f"latexmk -{latex_compiler} -cd tex/cards.tex tex/printable.tex"
+    cmd = f"latexmk -{latex_compiler} -shell-escape -cd tex/cards.tex tex/printable.tex"
     result = run_command(cmd)
     if result is None:
         return False, 0
