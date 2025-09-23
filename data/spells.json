@@ -2411,8 +2411,8 @@
             "Druid"
         ],
         "components": [
-            "S",
-            "V"
+            "V",
+            "S"
         ],
         "duration": "Instantaneous",
         "level": 0,
@@ -2420,10 +2420,12 @@
         "range": "30 feet",
         "ritual": false,
         "school": "Transmutation",
-        "source": "Player's Handbook",
-        "source_page": 236,
-        "text": "Whispering to the spirits of nature, you create one of the following effects within range. \u00e2\u20ac\u00a2 You create a tiny, harmless sensory effect that predicts what the weather will be at your location for the next 24 hours. The effect might manifest as a golden orb for clear skies, a cloud for rain, falling snowflakes for snow, and so on. This effect persists for 1 round. \u00e2\u20ac\u00a2 You instantly make a flower blossom, a seed pod open, or a leaf bud bloom. \u00e2\u20ac\u00a2 You create an instantaneous, harmless sensory effect, such as falling leaves, a puff of wind, the sound of a small animal, or the faint odor of skunk. The effect must fit in a 5-foot cube. \u00e2\u20ac\u00a2 You instantly light or snuff out a candle, a torch, or a small campfire.",
-        "time": "1 action"
+        "source": "Player's Handbook (2024)",
+        "source_page": 266,
+        "text": "Whispering to the spirits of nature, you create one of the following effects within range.\n\n{\\normalfont\\textbf{Weather Sensor.}} You create a Tiny, harmless sensory effect that predicts what the weather will be at your location for the next 24 hours. The effect might manifest as a golden orb for clear skies, a cloud for rain, falling snowflakes for snow, and so on. This effect persists for 1 round.\n\n{\\normalfont\\textbf{Bloom.}} You instantly make a flower blossom, a seed pod open, or a leaf bud bloom.\n\n{\\normalfont\\textbf{Sensory Effect.}} You create a harmless sensory effect, such as falling leaves, spectral dancing fairies, a gentle breeze, the sound of an animal, or the faint odor of skunk. The effect must fit in a 5-foot Cube.\n\n{\\normalfont\\textbf{Fire Play.}} You light or snuff out a candle, a torch, or a campfire.",
+        "time": "1 action",
+        "attack_save": "None",
+        "damage_effect": "Utility"
     },
     "Earthquake": {
         "classes": [
@@ -3587,23 +3589,27 @@
     },
     "Guidance": {
         "classes": [
-            "Druid",
-            "Cleric"
+            "Artificer",
+            "Cleric",
+            "Druid"
         ],
         "components": [
-            "S",
-            "V"
+            "V",
+            "S"
         ],
-        "duration": "Concentration, up to 1 minute",
+        "duration": "1 minute",
         "level": 0,
         "material": null,
         "range": "Touch",
         "ritual": false,
         "school": "Divination",
-        "source": "Player's Handbook",
-        "source_page": 248,
-        "text": "You touch one willing creature. Once before the spell ends, the target can roll a d4 and add the number rolled to one ability check of its choice. It can roll the die before or after making the ability check. The spell then ends.",
-        "time": "1 action"
+        "source": "Player's Handbook (2024)",
+        "source_page": 282,
+        "text": "You touch a willing creature and choose a skill. Until the spell ends, the creature adds 1d4 to any ability check using the chosen skill.",
+        "time": "1 action",
+        "attack_save": "None",
+        "damage_effect": "Buff",
+        "concentration": true
     },
     "Guiding Bolt": {
         "classes": [
@@ -3637,7 +3643,7 @@
             "V",
             "M"
         ],
-        "duration": "Concentration, up to 1 minute",
+        "duration": "1 minute",
         "level": 2,
         "material": "a legume seed",
         "range": "Self (60-foot line)",
@@ -3646,7 +3652,8 @@
         "source": "Player's Handbook",
         "source_page": 248,
         "text": "A line of strong wind 60 feet long and 10 feet wide blasts from you in a direction you choose for the spell's duration. Each creature that starts its turn in the line must succeed on a Strength saving throw or be pushed 15 feet away from you in a direction following the line. Any creature in the line must spend 2 feet of movement for every 1 foot it moves when moving closer to you. The gust disperses gas or vapor, and it extinguishes candles, torches, and similar unprotected flames in the area. It causes protected flames, such as those of lanterns, to dance wildly and has a 50 percent chance to extinguish them. As a bonus action on each of your turns before the spell ends, you can change the direction in which the line blasts from you.",
-        "time": "1 action"
+        "time": "1 action",
+        "concentration": true
     },
     "Hail of Thorns": {
         "classes": [
@@ -7896,7 +7903,8 @@
         "text": "You exert control over the elements, creating one of the following effects within range:\n\n{\\normalfont\\textbf{Beckon Air:}} You create a breeze strong enough to ripple cloth, stir dust, rustle leaves, and close open doors and shutters, all in a 5-foot Cube. Doors and shutters being held open by someone or something aren't affected.\n\n{\\normalfont\\textbf{Beckon Earth:}} You create a thin shroud of dust or sand that covers surfaces in a 5-foot-square area, or you cause a single word to appear in your handwriting in a patch of dirt or sand.\n\n{\\normalfont\\textbf{Beckon Fire:}} You create a thin cloud of harmless embers and colored, scented smoke in a 5-foot Cube. You choose the color and scent, and the embers can light candles, torches, or lamps in that area. The smoke's scent lingers for 1 minute.\n\n{\\normalfont\\textbf{Beckon Water:}} You create a spray of cool mist that lightly dampens creatures and objects in a 5-foot Cube. Alternatively, you create 1 cup of clean water either in an open container or on a surface, and the water evaporates in 1 minute.\n\n{\\normalfont\\textbf{Sculpt Element:}} You cause dirt, sand, fire, smoke, mist, or water that can fit in a 1-foot Cube to assume a crude shape (such as that of a creature) for 1 hour.",
         "time": "1 action",
         "attack_save": "None",
-        "damage_effect": "Utility"
+        "damage_effect": "Utility",
+        "concentration": false
     },
     "Starry Wisp": {
         "classes": [

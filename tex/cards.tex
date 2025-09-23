@@ -28,7 +28,7 @@
 \sloppy
 \setlength{\headsep}{3mm}
 \pagestyle{fancy}
-\chead{\scshape\scriptsize\spellheader\\[-1.8mm]\Large\color{headercolor}\mbox{\spelltitle}}
+\chead{\scshape\scriptsize\spellheader\\[-1.8mm]\Large\color{headercolor}\mbox{\spelltitle}\StrBefore{\duration}{Concentration}[\beforeconcentration]\ifx\beforeconcentration\duration\else\hspace{2mm}\includesvg[width=0.2cm]{../images/concentration}\fi}
 \cfoot{\if\relax\spellsource\relax\else\scriptsize\spellsource\fi}
 \setlength{\parindent}{0pt}
 
@@ -51,7 +51,7 @@
                 \ifx\beforeparen\rangetext%
                     % No opening parenthesis found
                 \else%
-                    {\italicfont)}%
+                    {\italicfont )}%
                 \fi%
             \fi%
         \else%
@@ -65,7 +65,7 @@
                     \ifx\beforeparen\rangetext%
                         % No opening parenthesis found
                     \else%
-                        {\italicfont)}%
+                        {\italicfont )}%
                     \fi%
                 \fi%
             \else%
@@ -85,6 +85,7 @@
     \def\spellsource{#7}
     \def\attacksave{#8}
     \def\damageeffect{#9}
+    \def\concentration{False}
     \begin{minipage}[t][5cm][t]{\textwidth}
     \vspace{-1em}
     \setlength{\parskip}{0.5em}
@@ -106,7 +107,7 @@
     \begin{minipage}[t]{0.32\textwidth}
         \centering\footnotesize\scshape{\color{headercolor}Duration}
 
-        {\italicfont\duration}
+        \StrBefore{\duration}{Concentration}[\beforeconcentration]\ifx\beforeconcentration\duration\else\includesvg[width=0.15cm]{../images/concentration}\hspace{1mm}\fi{\italicfont\duration}
 	\end{minipage}
     \begin{minipage}[t]{0.32\textwidth}
         \centering\footnotesize\scshape{\color{headercolor}Attack/Save}
