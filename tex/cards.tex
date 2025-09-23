@@ -5,7 +5,7 @@
 \usepackage{graphicx}
 \usepackage{svg}
 \usepackage{xstring}
-\usepackage[paperheight=8.89cm,paperwidth=6.35cm,margin=0.6cm,top=20mm,bottom=6mm,headheight=1cm]{geometry}
+\usepackage[paperheight=8.89cm,paperwidth=6.35cm,margin=0.6cm,top=20mm,bottom=7mm,headheight=1cm]{geometry}
 
 \backgroundsetup{
     contents={\includegraphics[width=\paperwidth,height=\paperheight]{../images/background}},
@@ -20,7 +20,15 @@
 \setmainfont{Mrs Eaves}
 \newfontfamily\italicfont{Mrs Eaves OT}
 \newfontfamily\bolditalicfont{Mrs Eaves XL Serif Nar OT}
+\newfontfamily\scitalicfont{Mrs Eaves OT}[SmallCapsFeatures={Letters=SmallCaps}]
+\else
+\newcommand{\italicfont}{\itshape}
+\newcommand{\bolditalicfont}{\bfseries\itshape}
+\newcommand{\scitalicfont}{\itshape\scshape}
 \fi
+
+% Use Mrs Eaves OT for small caps italic
+\renewcommand{\scshape}{\scitalicfont}
 
 \definecolor{headercolor}{RGB}{88,23,13}
 \definecolor{linecolor}{RGB}{201,173,106}
@@ -32,6 +40,21 @@
 \cfoot{\if\relax\spellsource\relax\else\scriptsize\spellsource\fi}
 \setlength{\parindent}{0pt}
 
+% Helper command to add closing parenthesis if needed
+\newcommand{\addclosingparen}[1]{%
+    \ifx#1\empty%
+    \else%
+        \StrBefore{#1}{(}[\beforeparen]%
+        \StrBehind{#1}{(}[\afterparen]%
+        \ifx\beforeparen#1%
+            % No opening parenthesis found
+        \else%
+            {\italicfont )}%
+        \fi%
+    \fi%
+}
+
+
 % Command to display range with area effect icons if applicable
 \newcommand{\displayrange}[1]{%
     \ifx\relax#1\relax%
@@ -41,39 +64,23 @@
         \StrBehind{#1}{|}[\remaining]%
         \StrBefore{\remaining}{|}[\showcubeicon]%
         \StrBehind{\remaining}{|}[\showemanationicon]%
+        % Check for cube icon
         \ifnum\pdfstrcmp{\showcubeicon}{True}=0%
             {\italicfont\rangetext}\hspace{0.5mm}\includesvg[width=0.15cm]{../images/cube}%
-            % Add closing parenthesis if the text contains an opening parenthesis
-            \ifx\rangetext\empty%
-            \else%
-                \StrBefore{\rangetext}{(}[\beforeparen]%
-                \StrBehind{\rangetext}{(}[\afterparen]%
-                \ifx\beforeparen\rangetext%
-                    % No opening parenthesis found
-                \else%
-                    {\italicfont )}%
-                \fi%
-            \fi%
+            \addclosingparen{\rangetext}%
         \else%
+            % Check for emanation icon
             \ifnum\pdfstrcmp{\showemanationicon}{True}=0%
                 {\italicfont\rangetext}\hspace{0.5mm}\includesvg[width=0.15cm]{../images/emanation}%
-                % Add closing parenthesis if the text contains an opening parenthesis
-                \ifx\rangetext\empty%
-                \else%
-                    \StrBefore{\rangetext}{(}[\beforeparen]%
-                    \StrBehind{\rangetext}{(}[\afterparen]%
-                    \ifx\beforeparen\rangetext%
-                        % No opening parenthesis found
-                    \else%
-                        {\italicfont )}%
-                    \fi%
-                \fi%
+                \addclosingparen{\rangetext}%
             \else%
+                % No icon
                 {\italicfont\rangetext}%
             \fi%
         \fi%
     \fi%
 }
+
 
 \newenvironment{spell}[9]{
     \def\spelltitle{#1}
