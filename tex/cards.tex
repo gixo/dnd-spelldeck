@@ -5,7 +5,7 @@
 \usepackage{graphicx}
 \usepackage{svg}
 \usepackage{xstring}
-\usepackage[paperheight=8.89cm,paperwidth=6.35cm,margin=0.6cm,top=22mm,bottom=10mm,headheight=1cm]{geometry}
+\usepackage[paperheight=8.89cm,paperwidth=6.35cm,margin=0.6cm,top=20mm,bottom=6mm,headheight=1cm]{geometry}
 
 \backgroundsetup{
     contents={\includegraphics[width=\paperwidth,height=\paperheight]{../images/background}},
@@ -28,7 +28,7 @@
 \sloppy
 \setlength{\headsep}{3mm}
 \pagestyle{fancy}
-\chead{\scshape\scriptsize\spellheader\\[-1.8mm]\Large\color{headercolor}\mbox{\spelltitle}\StrBefore{\duration}{Concentration}[\beforeconcentration]\ifx\beforeconcentration\duration\else\hspace{2mm}\includesvg[width=0.2cm]{../images/concentration}\fi}
+\chead{\scshape\scriptsize\spellheader\\[-1.8mm]\Large\color{headercolor}\mbox{\spelltitle}\ifnum\pdfstrcmp{\concentration}{CONCENTRATION}=0\hspace{1mm}\includesvg[width=0.2cm]{../images/concentration}\fi}
 \cfoot{\if\relax\spellsource\relax\else\scriptsize\spellsource\fi}
 \setlength{\parindent}{0pt}
 
@@ -85,9 +85,13 @@
     \def\spellsource{#7}
     \def\attacksave{#8}
     \def\damageeffect{#9}
-    \def\concentration{False}
+    
+    % Parse concentration flag from duration
+    \StrBefore{\duration}{|}[\durationtext]
+    \StrBehind{\duration}{|}[\concentrationflag]
+    \def\concentration{\concentrationflag}
     \begin{minipage}[t][5cm][t]{\textwidth}
-    \vspace{-1em}
+    \vspace{-1.2em}
     \setlength{\parskip}{0.5em}
     \begin{minipage}[t]{0.32\textwidth}
         \centering\footnotesize\scshape{\color{headercolor}Casting time}
@@ -107,7 +111,7 @@
     \begin{minipage}[t]{0.32\textwidth}
         \centering\footnotesize\scshape{\color{headercolor}Duration}
 
-        \StrBefore{\duration}{Concentration}[\beforeconcentration]\ifx\beforeconcentration\duration\else\includesvg[width=0.15cm]{../images/concentration}\hspace{1mm}\fi{\italicfont\duration}
+        \ifnum\pdfstrcmp{\concentration}{CONCENTRATION}=0\includesvg[width=0.15cm]{../images/concentration}\hspace{0.5mm}\fi{\italicfont\durationtext}
 	\end{minipage}
     \begin{minipage}[t]{0.32\textwidth}
         \centering\footnotesize\scshape{\color{headercolor}Attack/Save}
@@ -119,9 +123,9 @@
 
         {\italicfont\damageeffect}
 	\end{minipage}
-    \vspace{3mm}
+    \vspace{0.55em}
     \headrule
-    \vspace{0.5em}
+    \vspace{0.4em}
     \footnotesize
     \italicfont
 }{

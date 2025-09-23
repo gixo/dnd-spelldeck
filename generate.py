@@ -5,7 +5,7 @@ import sys
 import textwrap
 import json
 
-MAX_TEXT_LENGTH = 620
+MAX_TEXT_LENGTH = 670
 
 SPELLS_TRUNCATED = 0
 SPELLS_TOTAL = 0
@@ -89,8 +89,16 @@ def print_spell(name, level, school, range, time, ritual, duration, components,
     # Add icon flags to the range if needed
     range_with_icon = f"{display_range}|{show_cube_icon}|{show_emanation_icon}"
     
+    # Add concentration flag to duration
+    duration_with_concentration = duration
+    concentration = kwargs.get('concentration', False)
+    if concentration or (duration and 'concentration' in duration.lower()):
+        duration_with_concentration = f"{duration}|CONCENTRATION"
+    else:
+        duration_with_concentration = f"{duration}|NONCONCENTRATION"
+    
     print("\\begin{spell}{%s}{%s}{%s}{%s}{%s}{%s}{%s}{%s}{%s}\n\n%s\n\n\\end{spell}\n" %
-        (name, header, range_with_icon, time, duration, ", ".join(components), source or '', 
+        (name, header, range_with_icon, time, duration_with_concentration, ", ".join(components), source or '', 
          kwargs.get('attack_save', 'None'), kwargs.get('damage_effect', 'None'), formatted_text))
 
 
