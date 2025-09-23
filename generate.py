@@ -45,8 +45,9 @@ def print_spell(name, level, school, range, time, ritual, duration, components,
         text += "\n\n* - (" + material + ")"
         components = [i.replace("M", "M *") for i in components]
 
-    if source_page is not None:
-        source += ' page %d' % source_page
+    # Only append page information if we actually have a source string
+    if source_page is not None and source:
+        source = f"{source} page {source_page}"
 
     new_text = truncate_string(text)
 
