@@ -29,6 +29,7 @@ import sys
 import subprocess
 import shutil
 from pathlib import Path
+import shlex
 
 
 def check_dependencies():
@@ -127,10 +128,11 @@ def generate_spells_tex(args):
     
     if args.names:
         for name in args.names:
-            cmd_parts.extend(['-n', f'"{name}"'])
+            cmd_parts.extend(['-n', name])
     
     # Run the command and redirect output to spells.tex in tex/ directory
-    cmd = ' '.join(cmd_parts)
+    # Quote each argument to be safe for the shell
+    cmd = ' '.join(shlex.quote(part) for part in cmd_parts)
     spells_tex_path = os.path.join('tex', 'spells.tex')
     
     result = run_command(f"{cmd} > {spells_tex_path}")
@@ -300,9 +302,10 @@ Examples:
     
     args = parser.parse_args()
     
-    # Check dependencies
-    if not check_dependencies():
-        sys.exit(1)
+    # Check dependencies unless we are skipping LaTeX compilation
+    if not args.no_compile:
+        if not check_dependencies():
+            sys.exit(1)
     
     # Create output directory if it doesn't exist
     output_dir = args.output
@@ -311,10 +314,11 @@ Examples:
     print("D&D Spelldeck Generator")
     print("=" * 50)
     
-    # Check LaTeX template files
-    if not ensure_tex_templates():
-        print("Error: Required LaTeX template files not found")
-        sys.exit(1)
+    # Check LaTeX template files unless we are skipping compilation
+    if not args.no_compile:
+        if not ensure_tex_templates():
+            print("Error: Required LaTeX template files not found")
+            sys.exit(1)
     
     # Generate spells.tex
     success, spells_total, spells_truncated, _ = generate_spells_tex(args)
