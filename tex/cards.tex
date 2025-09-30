@@ -17,18 +17,20 @@
 
 \ifxetex
 \usepackage{fontspec}
-\setmainfont{Mrs Eaves}
+\setmainfont{Mrs Eaves}[
+    AutoFakeSlant=0.2,
+    SmallCapsFont={../fonts/mrs-eaves-small-caps-roman.otf},
+    ItalicFont={Mrs Eaves OT},
+    BoldItalicFont={Mrs Eaves XL Serif Nar OT}
+]
 \newfontfamily\italicfont{Mrs Eaves OT}
 \newfontfamily\bolditalicfont{Mrs Eaves XL Serif Nar OT}
-\newfontfamily\scitalicfont{Mrs Eaves OT}[SmallCapsFeatures={Letters=SmallCaps}]
+\newfontfamily\scitalicfont[Path=../fonts/]{mrs-eaves-small-caps-roman.otf}
 \else
 \newcommand{\italicfont}{\itshape}
 \newcommand{\bolditalicfont}{\bfseries\itshape}
 \newcommand{\scitalicfont}{\itshape\scshape}
 \fi
-
-% Use Mrs Eaves OT for small caps italic
-\renewcommand{\scshape}{\scitalicfont}
 
 \definecolor{headercolor}{RGB}{88,23,13}
 \definecolor{linecolor}{RGB}{201,173,106}

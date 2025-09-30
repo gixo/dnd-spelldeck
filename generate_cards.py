@@ -67,12 +67,38 @@ def check_dependencies():
     return True
 
 
-def run_command(cmd, cwd=None, check=True):
+def run_command(cmd, cwd=None, check=True, show_progress=False):
     """Run a command and return the result."""
     try:
-        result = subprocess.run(cmd, shell=True, cwd=cwd, check=check, 
-                              capture_output=True, text=True)
-        return result
+        if show_progress:
+            # Run with real-time output for progress indication
+            process = subprocess.Popen(cmd, shell=True, cwd=cwd,
+                                     stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                                     text=True, bufsize=1)
+
+            # Print output line by line as it comes
+            for line in process.stdout:
+                print(line, end='', flush=True)
+
+            process.wait()
+
+            if check and process.returncode != 0:
+                print(f"Error running command: {cmd}")
+                print(f"Return code: {process.returncode}")
+                return None
+
+            # Create a result-like object for compatibility
+            class Result:
+                def __init__(self, returncode):
+                    self.returncode = returncode
+                    self.stdout = ""
+                    self.stderr = ""
+
+            return Result(process.returncode)
+        else:
+            result = subprocess.run(cmd, shell=True, cwd=cwd, check=check,
+                                  capture_output=True, text=True)
+            return result
     except subprocess.CalledProcessError as e:
         print(f"Error running command: {cmd}")
         print(f"Return code: {e.returncode}")
@@ -182,7 +208,7 @@ def compile_latex(output_dir, latex_compiler='xelatex'):
     # Use latexmk to compile both files in tex/ directory
     print("Compiling LaTeX files...")
     cmd = f"latexmk -{latex_compiler} -shell-escape -cd tex/cards.tex tex/printable.tex"
-    result = run_command(cmd)
+    result = run_command(cmd, show_progress=True)
     if result is None:
         return False, 0
     
