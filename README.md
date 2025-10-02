@@ -13,7 +13,7 @@ speed up the game.
 A card looks something like this. As you can see, some (many) cards need to have
 their text truncated because there is simply too much to put on a small card.
 
-![Fireball spell card example](samples/fireball.png)
+![Fireball spell card example](samples/fireball.jpg)
 
 ## Requirements
 
