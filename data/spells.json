@@ -3083,14 +3083,16 @@
         ],
         "duration": "Instantaneous",
         "level": 3,
-        "material": "a tiny ball of bat guano and sulfur",
-        "range": "150 feet",
+        "material": "a ball of bat guano and sulfur",
+        "range": "150 feet (20 ft. sphere)",
         "ritual": false,
         "school": "Evocation",
-        "source": "Player's Handbook",
-        "source_page": 241,
-        "text": "A bright streak flashes from your pointing finger to a point you choose within range then blossoms with a low roar into an explosion of flame. Each creature in a 20-foot radius must make a Dexterity saving throw. A target takes 8d6 fire damage on a failed save, or half as much damage on a successful one. The fire spreads around corners. It ignites flammable objects in the area that aren't being worn or carried. At Higher Levels: When you cast this spell using a spell slot of 4th level or higher, the damage increases by 1d6 for each slot level above 3rd.",
-        "time": "1 action"
+        "source": "Player's Handbook (2024)",
+        "source_page": 274,
+        "text": "A bright streak flashes from you to a point you choose within range and then blossoms with a low roar into a fiery explosion. Each creature in a 20-foot-radius Sphere centered on that point makes a Dexterity saving throw, taking 8d6 Fire damage on a failed save or half as much damage on a successful one.\n\nFlammable objects in the area that aren't being worn or carried start burning.\n\n{\\normalfont\\textbf{At Higher Levels:}} The damage increases by 1d6 for each spell slot level above 3.",
+        "time": "1 action",
+        "attack_save": "Dexterity",
+        "damage_effect": "Fire"
     },
     "Flame Blade": {
         "classes": [
