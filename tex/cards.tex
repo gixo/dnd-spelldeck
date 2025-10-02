@@ -17,20 +17,23 @@
 
 \ifxetex
 \usepackage{fontspec}
-\setmainfont{Mrs Eaves}[
-    AutoFakeSlant=0.2,
-    SmallCapsFont={../fonts/mrs-eaves-small-caps-roman.otf},
-    ItalicFont={Mrs Eaves OT},
-    BoldItalicFont={Mrs Eaves XL Serif Nar OT}
+\setmainfont{CrimsonPro-Medium.ttf}[
+  Path = ../fonts/,
+  BoldFont = CrimsonPro-Bold.ttf,
+  ItalicFont = CrimsonPro-MediumItalic.ttf
 ]
-\newfontfamily\italicfont{Mrs Eaves OT}
-\newfontfamily\bolditalicfont{Mrs Eaves XL Serif Nar OT}
-\newfontfamily\scitalicfont[Path=../fonts/]{mrs-eaves-small-caps-roman.otf}
+\newcommand{\boldfont}{\bfseries}
+\newcommand{\italicfont}{\upshape\itshape}
+\newcommand{\bolditalicfont}{\upshape\bfseries\itshape}
+\newcommand{\scitalicfont}{\scshape\itshape}
 \else
-\newcommand{\italicfont}{\itshape}
-\newcommand{\bolditalicfont}{\bfseries\itshape}
+\newcommand{\boldfont}{\bfseries}
+\newcommand{\italicfont}{\upshape\itshape}
+\newcommand{\bolditalicfont}{\upshape\bfseries\itshape}
 \newcommand{\scitalicfont}{\itshape\scshape}
 \fi
+
+\renewcommand{\scriptsize}{\fontsize{7.5}{9}\selectfont}
 
 \definecolor{headercolor}{RGB}{88,23,13}
 \definecolor{linecolor}{RGB}{201,173,106}
@@ -138,8 +141,7 @@
         \includesvg[width=0.95\textwidth]{../images/divider1}
     \end{center}
     \vspace{-1em}
-    \footnotesize
-    \italicfont
+    \scriptsize
 }{
     \end{minipage}
     \newpage
