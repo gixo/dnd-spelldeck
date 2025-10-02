@@ -6,12 +6,14 @@ to make this easier by allowing you to create a deck of spells; a pile of cards
 with all your spells and the most important information about them so you can
 speed up the game.
 
+**Note:** This project is a fork of the original work done by [Stephen Nicholas Swatman](https://github.com/stephenswat) ([@stephenswat](https://github.com/stephenswat)). The original source is available at: https://github.com/stephenswat/dnd-spelldeck
+
 ## Preview
 
 A card looks something like this. As you can see, some (many) cards need to have
 their text truncated because there is simply too much to put on a small card.
 
-![An example of a spell card](http://i.imgur.com/gLl9PwI.png)
+![Fireball spell card example](samples/fireball.png)
 
 ## Requirements
 
@@ -19,6 +21,8 @@ their text truncated because there is simply too much to put on a small card.
 - **Inkscape**: Required for displaying icons on area effect spells
   - Install from [inkscape.org](https://inkscape.org/) or your package manager
   - Must be available in your system PATH
+- **ImageMagick** (optional): Required only for exporting individual spell cards as images
+  - Install: `brew install imagemagick` (macOS) or `sudo apt-get install imagemagick` (Linux)
 
 ## Usage
 
@@ -48,31 +52,78 @@ print them and then cut them to size. I like to use the following command:
 
     $ latexmk -xelatex -shell-escape -cd tex/cards.tex tex/printable.tex
 
-**Note**: The `-shell-escape` flag is required for Inkscape to process SVG cube icons.
+**Note**: The `-shell-escape` flag is required for Inkscape to process SVG area effect icons.
 
-### Cube Icons
+### Quick Start with Automated Script
 
-Spells with cube area effects (e.g., "5-foot cube", "10-foot cube") will automatically display a cube icon next to the range text. This feature requires Inkscape to be installed and available in your system PATH.
+For a simpler workflow, use the `generate_cards.py` script which handles everything in one command:
+
+    # Generate all spells
+    $ python3 generate_cards.py
+
+    # Generate only wizard spells of levels 1-3
+    $ python3 generate_cards.py -c wizard -l 1-3
+
+    # Generate and clean up intermediate files
+    $ python3 generate_cards.py --clean
+
+This script automatically:
+1. Generates the spell LaTeX file
+2. Compiles both `cards.tex` and `printable.tex`
+3. Moves the final PDFs to the `pdf/` directory
+
+### Exporting Individual Cards as Images
+
+You can export a single spell card as an image (PNG, JPG, or SVG) using the `export_card_image.py` script:
+
+    # Export Fireball as PNG (default, saved to samples/)
+    $ python3 export_card_image.py "Fireball"
+
+    # Export as high-resolution JPG with custom output
+    $ python3 export_card_image.py "Magic Missile" -f jpg -d 600 -o my_spell.jpg
+
+    # Keep the intermediate PDF file
+    $ python3 export_card_image.py "Lightning Bolt" --keep-pdf
+
+**Image Export Options:**
+- `-f, --format`: Image format (png, jpg, svg) - default: png
+- `-d, --dpi`: Resolution in DPI - default: 600
+- `-o, --output`: Custom output path - default: samples/{spell_name}.{format}
+- `--keep-pdf`: Keep the intermediate PDF file
+
+**JPG Compression:** JPG exports use quality 80 with efficient encoding (4:2:0 chroma subsampling, progressive encoding) for smaller file sizes.
+
+### Area Effect Icons
+
+Spells with area effects will automatically display the appropriate icon next to the range text. Supported area types:
+- **Cone** - Triangle icon
+- **Cube** - 3D cube icon
+- **Cylinder** - Cylinder icon
+- **Emanation** - Radiating circle icon
+- **Line** - Arrow line icon
+- **Sphere** - Circle icon
+
+This feature requires Inkscape to be installed and available in your system PATH.
 
 ### Paper sizes
 
-If you are so uncivilised that you don't use the A4 paper format, you should
-change this in the `printable.tex` file. You may also need to change the number
-of cards on each page.
+The cards are currently configured to print on **US Letter** paper (8.5" x 11") with a 3x3 grid layout.
+
+If you prefer A4 or another paper format, edit `tex/printable.tex` and change the `letterpaper` option in line 2:
+- For A4: `\usepackage[a4paper,inner=1in]{geometry}`
+- For other sizes: See [LaTeX geometry package documentation](https://ctan.org/pkg/geometry)
+
+You may also need to adjust the grid layout (`nup=3x3` in line 6) to fit more or fewer cards per page.
 
 ### Fonts
 
-These cards look best, in my opinion, if printed in the font Wizards of the
-Coast uses for the Player's Handbook, which is *Mrs Eaves*. If you compile with
-the XeLaTeX compiler, it will attempt to use this font. It is a proprietary
-font, however, and if you do not own it, use a non-XeLaTeX compiler instead
-which will compile with the default LaTeX font. Feel free to play around with
-this!
+The cards currently use **Crimson Pro**, a classic old-style serif font that replicates the traditional look of vintage spell cards. This font provides excellent readability and an authentic feel.
+
+**Note:** If you prefer, you can modify the font in `tex/cards.tex`. The XeLaTeX compiler is required for custom fonts. The original template supported *Mrs Eaves* (Wizards of the Coast's Player's Handbook font), but you can substitute any font you prefer by editing the `\setmainfont` command.
 
 ## Copyright and credit
 
-The spells included in this repository as well as the background for the cards
-are property of Wizards of the Coast. This stuff should be licensed under the
+The spells text included in this repository are property of Wizards of the Coast. These are licensed under
 Open Gaming License and the LICENSE file included does *not* cover them, only
 the Python and LaTeX code.
 

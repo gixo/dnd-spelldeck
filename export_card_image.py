@@ -123,6 +123,19 @@ def convert_pdf_to_image(pdf_path, output_path, dpi=600, image_format='png'):
     convert_cmd = shutil.which('convert') or shutil.which('magick')
 
     if convert_cmd:
+        # Determine quality settings based on format
+        if image_format.lower() == 'jpg':
+            quality = '80'
+            # Add mozjpeg-like compression settings for efficient encoding
+            extra_args = [
+                '-sampling-factor', '4:2:0',  # Chroma subsampling
+                '-interlace', 'JPEG',          # Progressive JPEG
+                '-colorspace', 'sRGB'          # Color space optimization
+            ]
+        else:
+            quality = '100'
+            extra_args = []
+
         # Use ImageMagick
         if convert_cmd.endswith('magick'):
             # New ImageMagick syntax
@@ -130,18 +143,16 @@ def convert_pdf_to_image(pdf_path, output_path, dpi=600, image_format='png'):
                 convert_cmd, 'convert',
                 '-density', str(dpi),
                 pdf_path,
-                '-quality', '100',
-                output_path
-            ]
+                '-quality', quality
+            ] + extra_args + [output_path]
         else:
             # Old ImageMagick syntax
             cmd = [
                 convert_cmd,
                 '-density', str(dpi),
                 pdf_path,
-                '-quality', '100',
-                output_path
-            ]
+                '-quality', quality
+            ] + extra_args + [output_path]
 
         result = subprocess.run(cmd, capture_output=True, text=True)
 
