@@ -5,15 +5,14 @@
 \usepackage{graphicx}
 \usepackage{svg}
 \usepackage{xstring}
-\usepackage[paperheight=8.89cm,paperwidth=6.35cm,margin=0.6cm,top=20mm,bottom=7mm,headheight=1cm]{geometry}
+\usepackage[paperheight=8.89cm,paperwidth=6.35cm,margin=0.6cm,top=20mm,bottom=7.5mm,headheight=1cm]{geometry}
 
 \backgroundsetup{
-    contents={\includegraphics[width=\paperwidth,height=\paperheight]{../images/background}},
-    scale=2,
+    contents={\includegraphics[width=\paperwidth,height=\paperheight]{../images/backgrounds/background1}},
+    scale=1,
     angle=0,
-    opacity=1,
-    position=current page.north west
-}
+    opacity=1
+    }
 
 \ifxetex
 \usepackage{fontspec}
@@ -71,12 +70,12 @@
         \StrBehind{\remaining}{|}[\showemanationicon]%
         % Check for cube icon
         \ifnum\pdfstrcmp{\showcubeicon}{True}=0%
-            {\italicfont\rangetext}\hspace{0.5mm}\includesvg[width=0.15cm]{../images/cube}%
+            {\italicfont\rangetext}\hspace{0.5mm}\includesvg[width=0.15cm]{../images/areas_effect/cube}%
             \addclosingparen{\rangetext}%
         \else%
             % Check for emanation icon
             \ifnum\pdfstrcmp{\showemanationicon}{True}=0%
-                {\italicfont\rangetext}\hspace{0.5mm}\includesvg[width=0.15cm]{../images/emanation}%
+                {\italicfont\rangetext}\hspace{0.5mm}\includesvg[width=0.15cm]{../images/areas_effect/emanation}%
                 \addclosingparen{\rangetext}%
             \else%
                 % No icon
@@ -138,7 +137,7 @@
     \vspace{-0.55em}
     % Fancy divider using custom SVG
     \begin{center}
-        \includesvg[width=0.95\textwidth]{../images/divider1}
+        \includesvg[width=0.95\textwidth]{../images/dividers/divider1}
     \end{center}
     \vspace{-1em}
     \scriptsize
