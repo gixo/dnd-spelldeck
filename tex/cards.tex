@@ -5,7 +5,7 @@
 \usepackage{graphicx}
 \usepackage{svg}
 \usepackage{xstring}
-\usepackage[paperheight=8.89cm,paperwidth=6.35cm,margin=0.6cm,top=20mm,bottom=7.5mm,headheight=1cm]{geometry}
+\usepackage[paperheight=8.89cm,paperwidth=6.35cm,margin=0.6cm,top=19.5mm,bottom=7.5mm,headheight=1cm]{geometry}
 
 \backgroundsetup{
     contents={\includegraphics[width=\paperwidth,height=\paperheight]{../images/backgrounds/background1}},
@@ -14,23 +14,26 @@
     opacity=1
     }
 
-\ifxetex
 \usepackage{fontspec}
 \setmainfont{CrimsonPro-Medium.ttf}[
   Path = ../fonts/,
   BoldFont = CrimsonPro-Bold.ttf,
   ItalicFont = CrimsonPro-MediumItalic.ttf
 ]
+
+% Create fake small caps command for CrimsonPro with larger first letter
+\usepackage{xparse}
+\NewDocumentCommand{\fakesc}{m}{%
+  \StrLeft{#1}{1}[\firstletter]%
+  \StrGobbleLeft{#1}{1}[\restoftext]%
+  {\addfontfeature{LetterSpace=5.0}\MakeUppercase{\firstletter}\scalebox{0.8}[0.8]{\MakeUppercase{\restoftext}}}%
+}
+
 \newcommand{\boldfont}{\bfseries}
 \newcommand{\italicfont}{\upshape\itshape}
 \newcommand{\bolditalicfont}{\upshape\bfseries\itshape}
 \newcommand{\scitalicfont}{\scshape\itshape}
-\else
-\newcommand{\boldfont}{\bfseries}
-\newcommand{\italicfont}{\upshape\itshape}
-\newcommand{\bolditalicfont}{\upshape\bfseries\itshape}
-\newcommand{\scitalicfont}{\itshape\scshape}
-\fi
+
 
 \renewcommand{\scriptsize}{\fontsize{7.5}{9}\selectfont}
 
@@ -40,8 +43,8 @@
 \sloppy
 \setlength{\headsep}{3mm}
 \pagestyle{fancy}
-\chead{\scshape\scriptsize\spellheader\\[-1.8mm]\Large\color{headercolor}\mbox{\spelltitle}\ifnum\pdfstrcmp{\concentration}{CONCENTRATION}=0\hspace{1mm}\includesvg[width=0.2cm]{../images/concentration}\fi}
-\cfoot{\if\relax\spellsource\relax\else\scriptsize\spellsource\fi}
+\chead{\scriptsize{\spellheader}\\[-1.8mm]\Large\color{headercolor}\fakesc{\spelltitle}\ifnum\pdfstrcmp{\concentration}{CONCENTRATION}=0\hspace{1mm}\includesvg[width=0.2cm]{../images/concentration}\fi}
+\cfoot{\if\relax\spellsource\relax\else\scriptsize\color{headercolor}\itshape\spellsource\fi}
 \setlength{\parindent}{0pt}
 
 % Helper command to add closing parenthesis if needed
@@ -105,32 +108,32 @@
     \vspace{-1.2em}
     \setlength{\parskip}{0.5em}
     \begin{minipage}[t]{0.32\textwidth}
-        \centering\footnotesize\scshape{\color{headercolor}Casting time}
+        \centering\footnotesize{\color{headercolor}\fakesc{Casting time}}
 
         {\italicfont\casttime}
 	\end{minipage}
     \begin{minipage}[t]{0.32\textwidth}
-        \centering\footnotesize\scshape{\color{headercolor}Range}
+        \centering\footnotesize{\color{headercolor}\fakesc{Range}}
 
         \displayrange{\castrange}
 	\end{minipage}
     \begin{minipage}[t]{0.32\textwidth}
-        \centering\footnotesize\scshape{\color{headercolor}Components}
+        \centering\footnotesize{\color{headercolor}\fakesc{Components}}
 
         {\italicfont\components}
 	\end{minipage}\\[3mm]
     \begin{minipage}[t]{0.32\textwidth}
-        \centering\footnotesize\scshape{\color{headercolor}Duration}
+        \centering\footnotesize{\color{headercolor}\fakesc{Duration}}
 
         \ifnum\pdfstrcmp{\concentration}{CONCENTRATION}=0\includesvg[width=0.15cm]{../images/concentration}\hspace{0.5mm}\fi{\italicfont\durationtext}
 	\end{minipage}
     \begin{minipage}[t]{0.32\textwidth}
-        \centering\footnotesize\scshape{\color{headercolor}Attack/Save}
+        \centering\footnotesize{\color{headercolor}\fakesc{Attack/Save}}
 
         {\italicfont\attacksave}
 	\end{minipage}
     \begin{minipage}[t]{0.32\textwidth}
-        \centering\footnotesize\scshape{\color{headercolor}Damage/Effect}
+        \centering\footnotesize{\color{headercolor}\fakesc{Damage/Effect}}
 
         {\italicfont\damageeffect}
 	\end{minipage}
