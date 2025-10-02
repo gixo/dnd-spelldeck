@@ -66,29 +66,27 @@ def print_spell(name, level, school, range, time, ritual, duration, components,
     
     formatted_text = '\n\n'.join(formatted_paragraphs)
 
-    # Check if range contains area effect text and extract size for icon display
+    # Check if range contains area effect text and extract it for icon display
     display_range = range
-    show_cube_icon = False
-    show_emanation_icon = False
-    
+    area_effect = "none"  # Possible values: none, cone, cube, cylinder, emanation, line, sphere
+
     if range:
         import re
         range_lower = range.lower()
-        
-        # Check for cube area effects
-        if 'cube' in range_lower:
-            # Replace "cube" and any following closing parenthesis with empty string
-            display_range = re.sub(r'\s*cube\s*\)?', '', range, flags=re.IGNORECASE).strip()
-            show_cube_icon = True
-        
-        # Check for emanation area effects
-        elif 'emanation' in range_lower:
-            # Replace "emanation" and any following closing parenthesis with empty string
-            display_range = re.sub(r'\s*emanation\s*\)?', '', range, flags=re.IGNORECASE).strip()
-            show_emanation_icon = True
 
-    # Add icon flags to the range if needed
-    range_with_icon = f"{display_range}|{show_cube_icon}|{show_emanation_icon}"
+        # List of area effect types to check
+        area_types = ['cone', 'cube', 'cylinder', 'emanation', 'line', 'sphere']
+
+        # Check for each area effect type
+        for area_type in area_types:
+            if area_type in range_lower:
+                # Remove the area effect word and any following closing parenthesis
+                display_range = re.sub(r'\s*' + area_type + r'\s*\)?', '', range, flags=re.IGNORECASE).strip()
+                area_effect = area_type
+                break
+
+    # Add area effect info to the range
+    range_with_icon = f"{display_range}|{area_effect}"
     
     # Add concentration flag to duration
     duration_with_concentration = duration

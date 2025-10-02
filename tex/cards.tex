@@ -68,22 +68,15 @@
         \relax%
     \else%
         \StrBefore{#1}{|}[\rangetext]%
-        \StrBehind{#1}{|}[\remaining]%
-        \StrBefore{\remaining}{|}[\showcubeicon]%
-        \StrBehind{\remaining}{|}[\showemanationicon]%
-        % Check for cube icon
-        \ifnum\pdfstrcmp{\showcubeicon}{True}=0%
-            {\italicfont\rangetext}\hspace{0.5mm}\includesvg[width=0.15cm]{../images/areas_effect/cube}%
-            \addclosingparen{\rangetext}%
+        \StrBehind{#1}{|}[\areaeffect]%
+        % Check if there's an area effect (not "none")
+        \ifnum\pdfstrcmp{\areaeffect}{none}=0%
+            % No area effect icon
+            {\italicfont\rangetext}%
         \else%
-            % Check for emanation icon
-            \ifnum\pdfstrcmp{\showemanationicon}{True}=0%
-                {\italicfont\rangetext}\hspace{0.5mm}\includesvg[width=0.15cm]{../images/areas_effect/emanation}%
-                \addclosingparen{\rangetext}%
-            \else%
-                % No icon
-                {\italicfont\rangetext}%
-            \fi%
+            % Show area effect icon
+            {\italicfont\rangetext}\hspace{0.5mm}\includesvg[width=0.15cm]{../images/areas_effect/\areaeffect}%
+            \addclosingparen{\rangetext}%
         \fi%
     \fi%
 }
@@ -112,7 +105,7 @@
 
         {\italicfont\casttime}
 	\end{minipage}
-    \begin{minipage}[t]{0.32\textwidth}
+    \begin{minipage}[t]{0.34\textwidth}
         \centering\footnotesize{\color{headercolor}\fakesc{Range}}
 
         \displayrange{\castrange}
