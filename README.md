@@ -10,10 +10,10 @@ speed up the game.
 
 ## Preview
 
-A card looks something like this. As you can see, some (many) cards need to have
+A card looks something like this. As you can see, some cards need to have
 their text truncated because there is simply too much to put on a small card.
 
-![Fireball spell card example](samples/fireball.png)
+![Fireball spell card example](samples/fireball.jpg)
 
 ## Requirements
 
@@ -25,7 +25,7 @@ their text truncated because there is simply too much to put on a small card.
   - Install: `brew install imagemagick` (macOS) or `sudo apt-get install imagemagick` (Linux)
 
 ## Usage
-
+  
 The first step is to create the appropriate LaTeX spell list. To do so, use the
 `generate.py` program. The output of this program should be stored in a file
 called `spells.tex`. By default, this selects all spells in the game so if you
@@ -127,10 +127,5 @@ The spells text included in this repository are property of Wizards of the Coast
 Open Gaming License and the LICENSE file included does *not* cover them, only
 the Python and LaTeX code.
 
-Instrumental in creating this product were reddit user Afluffygrue in
-[this](https://www.reddit.com/r/DnD/comments/2yirik/after_hours_of_cleaning_here_are_the_complete/)
-thread for providing the spell data and the people at [UnearthedArcana](https://www.reddit.com/r/UnearthedArcana/) for making all
-sorts of graphical resources available.
 
-If I fucked up here (I don't speak legalese) please contact me before sending a
-team of angry lawyers and/or highly trained assassin-monkeys.
+
