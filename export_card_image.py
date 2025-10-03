@@ -303,6 +303,14 @@ Examples:
     print(f"  - Output: {output_image}")
     print(f"  - Format: {image_format.upper()}")
     print(f"  - Resolution: {args.dpi} DPI")
+
+    # Open the image in Preview on macOS
+    if sys.platform == 'darwin':
+        try:
+            subprocess.run(['open', '-a', 'Preview', output_image], check=False)
+        except Exception as e:
+            print(f"Note: Could not open image in Preview: {e}")
+
     print("\nDone!")
 
 

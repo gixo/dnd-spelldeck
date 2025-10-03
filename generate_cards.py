@@ -325,7 +325,11 @@ Examples:
         "--latex-compiler", type=str, default="xelatex",
         help="LaTeX compiler to use with latexmk (default: xelatex)"
     )
-    
+    parser.add_argument(
+        "--open", action='store_true',
+        help="open the generated PDF in Preview (macOS only)"
+    )
+
     args = parser.parse_args()
     
     # Check dependencies unless we are skipping LaTeX compilation
@@ -359,10 +363,18 @@ Examples:
         if not success:
             print("Error: Failed to compile LaTeX files")
             sys.exit(1)
-        
+
         print("\n✓ Spell cards generated successfully!")
         print(f"  - Individual cards: {os.path.join(output_dir, 'cards.pdf')}")
         print(f"  - Printable sheets: {os.path.join(output_dir, 'printable.pdf')}")
+
+        # Open the printable PDF in Preview on macOS if requested
+        if args.open and sys.platform == 'darwin':
+            printable_pdf_path = os.path.join(output_dir, 'printable.pdf')
+            try:
+                subprocess.run(['open', '-a', 'Preview', printable_pdf_path], check=False)
+            except Exception as e:
+                print(f"Note: Could not open PDF in Preview: {e}")
     else:
         print("\n✓ spells.tex generated successfully!")
         print(f"  - Output file: {os.path.join('tex', 'spells.tex')}")
