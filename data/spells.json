@@ -2118,7 +2118,7 @@
         "level": 1,
         "material": "a yew leaf",
         "range": "Self",
-        "ritual": false,
+        "ritual": true,
         "school": "Divination",
         "source": "Player's Handbook",
         "source_page": 231,

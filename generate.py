@@ -87,7 +87,10 @@ def print_spell(name, level, school, range, time, ritual, duration, components,
 
     # Add area effect info to the range
     range_with_icon = f"{display_range}|{area_effect}"
-    
+
+    # Add ritual flag to casting time
+    time_with_ritual = f"{time}|RITUAL" if ritual else f"{time}|NONRITUAL"
+
     # Add concentration flag to duration
     duration_with_concentration = duration
     concentration = kwargs.get('concentration', False)
@@ -95,9 +98,9 @@ def print_spell(name, level, school, range, time, ritual, duration, components,
         duration_with_concentration = f"{duration}|CONCENTRATION"
     else:
         duration_with_concentration = f"{duration}|NONCONCENTRATION"
-    
+
     print("\\begin{spell}{%s}{%s}{%s}{%s}{%s}{%s}{%s}{%s}{%s}\n\n%s\n\n\\end{spell}\n" %
-        (name, header, range_with_icon, time, duration_with_concentration, ", ".join(components), source or '', 
+        (name, header, range_with_icon, time_with_ritual, duration_with_concentration, ", ".join(components), source or '',
          kwargs.get('attack_save', 'None'), kwargs.get('damage_effect', 'None'), formatted_text))
 
 

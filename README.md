@@ -123,8 +123,7 @@ The cards currently use **Crimson Pro**, a classic old-style serif font that rep
 
 ## Copyright and credit
 
-The spells text included in this repository are property of Wizards of the Coast. These are licensed under
-Open Gaming License and the LICENSE file included does *not* cover them, only
+The spells text and data included in this repository are property of Wizards of the Coast. These are licensed under Open Gaming License and the LICENSE file included does *not* cover them, only
 the Python and LaTeX code.
 
 

@@ -1,1 +1,101 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18.06"><defs><style>.cls-1{fill:#231f20;}</style></defs><title>Asset 3</title><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path class="cls-1" d="M9,1A8,8,0,1,1,1,9,8,8,0,0,1,9,1M9,0a9,9,0,1,0,9,9A9,9,0,0,0,9,0Z"/><path class="cls-1" d="M9,18.06a.5.5,0,0,1,0-1c2,0,3.65-3.68,3.65-8S11,1,9,1A.5.5,0,0,1,9,0c2.61,0,4.65,4,4.65,9S11.61,18.06,9,18.06Z"/><path class="cls-1" d="M9.48,11.44A18.11,18.11,0,0,1,.28,8.84.5.5,0,0,1,.78,8c9,5.25,16.37.49,16.44.44a.5.5,0,0,1,.56.83A16.25,16.25,0,0,1,9.48,11.44Z"/></g></g></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="13.758654"
+   height="14.018269"
+   viewBox="0 0 13.758654 14.018269"
+   aria-hidden="true"
+   version="1.1"
+   id="svg9"
+   sodipodi:docname="emanation.svg"
+   inkscape:version="1.4.2 (ebf0e940, 2025-05-08)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs9" />
+  <sodipodi:namedview
+     id="namedview9"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="46.222222"
+     inkscape:cx="8.1021635"
+     inkscape:cy="5.5168269"
+     inkscape:window-width="1744"
+     inkscape:window-height="1337"
+     inkscape:window-x="1057"
+     inkscape:window-y="40"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="g9" />
+  <g
+     fill="none"
+     stroke="currentColor"
+     stroke-width="1.25"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     id="g9"
+     style="stroke-width:1.24624;stroke-dasharray:none"
+     transform="translate(-2.1206732,-1.9908658)">
+    <!-- Concentric rings -->
+    <ellipse
+       cx="9"
+       cy="9"
+       id="circle1"
+       style="stroke-width:0.602147;stroke-dasharray:none"
+       rx="5.7443132"
+       ry="5.7969556" />
+    <ellipse
+       cx="9"
+       cy="9"
+       id="circle2"
+       style="stroke-width:0.551834;stroke-dasharray:none"
+       rx="6.6034098"
+       ry="6.7332172" />
+    <!-- Radial rays -->
+    <path
+       d="m 9,9 h 4.5"
+       id="path2"
+       style="stroke-width:0.6;stroke-dasharray:none" />
+    <path
+       d="m 9,9 3.18,3.18"
+       id="path3"
+       style="stroke-width:0.6;stroke-dasharray:none" />
+    <path
+       d="m 9,9 v 4.5"
+       id="path4"
+       style="stroke-width:0.6;stroke-dasharray:none" />
+    <path
+       d="M 9,9 5.82,12.18"
+       id="path5"
+       style="stroke-width:0.6;stroke-dasharray:none" />
+    <path
+       d="M 9,9 H 4.5"
+       id="path6"
+       style="stroke-width:0.6;stroke-dasharray:none" />
+    <path
+       d="M 9,9 5.82,5.82"
+       id="path7"
+       style="stroke-width:0.6;stroke-dasharray:none" />
+    <path
+       d="M 9,9 V 4.5"
+       id="path8"
+       style="stroke-width:0.6;stroke-dasharray:none" />
+    <path
+       d="M 9,9 12.18,5.82"
+       id="path9"
+       style="stroke-width:0.6;stroke-dasharray:none" />
+  </g>
+  <!-- Source dot -->
+  <circle
+     cx="6.8793268"
+     cy="7.0091343"
+     r="1.25"
+     fill="currentColor"
+     id="circle9"
+     style="stroke-width:0.897401;stroke-dasharray:none" />
+</svg>

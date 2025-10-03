@@ -43,7 +43,7 @@
 \sloppy
 \setlength{\headsep}{3mm}
 \pagestyle{fancy}
-\chead{\scriptsize{\spellheader}\\[-1.8mm]\Large\color{headercolor}\fakesc{\spelltitle}\ifnum\pdfstrcmp{\concentration}{CONCENTRATION}=0\hspace{1mm}\includesvg[width=0.2cm]{../images/concentration}\fi}
+\chead{\scriptsize{\spellheader}\\[-1.8mm]\Large\color{headercolor}\fakesc{\spelltitle}\ifnum\pdfstrcmp{\concentration}{CONCENTRATION}=0\hspace{1mm}\includesvg[width=0.2cm, height=0.2cm, keepaspectratio]{../images/concentration}\fi\ifnum\pdfstrcmp{\ritualcastflag}{RITUAL}=0\hspace{1mm}\includesvg[width=0.2cm, height=0.2cm, keepaspectratio]{../images/ritual}\fi}
 \cfoot{\if\relax\spellsource\relax\else\scriptsize\color{headercolor}\itshape\spellsource\fi}
 \setlength{\parindent}{0pt}
 
@@ -92,7 +92,11 @@
     \def\spellsource{#7}
     \def\attacksave{#8}
     \def\damageeffect{#9}
-    
+
+    % Parse ritual flag from casting time
+    \StrBefore{\casttime}{|}[\casttimetext]
+    \StrBehind{\casttime}{|}[\ritualcastflag]
+
     % Parse concentration flag from duration
     \StrBefore{\duration}{|}[\durationtext]
     \StrBehind{\duration}{|}[\concentrationflag]
@@ -103,7 +107,7 @@
     \begin{minipage}[t]{0.32\textwidth}
         \centering\footnotesize{\color{headercolor}\fakesc{Casting time}}
 
-        {\italicfont\casttime}
+        {\italicfont\casttimetext} \ifnum\pdfstrcmp{\ritualcastflag}{RITUAL}=0\includesvg[width=0.15cm, height=0.15cm, keepaspectratio]{../images/ritual}\hspace{0.5mm}\fi
 	\end{minipage}
     \begin{minipage}[t]{0.34\textwidth}
         \centering\footnotesize{\color{headercolor}\fakesc{Range}}
@@ -118,7 +122,7 @@
     \begin{minipage}[t]{0.32\textwidth}
         \centering\footnotesize{\color{headercolor}\fakesc{Duration}}
 
-        \ifnum\pdfstrcmp{\concentration}{CONCENTRATION}=0\includesvg[width=0.15cm]{../images/concentration}\hspace{0.5mm}\fi{\italicfont\durationtext}
+        \ifnum\pdfstrcmp{\concentration}{CONCENTRATION}=0\includesvg[width=0.15cm, height=0.15cm, keepaspectratio]{../images/concentration}\hspace{0.5mm}\fi{\italicfont\durationtext}
 	\end{minipage}
     \begin{minipage}[t]{0.32\textwidth}
         \centering\footnotesize{\color{headercolor}\fakesc{Attack/Save}}
