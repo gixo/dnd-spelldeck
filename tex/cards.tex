@@ -5,7 +5,17 @@
 \usepackage{graphicx}
 \usepackage{svg}
 \usepackage{xstring}
-\usepackage[paperheight=8.89cm,paperwidth=6.35cm,margin=0.6cm,top=19.5mm,bottom=7.5mm,headheight=1cm]{geometry}
+\usepackage[paperheight=8.89cm,paperwidth=6.35cm,margin=0.3cm,top=19.5mm,bottom=0mm,headheight=12mm]{geometry}
+
+% Debug packages - comment out when not needed
+% \usepackage{showframe}  % Shows page margins and frames
+% \usepackage{layout}      % Shows layout parameters
+% \overfullrule=5pt        % Shows overfull hboxes with black bars
+% To show minipage boxes, wrap them with \fbox{} temporarily
+% Example: \fbox{\begin{minipage}...\end{minipage}}
+% Or set a colored frame globally:
+% \setlength{\fboxsep}{0pt}  % Remove padding
+% \setlength{\fboxrule}{0.4pt}  % Thin border
 
 \backgroundsetup{
     contents={\includegraphics[width=\paperwidth,height=\paperheight]{../images/backgrounds/background1}},
@@ -21,13 +31,23 @@
   ItalicFont = CrimsonPro-MediumItalic.ttf
 ]
 
-% Create fake small caps command for CrimsonPro with larger first letter
-\usepackage{xparse}
-\NewDocumentCommand{\fakesc}{m}{%
-  \StrLeft{#1}{1}[\firstletter]%
-  \StrGobbleLeft{#1}{1}[\restoftext]%
-  {\addfontfeature{LetterSpace=5.0}\MakeUppercase{\firstletter}\scalebox{0.8}[0.8]{\MakeUppercase{\restoftext}}}%
+% Create fake small caps command that preserves original casing
+% Expand the argument first so macro inputs (e.g. \spelltitle) are handled
+\newcommand\fauxsc[1]{%
+  \begingroup
+  \edef\fauxsctemp{\noexpand\fauxschelper#1 \relax\relax}%
+  \fauxsctemp
+  \endgroup
 }
+\def\fauxschelper#1 #2\relax{%
+  \fauxschelphelp#1\relax\relax%
+  \if\relax#2\relax\else\ \fauxschelper#2\relax\fi%
+}
+\def\Hscale{.85}\def\Vscale{.75}\def\Cscale{1.00}
+\def\fauxschelphelp#1#2\relax{%
+  \ifnum`#1=\lccode`#1\relax\scalebox{\Hscale}[\Vscale]{\char\uccode`#1}\else%
+    \scalebox{\Cscale}[1]{#1}\fi%
+  \ifx\relax#2\relax\else\fauxschelphelp#2\relax\fi}
 
 \newcommand{\boldfont}{\bfseries}
 \newcommand{\italicfont}{\upshape\itshape}
@@ -35,15 +55,17 @@
 \newcommand{\scitalicfont}{\scshape\itshape}
 
 
-\renewcommand{\scriptsize}{\fontsize{7.5}{9}\selectfont}
+\renewcommand{\scriptsize}{\fontsize{7}{9}\selectfont}
+\renewcommand{\footnotesize}{\fontsize{7.5}{9}\selectfont}
 
 \definecolor{headercolor}{RGB}{88,23,13}
 \definecolor{linecolor}{RGB}{201,173,106}
 
 \sloppy
-\setlength{\headsep}{3mm}
+\setlength{\headsep}{0mm}  % Space between header and main content
+\setlength{\footskip}{5mm}  % Distance from bottom of text to baseline of footer
 \pagestyle{fancy}
-\chead{\scriptsize{\spellheader}\\[-1.8mm]\Large\color{headercolor}\fakesc{\spelltitle}\ifnum\pdfstrcmp{\concentration}{CONCENTRATION}=0\hspace{1mm}\includesvg[width=0.2cm, height=0.2cm, keepaspectratio]{../images/concentration}\fi\ifnum\pdfstrcmp{\ritualcastflag}{RITUAL}=0\hspace{1mm}\includesvg[width=0.2cm, height=0.2cm, keepaspectratio]{../images/ritual}\fi}
+\chead{\scriptsize{\spellheader}\\[-1.8mm]\Large\color{headercolor}\fauxsc{\spelltitle}\ifnum\pdfstrcmp{\concentration}{CONCENTRATION}=0\hspace{1mm}\includesvg[width=0.2cm, height=0.2cm, keepaspectratio]{../images/concentration}\fi\ifnum\pdfstrcmp{\ritualcastflag}{RITUAL}=0\hspace{1mm}\includesvg[width=0.2cm, height=0.2cm, keepaspectratio]{../images/ritual}\fi}
 \cfoot{\if\relax\spellsource\relax\else\scriptsize\color{headercolor}\itshape\spellsource\fi}
 \setlength{\parindent}{0pt}
 
@@ -101,47 +123,56 @@
     \StrBefore{\duration}{|}[\durationtext]
     \StrBehind{\duration}{|}[\concentrationflag]
     \def\concentration{\concentrationflag}
-    \begin{minipage}[t][5cm][t]{\textwidth}
-    \vspace{-1.2em}
-    \setlength{\parskip}{0.5em}
-    \begin{minipage}[t]{0.32\textwidth}
-        \centering\footnotesize{\color{headercolor}\fakesc{Casting time}}
+    \begin{minipage}[t][5.5cm][t]{\textwidth}  % Main content height
+        \setlength{\parskip}{0.5em}%
+        % Spell attributes section
+        \leavevmode\begin{minipage}[t]{\textwidth}
+            \begin{minipage}[t]{0.32\textwidth}
+                \centering\footnotesize{\color{headercolor}\fauxsc{Casting Time}}
 
-        {\italicfont\casttimetext} \ifnum\pdfstrcmp{\ritualcastflag}{RITUAL}=0\includesvg[width=0.15cm, height=0.15cm, keepaspectratio]{../images/ritual}\hspace{0.5mm}\fi
-	\end{minipage}
-    \begin{minipage}[t]{0.34\textwidth}
-        \centering\footnotesize{\color{headercolor}\fakesc{Range}}
+                {\italicfont\casttimetext} \ifnum\pdfstrcmp{\ritualcastflag}{RITUAL}=0\includesvg[width=0.15cm, height=0.15cm, keepaspectratio]{../images/ritual}\hspace{0.5mm}\fi
+            \end{minipage}
+            \begin{minipage}[t]{0.32\textwidth}
+                \centering\footnotesize{\color{headercolor}\fauxsc{Range}}
 
-        \displayrange{\castrange}
-	\end{minipage}
-    \begin{minipage}[t]{0.32\textwidth}
-        \centering\footnotesize{\color{headercolor}\fakesc{Components}}
+                \displayrange{\castrange}
+            \end{minipage}
+            \begin{minipage}[t]{0.32\textwidth}
+                \centering\footnotesize{\color{headercolor}\fauxsc{Duration}}
 
-        {\italicfont\components}
-	\end{minipage}\\[3mm]
-    \begin{minipage}[t]{0.32\textwidth}
-        \centering\footnotesize{\color{headercolor}\fakesc{Duration}}
+                \ifnum\pdfstrcmp{\concentration}{CONCENTRATION}=0\includesvg[width=0.15cm, height=0.15cm, keepaspectratio]{../images/concentration}\hspace{0.5mm}\fi{\italicfont\durationtext}
+            \end{minipage}
+        \end{minipage}
 
-        \ifnum\pdfstrcmp{\concentration}{CONCENTRATION}=0\includesvg[width=0.15cm, height=0.15cm, keepaspectratio]{../images/concentration}\hspace{0.5mm}\fi{\italicfont\durationtext}
-	\end{minipage}
-    \begin{minipage}[t]{0.32\textwidth}
-        \centering\footnotesize{\color{headercolor}\fakesc{Attack/Save}}
+        % Second row of attributes
+        \begin{minipage}[t]{\textwidth}
+            \begin{minipage}[t]{0.32\textwidth}
+                \centering\footnotesize{\color{headercolor}\fauxsc{Attack/Save}}
 
-        {\italicfont\attacksave}
-	\end{minipage}
-    \begin{minipage}[t]{0.32\textwidth}
-        \centering\footnotesize{\color{headercolor}\fakesc{Damage/Effect}}
+                {\italicfont\attacksave}
+            \end{minipage}
+            \begin{minipage}[t]{0.32\textwidth}
+                \centering\footnotesize{\color{headercolor}\fauxsc{Damage/Effect}}
 
-        {\italicfont\damageeffect}
-	\end{minipage}
-    \vspace{-0.55em}
-    % Fancy divider using custom SVG
-    \begin{center}
+                {\italicfont\damageeffect}
+            \end{minipage}
+            \begin{minipage}[t]{0.32\textwidth}
+                \centering\footnotesize{\color{headercolor}\fauxsc{Components}}
+
+                {\italicfont\components}
+            \end{minipage}
+            \vspace{0.75em}
+        \end{minipage}
+        % Fancy divider using custom SVG
         \includesvg[width=0.95\textwidth]{../images/dividers/divider1}
-    \end{center}
-    \vspace{-1em}
-    \scriptsize
+        \vspace{0em}
+        % Spell description section
+        \centering
+        \begin{minipage}[t]{0.9\textwidth}
+            \setlength{\parskip}{0.2em}
+            \scriptsize
 }{
+        \end{minipage}
     \end{minipage}
     \newpage
 }
