@@ -10,10 +10,11 @@ speed up the game.
 
 ## Preview
 
-A card looks something like this. As you can see, some cards need to have
-their text truncated because there is simply too much to put on a small card.
+A card looks something like this.
 
 <img src="samples/fireball.jpg" alt="Fireball spell card example" width="500px" />
+
+Some cards need to have their text truncated and the script automatically cuts text beyond a certain lenght.
 
 ## Requirements
 

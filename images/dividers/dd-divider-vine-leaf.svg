@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2400" height="140" viewBox="0 0 2400 140" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+  <defs>
+    <style><![CDATA[
+      /* Inherit color from parent (e.g., set via CSS or inline style "color:#7A2E2E") */
+      .divider { vector-effect: non-scaling-stroke; }
+    ]]></style>
+  </defs>
+  <g class="divider">
+    <g id="left-side">
+      <path d="M40 70 H 510 Q 560 70 560 50 Q 560 30 540 30 Q 520 30 520 50 Q 520 70 560 70 Q 630 70 660 95 Q 680 110 650 118 Q 620 126 620 100 Q 620 90 640 88 Q 740 74 900 70 Q 1040 66 1150 70" />
+    </g>
+    <use href="#left-side" transform="scale(-1,1) translate(-2400,0)" />
+    <path stroke="none" fill="currentColor" d="M1192 70 
+            C1195 52,1205 48,1210 62
+            C1213 70,1205 88,1200 92
+            C1195 88,1187 70,1192 70Z" />
+            <path d="M1192 70 C1196 68,1204 68,1208 70" />
+  </g>
+</svg>

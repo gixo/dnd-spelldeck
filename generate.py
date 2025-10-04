@@ -5,7 +5,7 @@ import sys
 import textwrap
 import json
 
-MAX_TEXT_LENGTH = 670
+MAX_TEXT_LENGTH = 690
 
 SPELLS_TRUNCATED = 0
 SPELLS_TOTAL = 0
@@ -30,9 +30,11 @@ with open('data/spells.json') as json_data:
 def truncate_string(string, max_len=MAX_TEXT_LENGTH):
     if len(string) <= max_len:
         return string
-    
-    # Cut at max_len and add ellipsis
-    return string[:max_len-3] + "..."
+
+    # remove trailing space at the point of truncation
+    string = string[:max_len-3].rstrip() + "..." #add ellipsis at the point of truncation   
+
+    return string
 
 
 def print_spell(name, level, school, range, time, ritual, duration, components,

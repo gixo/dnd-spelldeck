@@ -5,7 +5,7 @@
 \usepackage{graphicx}
 \usepackage{svg}
 \usepackage{xstring}
-\usepackage[paperheight=8.89cm,paperwidth=6.35cm,margin=0.3cm,top=19.5mm,bottom=0mm,headheight=12mm]{geometry}
+\usepackage[paperheight=8.89cm,paperwidth=6.35cm,margin=0.3cm,top=20mm,bottom=0mm,headheight=25mm]{geometry}
 
 % Debug packages - comment out when not needed
  %\usepackage{showframe}  % Shows page margins and frames
@@ -123,10 +123,11 @@
     \StrBefore{\duration}{|}[\durationtext]
     \StrBehind{\duration}{|}[\concentrationflag]
     \def\concentration{\concentrationflag}
-    \begin{minipage}[t][5.5cm][t]{\textwidth}  % Main content height
+
+    \begin{minipage}[t][5.7cm][t]{\textwidth}  % Main content height
         \setlength{\parskip}{0.5em}%
+        \vspace{-0.2em}
         % Spell attributes section
-        \leavevmode
         \begin{minipage}[t]{\textwidth}
             \begin{minipage}[t]{0.32\textwidth}
                 \centering\footnotesize{\color{headercolor}\fauxsc{Casting Time}}
@@ -159,19 +160,22 @@
                 {\italicfont\damageeffect}
             \end{minipage}
             \begin{minipage}[t]{0.32\textwidth}
-                \vspace{0.1em}
+                \vspace{0.1em} %ensures duration is aligned with other attributes
                 \centering\footnotesize{\color{headercolor}\fauxsc{Components}}
 
                 {\italicfont\components}
             \end{minipage}
-            \vspace{0.75em}
+            \vspace{0.9em}
         \end{minipage}
         % Fancy divider using custom SVG
-        \includesvg[width=0.95\textwidth]{../images/dividers/divider1}
         \vspace{0em}
+        \includesvg[width=0.75\textwidth]{../images/dividers/divider1}
+        \vspace{0.1em}
         % Spell description section
         \centering
+        \vspace{0em}
         \begin{minipage}[t]{0.9\textwidth}
+            \vspace{-0.3em}
             \setlength{\parskip}{0.2em}
             \scriptsize
 }{
