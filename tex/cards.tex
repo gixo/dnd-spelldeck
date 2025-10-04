@@ -8,14 +8,14 @@
 \usepackage[paperheight=8.89cm,paperwidth=6.35cm,margin=0.3cm,top=19.5mm,bottom=0mm,headheight=12mm]{geometry}
 
 % Debug packages - comment out when not needed
-% \usepackage{showframe}  % Shows page margins and frames
-% \usepackage{layout}      % Shows layout parameters
-% \overfullrule=5pt        % Shows overfull hboxes with black bars
+ %\usepackage{showframe}  % Shows page margins and frames
+ %\usepackage{layout}      % Shows layout parameters
+ %\overfullrule=5pt        % Shows overfull hboxes with black bars
 % To show minipage boxes, wrap them with \fbox{} temporarily
 % Example: \fbox{\begin{minipage}...\end{minipage}}
 % Or set a colored frame globally:
-% \setlength{\fboxsep}{0pt}  % Remove padding
-% \setlength{\fboxrule}{0.4pt}  % Thin border
+ %\setlength{\fboxsep}{0pt}  % Remove padding
+ %\setlength{\fboxrule}{0.4pt}  % Thin border
 
 \backgroundsetup{
     contents={\includegraphics[width=\paperwidth,height=\paperheight]{../images/backgrounds/background1}},
@@ -126,7 +126,8 @@
     \begin{minipage}[t][5.5cm][t]{\textwidth}  % Main content height
         \setlength{\parskip}{0.5em}%
         % Spell attributes section
-        \leavevmode\begin{minipage}[t]{\textwidth}
+        \leavevmode
+        \begin{minipage}[t]{\textwidth}
             \begin{minipage}[t]{0.32\textwidth}
                 \centering\footnotesize{\color{headercolor}\fauxsc{Casting Time}}
 
@@ -145,6 +146,7 @@
         \end{minipage}
 
         % Second row of attributes
+        \leavevmode
         \begin{minipage}[t]{\textwidth}
             \begin{minipage}[t]{0.32\textwidth}
                 \centering\footnotesize{\color{headercolor}\fauxsc{Attack/Save}}
@@ -157,6 +159,7 @@
                 {\italicfont\damageeffect}
             \end{minipage}
             \begin{minipage}[t]{0.32\textwidth}
+                \vspace{0.1em}
                 \centering\footnotesize{\color{headercolor}\fauxsc{Components}}
 
                 {\italicfont\components}
