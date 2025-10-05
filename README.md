@@ -124,8 +124,11 @@ The cards currently use **Crimson Pro**, a classic old-style serif font that rep
 
 ## Copyright and credit
 
-The spells text and data included in this repository are property of Wizards of the Coast. These are licensed under Open Gaming License and the LICENSE file included does *not* cover them, only
-the Python and LaTeX code.
+The spells included in the `data/spells.json` file are from the **[System Reference Document (SRD) v5.2.1](https://www.dndbeyond.com/srd)** and are available under the **Creative Commons Attribution 4.0 International License (CC-BY-4.0)** provided by Wizards of the Coast. These spells are free to use and distribute according to the terms of this license.
+
+**Important:** The SRD includes only a subset of spells available in the Player's Handbook and other D&D sourcebooks. All spell text and data are property of Wizards of the Coast.
+
+The LICENSE file included in this repository covers only the Python and LaTeX code, not the spell content.
 
 
 
