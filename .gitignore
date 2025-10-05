@@ -186,3 +186,5 @@ tex/printable.xdv
 .DS_Store
 *.pdf_tex
 
+## Crawler
+crawler/spell_pages/*
