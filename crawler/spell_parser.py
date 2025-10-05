@@ -94,6 +94,32 @@ class SpellParser:
         
         return components, None  # Material description extracted separately
     
+    def _parse_range_area(self, range_value_elem) -> str:
+        """
+        Parse range/area including extracting shape from icon.
+        
+        Args:
+            range_value_elem: BeautifulSoup element containing range/area value
+            
+        Returns:
+            Range/area string with shape (e.g., "Self (60 ft. cone)")
+        """
+        if not range_value_elem:
+            return ""
+        
+        # Extract the area shape from icon if present
+        aoe_icon = range_value_elem.find('i', class_=re.compile(r'i-aoe-'))
+        if aoe_icon:
+            # Extract shape from class like "i-aoe-cone" -> "cone"
+            for cls in aoe_icon.get('class', []):
+                if cls.startswith('i-aoe-'):
+                    shape = cls.replace('i-aoe-', '')
+                    # Replace the icon with the shape text
+                    aoe_icon.replace_with(shape)
+                    break
+        
+        return self._clean_text(range_value_elem.get_text())
+    
     def _parse_classes(self, classes_html) -> List[str]:
         """
         Parse available classes from footer.
@@ -234,7 +260,8 @@ class SpellParser:
                 spell_name = self._clean_text(title_elem.get_text())
             
             if not spell_name:
-                logger.warning(f"Could not extract spell name from {html_path}")
+                logger.warning(f"Could not extract spell name from {html_path}, deleting file")
+                html_path.unlink()  # Delete the invalid HTML file
                 return None
             
             # Find the statblock
@@ -270,7 +297,7 @@ class SpellParser:
             range_elem = statblock.find('div', class_='ddb-statblock-item-range-area')
             if range_elem:
                 range_value = range_elem.find('div', class_='ddb-statblock-item-value')
-                spell_data['range'] = self._clean_text(range_value.get_text())
+                spell_data['range'] = self._parse_range_area(range_value)
             
             # Components
             comp_elem = statblock.find('div', class_='ddb-statblock-item-components')

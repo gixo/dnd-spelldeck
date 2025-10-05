@@ -188,3 +188,4 @@ tex/printable.xdv
 
 ## Crawler
 crawler/spell_pages/*
+crawler/spell_pages/.*

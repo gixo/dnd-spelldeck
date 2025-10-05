@@ -54,7 +54,7 @@ class SpellCrawler:
         'ai': 'Acquisitions Incorporated',
     }
     
-    def __init__(self, output_dir: str = "spell_pages", delay: float = 1.0, 
+    def __init__(self, output_dir: str = "crawler/spell_pages", delay: float = 1.0, 
                  source_filter: str = None):
         """
         Initialize the crawler.
@@ -64,14 +64,25 @@ class SpellCrawler:
             delay: Delay between requests in seconds (be respectful!)
             source_filter: Optional source book filter (e.g., 'phb', 'xge', 'tce')
         """
-        self.output_dir = Path(output_dir)
-        self.output_dir.mkdir(exist_ok=True)
+        self.base_dir = Path(output_dir)
+        self.base_dir.mkdir(exist_ok=True)
         self.delay = delay
         self.source_filter = source_filter
         
+        # Create subdirectories for filtered sources
+        if source_filter:
+            self.output_dir = self.base_dir / "in_source"
+            self.other_sources_dir = self.base_dir / "not_in_source"
+            self.output_dir.mkdir(exist_ok=True)
+            self.other_sources_dir.mkdir(exist_ok=True)
+        else:
+            # No filter: save everything to base directory
+            self.output_dir = self.base_dir
+            self.other_sources_dir = None
+        
         # Track progress
-        self.progress_file = self.output_dir / "progress.json"
-        self.downloaded_urls, self.skipped_urls = self._load_progress()
+        self.progress_file = self.base_dir / "progress.json"
+        self.downloaded_urls, self.skipped_urls, self.all_spell_urls = self._load_progress()
         
         # Session with headers
         self.session = requests.Session()
@@ -83,24 +94,26 @@ class SpellCrawler:
             'Accept-Language': 'en-US,en;q=0.5',
         })
     
-    def _load_progress(self) -> tuple[Set[str], Set[str]]:
-        """Load previously downloaded and skipped URLs from progress file."""
+    def _load_progress(self) -> tuple[Set[str], Set[str], List[str]]:
+        """Load previously downloaded, skipped, and discovered URLs from progress file."""
         if self.progress_file.exists():
             try:
                 with open(self.progress_file, 'r') as f:
                     data = json.load(f)
                     downloaded = set(data.get('downloaded', []))
                     skipped = set(data.get('skipped', []))
-                    return downloaded, skipped
+                    all_urls = data.get('all_spell_urls', [])
+                    return downloaded, skipped, all_urls
             except Exception as e:
                 logger.warning(f"Could not load progress file: {e}")
-        return set(), set()
+        return set(), set(), []
     
     def _save_progress(self):
         """Save progress to file."""
         try:
             with open(self.progress_file, 'w') as f:
                 json.dump({
+                    'all_spell_urls': self.all_spell_urls,
                     'downloaded': sorted(list(self.downloaded_urls)),
                     'skipped': sorted(list(self.skipped_urls))
                 }, f, indent=2)
@@ -287,10 +300,18 @@ class SpellCrawler:
             spell_slug = url.split('/spells/')[-1].split('?')[0]
             filename = self._sanitize_filename(spell_slug) + '.html'
             filepath = self.output_dir / filename
+            other_filepath = self.other_sources_dir / filename if self.other_sources_dir else None
             
-            # Check if file already exists on disk
+            # Check if file already exists in either directory
             if filepath.exists():
                 logger.info(f"File already exists, skipping: {filepath.name}")
+                # Mark as downloaded in progress tracker
+                self.downloaded_urls.add(url)
+                self._save_progress()
+                return True
+            
+            if other_filepath and other_filepath.exists():
+                logger.info(f"File already exists in other sources, skipping: {other_filepath.name}")
                 # Mark as downloaded in progress tracker
                 self.downloaded_urls.add(url)
                 self._save_progress()
@@ -301,22 +322,28 @@ class SpellCrawler:
             
             # Apply source filter if specified
             if self.source_filter and not self._should_include_spell(response.text):
-                source_name = self.SOURCE_FILTERS.get(self.source_filter.lower(), self.source_filter)
-                logger.info(f"Skipping (not from {source_name}): {url}")
-                # Track as skipped so we don't check again
-                self.skipped_urls.add(url)
-                self._save_progress()
-                return False
-            
-            # Save HTML
-            with open(filepath, 'w', encoding='utf-8') as f:
-                f.write(response.text)
+                # Save to other sources directory instead of skipping
+                if self.other_sources_dir:
+                    with open(other_filepath, 'w', encoding='utf-8') as f:
+                        f.write(response.text)
+                    logger.info(f"Saved to other sources: {other_filepath}")
+                else:
+                    # If no other_sources_dir, track as skipped (shouldn't happen)
+                    source_name = self.SOURCE_FILTERS.get(self.source_filter.lower(), self.source_filter)
+                    logger.info(f"Skipping (not from {source_name}): {url}")
+                    self.skipped_urls.add(url)
+                    self._save_progress()
+                    return False
+            else:
+                # Save HTML to main directory
+                with open(filepath, 'w', encoding='utf-8') as f:
+                    f.write(response.text)
+                logger.info(f"Saved: {filepath}")
             
             # Mark as downloaded
             self.downloaded_urls.add(url)
             self._save_progress()
             
-            logger.info(f"Saved: {filepath}")
             return True
             
         except Exception as e:
@@ -331,15 +358,28 @@ class SpellCrawler:
             max_spells: Maximum number of spells to download (None for all)
         """
         logger.info("Starting D&D Beyond spell crawler...")
-        logger.info(f"Output directory: {self.output_dir.absolute()}")
+        logger.info(f"Base directory: {self.base_dir.absolute()}")
+        if self.source_filter:
+            logger.info(f"  In-source spells → {self.output_dir.name}/")
+            logger.info(f"  Other spells → {self.other_sources_dir.name}/")
         logger.info(f"Rate limit delay: {self.delay} seconds")
         
-        # Get all spell links
-        spell_links = self.get_spell_links()
-        
-        if not spell_links:
-            logger.warning("No spell links found! The page structure may have changed.")
-            return
+        # Get all spell links (from cache or by crawling)
+        if self.all_spell_urls:
+            logger.info(f"Using {len(self.all_spell_urls)} cached spell URLs from progress file")
+            spell_links = self.all_spell_urls
+        else:
+            logger.info("Discovering spell URLs...")
+            spell_links = self.get_spell_links()
+            
+            if not spell_links:
+                logger.warning("No spell links found! The page structure may have changed.")
+                return
+            
+            # Save discovered URLs for future runs
+            self.all_spell_urls = spell_links
+            self._save_progress()
+            logger.info(f"Saved {len(spell_links)} spell URLs to progress file")
         
         # Limit if requested
         if max_spells:
@@ -361,12 +401,25 @@ class SpellCrawler:
         
         logger.info("\n" + "="*50)
         logger.info("Crawl complete!")
-        logger.info(f"Total spells: {total}")
+        logger.info(f"Total spells processed: {total}")
         logger.info(f"Successfully downloaded: {successful}")
         logger.info(f"Failed: {failed}")
+        
+        # Count files in each directory
         if self.source_filter:
-            logger.info(f"Skipped (wrong source): {len(self.skipped_urls)}")
-        logger.info(f"Output directory: {self.output_dir.absolute()}")
+            in_source_count = len(list(self.output_dir.glob("*.html")))
+            not_in_source_count = len(list(self.other_sources_dir.glob("*.html")))
+            logger.info(f"\nBase directory: {self.base_dir.absolute()}")
+            logger.info(f"  {self.output_dir.name}/: {in_source_count} spells")
+            logger.info(f"  {self.other_sources_dir.name}/: {not_in_source_count} spells")
+        else:
+            total_count = len(list(self.output_dir.glob("*.html")))
+            logger.info(f"\nTotal spells saved: {total_count}")
+            logger.info(f"  Location: {self.output_dir.absolute()}")
+        
+        if self.skipped_urls:
+            logger.info(f"\nSkipped (failed to download): {len(self.skipped_urls)}")
+        
         logger.info("="*50)
 
 
@@ -402,6 +455,14 @@ Source book codes:
   basic, basic-rules      - Basic Rules
   dmg                     - Dungeon Master's Guide
   (See SOURCE_FILTERS in code for full list)
+
+Directory structure:
+  Without --source filter:
+    All spells saved to: <output_dir>/
+  
+  With --source filter (e.g., --source phb):
+    Matching spells → <output_dir>/in_source/
+    Other spells    → <output_dir>/not_in_source/
   
 IMPORTANT: Please respect D&D Beyond's Terms of Service.
 This is for personal/educational use only.
@@ -410,8 +471,8 @@ This is for personal/educational use only.
     
     parser.add_argument(
         '--output', '-o',
-        default='spell_pages',
-        help='Output directory for HTML files (default: spell_pages)'
+        default='crawler/spell_pages',
+        help='Output directory for HTML files (default: crawler/spell_pages)'
     )
     
     parser.add_argument(

@@ -4,6 +4,15 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
+        {
+            "name": "Python Debugger: Spell Parser",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/crawler/spell_parser.py",
+            "console": "integratedTerminal",
+            "args": ["--input", "crawler/spell_pages"]
+        },
         {
             "name": "Python Debugger: Spell Crawler (PHB only)",
             "type": "debugpy",
