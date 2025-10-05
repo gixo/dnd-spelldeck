@@ -1,28 +1,4 @@
 {
-    "Absorb Elements": {
-        "classes": [
-            "Artificer",
-            "Druid",
-            "Ranger",
-            "Sorcerer",
-            "Wizard"
-        ],
-        "components": [
-            "S"
-        ],
-        "duration": "1 round",
-        "level": 1,
-        "material": null,
-        "range": "Self",
-        "ritual": false,
-        "school": "Abjuration",
-        "source": "Elemental Evil Player's Companion",
-        "source_page": 150,
-        "text": "The spell captures some of the incoming energy, lessening its effect on you and storing it for your next melee attack. You have resistance to the triggering damage type until the start of your next turn. Also, the first time you hit with a melee attack on your next turn, the target takes an extra 1d6 damage of the triggering type, and the spell ends.\n\n{\\normalfont\\textbf{At Higher Levels:}} When you cast this spell using a spell slot of 2nd level or higher, the extra damage increases by 1d6 for each slot level above 1st.\n\n* - which you take when you take acid, cold, fire, lightning, or thunder damage",
-        "time": "1 reaction *",
-        "attack_save": "None",
-        "damage_effect": "Acid (...)"
-    },
     "Acid Splash": {
         "level": 0,
         "ritual": false,
@@ -356,28 +332,6 @@
         "source": "Player’s Handbook",
         "source_page": 242
     },
-    "Arcane Gate": {
-        "classes": [
-            "Sorcerer",
-            "Warlock",
-            "Wizard"
-        ],
-        "components": [
-            "S",
-            "V"
-        ],
-        "duration": "Up to 10 minutes",
-        "level": 6,
-        "material": null,
-        "range": "500 feet",
-        "ritual": false,
-        "school": "Conjuration",
-        "source": "Player's Handbook",
-        "source_page": 214,
-        "text": "You create linked teleportation portals that remain open for the duration. Choose two points on the ground that you can see, one point within 10 feet of you and one point within 500 feet of you. A circular portal, 10 feet in diameter, opens over each point. If the portal would open in the space occupied by a creature, the spell fails, and the casting is lost. The portals are two-dimensional glowing rings filled with mist, hovering inches from the ground and perpendicular to it at the points you choose. A ring is visible only from one side (your choice), which is the side that functions as a portal. Any creature or object entering the portal exits from the other portal as if the two were adjacent to each other, passing through a portal from the non-portal side has no effect. The mist that fills each portal is opaque and blocks vision through it. On your turn, you can rotate the rings as a bonus action so that the active side faces in a different direction.",
-        "time": "1 action",
-        "concentration": true
-    },
     "Arcane Lock": {
         "level": 2,
         "ritual": false,
@@ -401,67 +355,6 @@
         ],
         "source": "Player’s Handbook",
         "source_page": 242
-    },
-    "Arcane Vigor": {
-        "classes": [
-            "Sorcerer",
-            "Wizard"
-        ],
-        "components": [
-            "V",
-            "S"
-        ],
-        "duration": "Instantaneous",
-        "level": 2,
-        "material": null,
-        "range": "Self",
-        "ritual": false,
-        "school": "Abjuration",
-        "source": "Player's Handbook (2024)",
-        "source_page": null,
-        "text": "You tap into your life force to heal yourself. Roll one or two of your unexpended Hit Point Dice, and regain a number of Hit Points equal to the roll's total plus your spellcasting ability modifier. Those dice are then expended.\n\n{\\normalfont\\textbf{At Higher Levels:}} The number of unexpended Hit Dice you can roll increases by one for each spell slot level above 2.",
-        "time": "1 bonus action",
-        "attack_save": "None",
-        "damage_effect": "Healing"
-    },
-    "Armor of Agathys": {
-        "classes": [
-            "Warlock"
-        ],
-        "components": [
-            "S",
-            "V",
-            "M"
-        ],
-        "duration": "1 hour",
-        "level": 1,
-        "material": "a cup of water",
-        "range": "Self",
-        "ritual": false,
-        "school": "Abjuration",
-        "source": "Player's Handbook",
-        "source_page": 215,
-        "text": "A protective magical force surrounds you, manifesting as a spectral frost that covers you and your gear. You gain 5 temporary hit points for the duration. If a creature hits you with a melee attack while you have these hit points, the creature takes 5 cold damage. At Higher Levels: When you cast this spell using a spell slot of 2nd level or higher, both the temporary hit points and the cold damage increase by 5 for each slot level above 1st.",
-        "time": "1 action"
-    },
-    "Arms of Hadar": {
-        "classes": [
-            "Warlock"
-        ],
-        "components": [
-            "S",
-            "V"
-        ],
-        "duration": "Instantaneous",
-        "level": 1,
-        "material": null,
-        "range": "Self (10-foot radius)",
-        "ritual": false,
-        "school": "Conjuration",
-        "source": "Player's Handbook",
-        "source_page": 215,
-        "text": "You invoke the power of Hadar, the Dark Hunger. Tendrils of dark energy erupt from you and batter all creatures within 10 feet of you. Each creature in that area must make a Strength saving throw. On a failed save, a target takes 2d6 necrotic damage and can't take reactions until its next turn. On a successful save, the creature takes half damage, but suffers no other effect. At Higher Levels: When you cast this spell using a spell slot of 2nd level or higher, the damage increases by 1d6 for each slot level above 1st.",
-        "time": "1 action"
     },
     "Astral Projection": {
         "level": 9,
@@ -538,44 +431,6 @@
         "source": "Player’s Handbook",
         "source_page": 244
     },
-    "Aura of Purity": {
-        "classes": [
-            "Paladin"
-        ],
-        "components": [
-            "V"
-        ],
-        "duration": "Up to 10 minutes",
-        "level": 4,
-        "material": null,
-        "range": "Self (30-foot radius)",
-        "ritual": false,
-        "school": "Abjuration",
-        "source": "Player's Handbook",
-        "source_page": 216,
-        "text": "Purifying energy radiates from you in an aura with a 30-foot radius. Until the spell ends, the aura moves with you, centered on you. Each non-hostile creature in the aura (including you) can't become diseased, has resistance to poison damage, and has advantage on saving throws against effects that cause any of the following conditions - blinded, charmed, deafened, frightened, paralyzed, poisoned, and stunned.",
-        "time": "1 action",
-        "concentration": true
-    },
-    "Aura of Vitality": {
-        "classes": [
-            "Paladin"
-        ],
-        "components": [
-            "V"
-        ],
-        "duration": "Up to 1 minute",
-        "level": 3,
-        "material": null,
-        "range": "Self (30-foot radius)",
-        "ritual": false,
-        "school": "Evocation",
-        "source": "Player's Handbook",
-        "source_page": 216,
-        "text": "Healing energy radiates from you in an aura with a 30-foot radius. Until the spell ends, the aura moves with you, centered on you. You can use a bonus action to cause one creature in the aura (including you) to regain 2d6 hit points.",
-        "time": "1 action",
-        "concentration": true
-    },
     "Awaken": {
         "level": 5,
         "ritual": false,
@@ -627,25 +482,6 @@
         ],
         "source": "Player’s Handbook",
         "source_page": 245
-    },
-    "Banishing Smite": {
-        "classes": [
-            "Paladin"
-        ],
-        "components": [
-            "V"
-        ],
-        "duration": "Up to 1 minute",
-        "level": 5,
-        "material": null,
-        "range": "Self",
-        "ritual": false,
-        "school": "Abjuration",
-        "source": "Player's Handbook",
-        "source_page": 216,
-        "text": "The next time you hit a creature with a weapon attack before this spell ends, your weapon crackles with force, and the attack deals an extra 5d10 force damage to the target. Additionally, if this attack reduces the target to 50 hit points of fewer, you banish it. If the target is native to a different plane of existence than the one you're on, the target disappears, returning to its home plane. If the target is native to the plane you're on, the creature vanishes into a harmless demiplane. While there, the target is incapacitated. It remains there until the spell ends, at which point the tart reappears in the space it left or in the nearest unoccupied space if that space is occupied.",
-        "time": "1 bonus action",
-        "concentration": true
     },
     "Banishment": {
         "level": 4,
@@ -722,26 +558,6 @@
         ],
         "source": "Player’s Handbook",
         "source_page": 245
-    },
-    "Beast Sense": {
-        "classes": [
-            "Druid",
-            "Ranger"
-        ],
-        "components": [
-            "S"
-        ],
-        "duration": "Up to 1 hour",
-        "level": 2,
-        "material": null,
-        "range": "Touch",
-        "ritual": true,
-        "school": "Divination",
-        "source": "Player's Handbook",
-        "source_page": 217,
-        "text": "You touch a willing beast. For the duration of the spell, you can use your action to see through the beast's eyes and hear what it hears, and continue to do so until you use your action to return to your normal senses.",
-        "time": "1 action",
-        "concentration": true
     },
     "Befuddlement": {
         "level": 8,
@@ -844,33 +660,6 @@
         "source": "Player’s Handbook",
         "source_page": 247
     },
-    "Blade Ward": {
-        "classes": [
-            "Sorcerer",
-            "Bard",
-            "Fighter",
-            "Warlock",
-            "Rogue",
-            "Wizard"
-        ],
-        "components": [
-            "S",
-            "V"
-        ],
-        "duration": "Up to 1 minute",
-        "level": 0,
-        "material": null,
-        "range": "Self",
-        "ritual": false,
-        "school": "Abjuration",
-        "source": "Player's Handbook (2024)",
-        "source_page": 218,
-        "text": "You extend your hand and trace a sigil of warding in the air. Until the spell ends, you have a +1 bonus to AC and saving throws, and all creatures attacking you must subtract 1d4 from their attack rolls.",
-        "time": "1 action",
-        "attack_save": "None",
-        "damage_effect": "Buff",
-        "concentration": true
-    },
     "Bless": {
         "level": 1,
         "ritual": false,
@@ -922,25 +711,6 @@
         ],
         "source": "Player’s Handbook",
         "source_page": 247
-    },
-    "Blinding Smite": {
-        "classes": [
-            "Paladin"
-        ],
-        "components": [
-            "V"
-        ],
-        "duration": "Up to 1 minute",
-        "level": 3,
-        "material": null,
-        "range": "Self",
-        "ritual": false,
-        "school": "Evocation",
-        "source": "Player's Handbook",
-        "source_page": 219,
-        "text": "The next time you hit a creature with a melee weapon attack during this spell's duration, you weapon flares with a bright light, and the attack deals an extra 3d8 radiant damage to the target. Additionally, the target must succeed on a Constitution saving throw or be blinded until the spell ends. A creature blinded by this spell makes another Constitution saving throw at the end of each of its turns. On a successful save, it is no longer blinded.",
-        "time": "1 bonus action",
-        "concentration": true
     },
     "Blindness/Deafness": {
         "level": 2,
@@ -1250,25 +1020,6 @@
         "source": "Player’s Handbook",
         "source_page": 250
     },
-    "Circle of Power": {
-        "classes": [
-            "Paladin"
-        ],
-        "components": [
-            "V"
-        ],
-        "duration": "Up to 10 minutes",
-        "level": 5,
-        "material": null,
-        "range": "Self (30-foot radius)",
-        "ritual": false,
-        "school": "Abjuration",
-        "source": "Player's Handbook",
-        "source_page": 221,
-        "text": "Divine energy radiates from you, distorting and diffusing magical energy within 30 feet of you. Until the spell ends, the sphere moves with you, centered on you. For the duration, each friendly creature in the area (including you) has advantage on saving throws against spells and other magical effects. Additionally, when an affected creature succeeds on a saving throw made against a spell or magical effect that allows it to make a saving throw to take only half damage, it instead takes no damage if it succeeds on the saving throw.",
-        "time": "1 action",
-        "concentration": true
-    },
     "Clairvoyance": {
         "level": 3,
         "ritual": false,
@@ -1318,30 +1069,6 @@
         ],
         "source": "Player’s Handbook",
         "source_page": 251
-    },
-    "Cloud of Daggers": {
-        "classes": [
-            "Sorcerer",
-            "Warlock",
-            "Wizard",
-            "Bard"
-        ],
-        "components": [
-            "S",
-            "V",
-            "M"
-        ],
-        "duration": "Up to 1 minute",
-        "level": 2,
-        "material": "a sliver of glass",
-        "range": "60 feet",
-        "ritual": false,
-        "school": "Conjuration",
-        "source": "Player's Handbook",
-        "source_page": 222,
-        "text": "You fill the air with spinning daggers in a cube 5 feet on each side, centered on a point you choose within range. A creature takes 4d4 slashing damage when it enters the spell's area for the first time on a turn or starts its turn there. At Higher Levels: when you cast this spell using a spell slot of 3rd level or higher, the damage increases by 2d4 for each slot level above 2nd.",
-        "time": "1 action",
-        "concentration": true
     },
     "Cloudkill": {
         "level": 5,
@@ -1469,25 +1196,6 @@
         ],
         "source": "Player’s Handbook",
         "source_page": 252
-    },
-    "Compelled Duel": {
-        "classes": [
-            "Paladin"
-        ],
-        "components": [
-            "V"
-        ],
-        "duration": "Up to 1 minute",
-        "level": 1,
-        "material": null,
-        "range": "30 feet",
-        "ritual": false,
-        "school": "Enchantment",
-        "source": "Player's Handbook",
-        "source_page": 224,
-        "text": "You attempt to compel a creature into a duel. One creature that you can see within range must make a Wisdom saving throw. On a failed save, the creature is drawn to you, compelled by your divine demand. For the duration, it has disadvantage on attack rolls against creatures other than you, and must make a Wisdom saving throw each time it attempts to move to a space that is more than 30 feet away from you, if it succeeds on this saving throw, this spell doesn't restrict the target's movement for that turn. The spell ends if you attack any other creature, if you cast a spell that targets a hostile creature other than the target, if a creature friendly to you damages the target or casts a harmful spell on it, or if you end your turn more than 30 feet away from the target.",
-        "time": "1 bonus action",
-        "concentration": true
     },
     "Comprehend Languages": {
         "level": 1,
@@ -1618,26 +1326,6 @@
         "source": "Player’s Handbook",
         "source_page": 254
     },
-    "Conjure Barrage": {
-        "classes": [
-            "Ranger"
-        ],
-        "components": [
-            "S",
-            "V",
-            "M"
-        ],
-        "duration": "Instantaneous",
-        "level": 3,
-        "material": "one piece of ammunition or a thrown weapon",
-        "range": "Self (60-foot cone)",
-        "ritual": false,
-        "school": "Conjuration",
-        "source": "Player's Handbook",
-        "source_page": 225,
-        "text": "You throw a nonmagical weapon or fire a piece of nonmagical ammunition into the air to create a cone of identical weapons that shoot forward and then disappear. Each creature in a 60-foot cone must succeed on a Dexterity saving throw. A creature takes 3d8 damage on a failed save, or half as much damage on a successful one. The damage type is the same as that of the weapon or ammunition used as a component.",
-        "time": "1 action"
-    },
     "Conjure Celestial": {
         "level": 7,
         "ritual": false,
@@ -1727,26 +1415,6 @@
         ],
         "source": "Player’s Handbook",
         "source_page": 255
-    },
-    "Conjure Volley": {
-        "classes": [
-            "Ranger"
-        ],
-        "components": [
-            "S",
-            "V",
-            "M"
-        ],
-        "duration": "Instantaneous",
-        "level": 5,
-        "material": "one piece of ammunition or one thrown weapon",
-        "range": "150 feet",
-        "ritual": false,
-        "school": "Conjuration",
-        "source": "Player's Handbook",
-        "source_page": 226,
-        "text": "You fire a piece of nonmagical ammunition from a ranged weapon or throw a nonmagical weapon into the air and choose a point within range. Hundreds of duplicates of the ammunition or weapon fall in a volley from above and then disappear. Each creature in a 40-foot-radius. 20-foot-high cylinder centered on that point must make a Dexterity saving throw. A creature takes 8d8 damage on a failed save, or half as much damage on a successful one. The damage type is the same as that of the ammunition or weapon.",
-        "time": "1 action"
     },
     "Conjure Woodland Beings": {
         "level": 4,
@@ -1918,26 +1586,6 @@
         "source": "Player’s Handbook",
         "source_page": 257
     },
-    "Cordon of Arrows": {
-        "classes": [
-            "Ranger"
-        ],
-        "components": [
-            "S",
-            "V",
-            "M"
-        ],
-        "duration": "8 hours",
-        "level": 2,
-        "material": "four or more arrows or bolts",
-        "range": "5 feet",
-        "ritual": false,
-        "school": "Transmutation",
-        "source": "Player's Handbook",
-        "source_page": 228,
-        "text": "You plant four pieces of nonmagical ammunition - arrows or crossbow bolts - in the ground within range and lay magic upon them to protect an area. Until the spell ends, whenever a creature other than you comes within 30 feet of the ammunition for the first time on a turn or ends its turn there, one piece of ammunition flies up to strike it. The creature must succeed on a Dexterity saving throw or take 1d6 piercing damage. The piece of ammunition is then destroyed. The spell ends when no ammunition remains. When you cast this spell, you can designate any creatures you choose, and the spell ignores them. At Higher Levels: When you cast this spell using a spell slot of 3rd level or higher, the amount of ammunition that can be affected increases by two for each slot level above 2nd",
-        "time": "1 action"
-    },
     "Counterspell": {
         "level": 3,
         "ritual": false,
@@ -2063,51 +1711,6 @@
         ],
         "source": "Player’s Handbook",
         "source_page": 259
-    },
-    "Crown of Madness": {
-        "classes": [
-            "Paladin",
-            "Sorcerer",
-            "Bard",
-            "Warlock",
-            "Rogue",
-            "Wizard"
-        ],
-        "components": [
-            "S",
-            "V"
-        ],
-        "duration": "Up to 1 minute",
-        "level": 2,
-        "material": null,
-        "range": "120 feet",
-        "ritual": false,
-        "school": "Enchantment",
-        "source": "Player's Handbook",
-        "source_page": 229,
-        "text": "One humanoid of your choice that you can see within range must succeed on a Wisdom saving throw or become charmed by you for the duration. While the target is charmed in this way, a twisted crown of jagged iron appears on its head, and a madness glows in its eyes. The charmed target must use its action before moving on each of its turns to make a melee attack against a creature other than itself that you mentally choose. The target can act normally on its turn if you choose no creature or if none are within its reach. On your subsequent turns, you must use your action to maintain control over the target, or the spell ends. Also, the target can make a Wisdom saving throw at the end of each of its turns. On a success, the spell ends.",
-        "time": "1 action",
-        "concentration": true
-    },
-    "Crusader's Mantle": {
-        "classes": [
-            "Paladin",
-            "Cleric"
-        ],
-        "components": [
-            "V"
-        ],
-        "duration": "Up to 1 minute",
-        "level": 3,
-        "material": null,
-        "range": "Self",
-        "ritual": false,
-        "school": "Evocation",
-        "source": "Player's Handbook",
-        "source_page": 230,
-        "text": "Holy power radiates from you in an aura with a 30-foot radius, awakening boldness in friendly creatures. Until the spell ends, the aura moves with you, centered on you. While in the aura, each non-hostile creature in the aura (including you) deals an extra 1d4 radiant damage when it hits with a weapon attack.",
-        "time": "1 action",
-        "concentration": true
     },
     "Cure Wounds": {
         "level": 1,
@@ -2316,25 +1919,6 @@
         ],
         "source": "Player’s Handbook",
         "source_page": 261
-    },
-    "Destructive Wave": {
-        "classes": [
-            "Paladin",
-            "Cleric"
-        ],
-        "components": [
-            "V"
-        ],
-        "duration": "Instantaneous",
-        "level": 5,
-        "material": null,
-        "range": "Self (30-foot radius)",
-        "ritual": false,
-        "school": "Evocation",
-        "source": "Player's Handbook",
-        "source_page": 231,
-        "text": "You strike the ground, creating a burst of divine energy that ripples outward from you. Each creature you choose within 30 feet of you must succeed on a Constitution saving throw or take 5d6 thunder damage, as well as 5d6 radiant or necrotic damage (your choice), and be knocked prone. A creature that succeeds on its saving throw takes half as much damage and isn't knocked prone.",
-        "time": "1 action"
     },
     "Detect Evil and Good": {
         "level": 1,
@@ -2795,26 +2379,6 @@
         "source": "Player’s Handbook",
         "source_page": 266
     },
-    "Drawmij's Instant Summon": {
-        "classes": [
-            "Wizard"
-        ],
-        "components": [
-            "S",
-            "V",
-            "M"
-        ],
-        "duration": "Until dispelled",
-        "level": 6,
-        "material": "a sapphire worth 1,000 gp",
-        "range": "Touch",
-        "ritual": true,
-        "school": "Conjuration",
-        "source": "Player's Handbook",
-        "source_page": 235,
-        "text": "You touch an object weighing 10 pounds or less whose longest dimension is 6 feet or less. The spell leaves an invisible mark on its surface and invisibly inscribes the name of the item on the sapphire you use as the material component. Each time you cast this spell, you must use a different sapphire. At any time thereafter, you can use your action to speak the item's name and crush the sapphire. The item instantly appears in your hand regardless of physical or planar distances, and the spell ends. If another creature is holding or carrying the item, crushing the sapphire doesn't transport the item to you, but instead you learn who the creature possessing the object is and roughly where that creature is located at that moment. Dispel magic or a similar effect successfully applied to the sapphire ends this spell's effect.",
-        "time": "1 minute"
-    },
     "Drawmij's Instant Summons": {
         "level": 6,
         "ritual": true,
@@ -2932,26 +2496,6 @@
         ],
         "source": "Player’s Handbook",
         "source_page": 267
-    },
-    "Elemental Weapon": {
-        "classes": [
-            "Paladin"
-        ],
-        "components": [
-            "S",
-            "V"
-        ],
-        "duration": "Up to 1 hour",
-        "level": 3,
-        "material": null,
-        "range": "Touch",
-        "ritual": false,
-        "school": "Transmutation",
-        "source": "Player's Handbook",
-        "source_page": 237,
-        "text": "A nonmagical weapon you touch becomes a magic weapon. Choose one of the following damage types - acid, cold, fire, lightning, or thunder. For the duration, the weapon has a +1 bonus to attack rolls and deals an extra 1d4 damage of the chosen type when it hits. At Higher Levels: When you cast this spell using a spell slot of 5th or 6th level, the bonus to attack rolls increases to +2 and the extra damage increases to 2d4. When you use a spell slot of 7th level or higher, the bonus increases to +3 and the extra damage increases to 3d4.",
-        "time": "1 action",
-        "concentration": true
     },
     "Elementalism": {
         "level": 0,
@@ -3335,30 +2879,6 @@
         ],
         "source": "Player’s Handbook",
         "source_page": 271
-    },
-    "Feign Death": {
-        "classes": [
-            "Druid",
-            "Warlock",
-            "Cleric",
-            "Wizard",
-            "Bard"
-        ],
-        "components": [
-            "S",
-            "V",
-            "M"
-        ],
-        "duration": "1 hour",
-        "level": 3,
-        "material": "a pinch of graveyard dirt",
-        "range": "Touch",
-        "ritual": true,
-        "school": "Necromancy",
-        "source": "Player's Handbook",
-        "source_page": 240,
-        "text": "You touch a willing creature and put it into a cataleptic state that is indistinguishable from death. For the spell's duration, or until you use an action to touch the target and dismiss the spell, the target appears dead to all outward inspection and to spells used to determine the target's status. The target is blinded and incapacitated, and its speed drops to 0. The target has resistance to all damage except psychic damage. If the target is diseased or poisoned when you cast the spell, or becomes diseased or poisoned while under the spell's effect, the disease and poison have no effect until the spell ends.",
-        "time": "1 action"
     },
     "Find Familiar": {
         "level": 1,
@@ -3841,31 +3361,6 @@
         "source": "Player’s Handbook",
         "source_page": 277
     },
-    "Friends": {
-        "classes": [
-            "Sorcerer",
-            "Bard",
-            "Fighter",
-            "Warlock",
-            "Rogue",
-            "Wizard"
-        ],
-        "components": [
-            "S",
-            "M"
-        ],
-        "duration": "Up to 1 minute",
-        "level": 0,
-        "material": null,
-        "range": "Self",
-        "ritual": false,
-        "school": "Enchantment",
-        "source": "Player's Handbook",
-        "source_page": 244,
-        "text": "For the duration, you have advantage on all Charisma checks directed at one creature of your choice that isn't hostile toward you. When the spell ends, the creature realizes that you used magic to influence its mood and becomes hostile toward you. A creature prone to violence might attack you. Another creature might seek retribution in other ways (at the DM's discretion), depending on the nature of your interaction with it.",
-        "time": "1 action",
-        "concentration": true
-    },
     "Gaseous Form": {
         "level": 3,
         "ritual": false,
@@ -4089,28 +3584,6 @@
         "source": "Player’s Handbook",
         "source_page": 280
     },
-    "Grasping Vine": {
-        "classes": [
-            "Druid",
-            "Ranger",
-            "Cleric"
-        ],
-        "components": [
-            "S",
-            "V"
-        ],
-        "duration": "Up to 1 minute",
-        "level": 4,
-        "material": null,
-        "range": "30 feet",
-        "ritual": false,
-        "school": "Conjuration",
-        "source": "Player's Handbook",
-        "source_page": 246,
-        "text": "You conjure a vine that sprouts from the ground in an unoccupied space of your choice that you can see within range. When you cast this spell, you can direct the vine to lash out at a creature within 30 feet of it that you can see. That creature must succeed on a Dexterity saving throw or be pulled 20 feet directly toward the vine. Until the spell ends, you can direct the vine to lash out at the same creature or another one as a bonus action on each of your turns.",
-        "time": "1 bonus action",
-        "concentration": true
-    },
     "Grease": {
         "level": 1,
         "ritual": false,
@@ -4316,25 +3789,6 @@
         ],
         "source": "Player’s Handbook",
         "source_page": 282
-    },
-    "Hail of Thorns": {
-        "classes": [
-            "Ranger"
-        ],
-        "components": [
-            "V"
-        ],
-        "duration": "Up to 1 minute",
-        "level": 1,
-        "material": null,
-        "range": "Self",
-        "ritual": false,
-        "school": "Conjuration",
-        "source": "Player's Handbook",
-        "source_page": 249,
-        "text": "The next time you hit a creature with a ranged weapon attack before the spell ends, this spell creates a rain of thorns that sprouts from your ranged weapon or ammunition. In addition to the normal effect of the attack, the target of the attack and each creature within 5 feet of it must make a Dexterity saving throw. A creature takes 1d10 piercing damage on a failed save, or half as much damage on a successful one. At Higher Levels: If you cast this spell using a spell slot of 2nd level or higher, the damage increases by 1d10 for each slot level above 1st (to a maximum of 6d10).",
-        "time": "1 bonus action",
-        "concentration": true
     },
     "Hallow": {
         "level": 5,
@@ -4686,27 +4140,6 @@
         ],
         "source": "Player’s Handbook",
         "source_page": 286
-    },
-    "Hunger of Hadar": {
-        "classes": [
-            "Warlock"
-        ],
-        "components": [
-            "S",
-            "V",
-            "M"
-        ],
-        "duration": "Up to 1 minute",
-        "level": 3,
-        "material": "a pickled octopus tentacle",
-        "range": "150 feet",
-        "ritual": false,
-        "school": "Conjuration",
-        "source": "Player's Handbook",
-        "source_page": 251,
-        "text": "You open a gateway to the dark between the stars, a region infested with unknown horrors. A 20-foot-radius sphere of blackness and bitter cold appears, centered on a point with range and lasting for the duration. This void is filled with a cacophony of soft whispers and slurping noises that can be heard up to 30 feet away. No light, magical or otherwise, can illuminate the area, and creatures fully within the area are blinded. The void creates a warp in the fabric of space, and the area is difficult terrain. Any creature that starts its turn in the area takes 2d6 cold damage. Any creature that ends its turn in the area must succeed on a Dexterity saving throw or take 2d6 acid damage as milky, otherworldly tentacles rub against it.",
-        "time": "1 action",
-        "concentration": true
     },
     "Hunter's Mark": {
         "level": 1,
@@ -5197,26 +4630,6 @@
         ],
         "source": "Player’s Handbook",
         "source_page": 292
-    },
-    "Lightning Arrow": {
-        "classes": [
-            "Ranger"
-        ],
-        "components": [
-            "S",
-            "V"
-        ],
-        "duration": "Up to 1 minute",
-        "level": 3,
-        "material": null,
-        "range": "Self",
-        "ritual": false,
-        "school": "Transmutation",
-        "source": "Player's Handbook",
-        "source_page": 255,
-        "text": "The next time you make a ranged weapon attack during the spell's duration, the weapon's ammunition, or the weapon itself if it's a thrown weapon, transforms into a bolt of lightning. Make the attack roll as normal. The target takes 4d8 lightning damage on a hit, or half as much damage on a miss, instead of the weapon's normal damage. Whether you hit or miss, each creature within 10 feet of the target must make a Dexterity saving throw. Each of these creatures takes 2d8 lightning damage on a failed save, or half as much damage on a successful one. The piece of ammunition or weapon then returns to its normal form. At Higher Levels: When you cast this spell using a spell slot of 4th level or higher, the damage for both effects of the spell increases by 1d8 for each slot level above 3rd.",
-        "time": "1 bonus action",
-        "concentration": true
     },
     "Lightning Bolt": {
         "level": 3,
@@ -6267,29 +5680,6 @@
         ],
         "source": "Player’s Handbook",
         "source_page": 303
-    },
-    "Pass Without Trace": {
-        "classes": [
-            "Druid",
-            "Ranger",
-            "Cleric"
-        ],
-        "components": [
-            "S",
-            "V",
-            "M"
-        ],
-        "duration": "Up to 1 hour",
-        "level": 2,
-        "material": "ashes from a burned leaf of mistletoe and a sprig of spruce",
-        "range": "Self",
-        "ritual": false,
-        "school": "Abjuration",
-        "source": "Player's Handbook",
-        "source_page": 264,
-        "text": "A veil of shadows and silence radiates from you, masking you and your companions from detection. For the duration, each creature you choose within 30 feet of you (including you) has a +10 bonus to Dexterity (Stealth) checks and can't be tracked except by magical means. A creature that receives this bonus leaves behind no tracks or other traces of its passage.",
-        "time": "1 action",
-        "concentration": true
     },
     "Pass without Trace": {
         "level": 2,
@@ -8025,25 +7415,6 @@
         "source": "Player’s Handbook",
         "source_page": 318
     },
-    "Staggering Smite": {
-        "classes": [
-            "Paladin"
-        ],
-        "components": [
-            "V"
-        ],
-        "duration": "Up to 1 minute",
-        "level": 4,
-        "material": null,
-        "range": "Self",
-        "ritual": false,
-        "school": "Evocation",
-        "source": "Player's Handbook",
-        "source_page": 278,
-        "text": "The next time you hit a creature with a melee weapon attack during this spell's duration, your weapon pierces both body and mind, and the attack deals an extra 4d6 psychic damage to the target. The target must make a Wisdom saving throw. On a failed save, it has disadvantage on attack rolls and ability checks, and can't take reactions, until the end of its next turn.",
-        "time": "1 bonus action",
-        "concentration": true
-    },
     "Starry Wisp": {
         "level": 0,
         "ritual": false,
@@ -8274,27 +7645,6 @@
         "source": "Player’s Handbook",
         "source_page": 329
     },
-    "Swift Quiver": {
-        "classes": [
-            "Ranger"
-        ],
-        "components": [
-            "S",
-            "V",
-            "M"
-        ],
-        "duration": "Up to 1 minute",
-        "level": 5,
-        "material": "a quiver containing at least one piece of ammunition",
-        "range": "Touch",
-        "ritual": false,
-        "school": "Transmutation",
-        "source": "Player's Handbook",
-        "source_page": 279,
-        "text": "You transmute your quiver so it produces an endless supply of nonmagical ammunition, which seems to leap into your hand when you reach for it. On each of your turns until the spell ends, you can use a bonus action to make two attacks with a weapon that uses ammunition from the quiver. Each time you make such a ranged attack, your quiver magically replaces the piece of ammunition you used with a similar piece of nonmagical ammunition. Any pieces of ammunition created by this spell disintegrate when the spell ends. If the quiver leaves your possession, the spell ends.",
-        "time": "1 bonus action",
-        "concentration": true
-    },
     "Symbol": {
         "level": 7,
         "ritual": false,
@@ -8370,26 +7720,6 @@
         ],
         "source": "Player’s Handbook",
         "source_page": 331
-    },
-    "Telepathy": {
-        "classes": [
-            "Wizard"
-        ],
-        "components": [
-            "S",
-            "V",
-            "M"
-        ],
-        "duration": "24 hours",
-        "level": 8,
-        "material": "a pair of linked silver rings",
-        "range": "Unlimited",
-        "ritual": false,
-        "school": "Evocation",
-        "source": "Player's Handbook",
-        "source_page": 281,
-        "text": "You create a telepathic link between yourself and a willing creature with which you are familiar. The creature can be anywhere on the same plane of existence as you. The spell ends if you or the target are no longer on the same plane. Until the spell ends, you and the target can instantaneously share words, images, sounds, and other sensory messages with one another through the link, and the target recognizes you as the creature it is communicating with. The spell enables a creature with an Intelligence score of at least 1 to understand the meaning of your words and take in the scope of any sensory messages you send to it.",
-        "time": "1 action"
     },
     "Teleport": {
         "level": 7,
@@ -8484,69 +7814,6 @@
         ],
         "source": "Player’s Handbook",
         "source_page": 333
-    },
-    "Thorn Whip": {
-        "classes": [
-            "Druid"
-        ],
-        "components": [
-            "S",
-            "V",
-            "M"
-        ],
-        "duration": "Instantaneous",
-        "level": 0,
-        "material": null,
-        "range": "30 feet",
-        "ritual": false,
-        "school": "Transmutation",
-        "source": "Player's Handbook",
-        "source_page": 282,
-        "text": "You create a long, vine-like whip covered in thorns that lashes out at your command toward a creature in range. Make a melee spell attack against the target. If the attack hits, the creature takes 1d6 piercing damage, and if the creature is Large or smaller, you pull the creature up to 10 feet closer to you. This spell's damage increases by 1d6 when you reach 5th level (2d6), 11th level (3d6), and 17th level (4d6).",
-        "time": "1 action"
-    },
-    "Thunderclap": {
-        "classes": [
-            "Bard",
-            "Druid",
-            "Sorcerer",
-            "Warlock",
-            "Wizard"
-        ],
-        "components": [
-            "S"
-        ],
-        "duration": "Instantaneous",
-        "level": 0,
-        "material": null,
-        "range": "Self (5 ft. Emanation)",
-        "ritual": false,
-        "school": "Evocation",
-        "source": "Player's Handbook (2024)",
-        "source_page": 333,
-        "text": "Each creature in a 5-foot Emanation originating from you must succeed on a Constitution saving throw or take 1d6 Thunder damage. The spell’s thunderous sound can be heard up to 100 feet away.\n\n{\\normalfont\\textbf{At Higher Levels:}} The spell's damage increases by 1d6 when you reach 5th level (2d6), 11th level (3d6), and 17th level (4d6).",
-        "time": "1 action",
-        "attack_save": "Constitution",
-        "damage_effect": "Thunder"
-    },
-    "Thunderous Smite": {
-        "classes": [
-            "Paladin"
-        ],
-        "components": [
-            "V"
-        ],
-        "duration": "Up to 1 minute",
-        "level": 1,
-        "material": null,
-        "range": "Self",
-        "ritual": false,
-        "school": "Evocation",
-        "source": "Player's Handbook",
-        "source_page": 282,
-        "text": "The first time you hit with a melee weapon attack during this spell's duration, your weapon rings with thunder that is audible within 300 feet of you, and the attack deals an extra 2d6 thunder damage to the target. Additionally, if the target is a creature, it must succeed on a Strength saving throw or be pushed 10 feet away from you and knocked prone.",
-        "time": "1 bonus action",
-        "concentration": true
     },
     "Thunderwave": {
         "level": 1,
@@ -9213,30 +8480,6 @@
         "source": "Player’s Handbook",
         "source_page": 341
     },
-    "Witch Bolt": {
-        "classes": [
-            "Fighter",
-            "Sorcerer",
-            "Warlock",
-            "Wizard"
-        ],
-        "components": [
-            "S",
-            "V",
-            "M"
-        ],
-        "duration": "Up to 1 minute",
-        "level": 1,
-        "material": "a twig from a tree that has been struck by lightning",
-        "range": "30 feet",
-        "ritual": false,
-        "school": "Evocation",
-        "source": "Player's Handbook",
-        "source_page": 289,
-        "text": "A beam of crackling, blue energy lances out toward a creature within range, forming a sustained arc of lightning between you and the target. Make a ranged spell attack against that creature. On a hit, the target takes 1d12 lightning damage, and on each of your turns for the duration, you can use your action to deal 1d12 lightning damage to the target automatically. The spell ends if you use your action to do anything else. The spell also ends if the target is ever outside the spell's range or if it has total cover from you. At Higher Levels: When you cast this spell using a spell slot of 2nd level or higher, the initial damage increases by 1d12 for each slot level above 1st.",
-        "time": "1 action",
-        "concentration": true
-    },
     "Word of Recall": {
         "level": 6,
         "ritual": false,
@@ -9257,27 +8500,6 @@
         ],
         "source": "Player’s Handbook",
         "source_page": 343
-    },
-    "Wrathful Smite": {
-        "classes": [
-            "Paladin"
-        ],
-        "components": [
-            "S",
-            "V",
-            "M"
-        ],
-        "duration": "Up to 1 minute",
-        "level": 1,
-        "material": null,
-        "range": "Self",
-        "ritual": false,
-        "school": "Evocation",
-        "source": "Player's Handbook",
-        "source_page": 289,
-        "text": "The next time you hit with a melee weapon attack during this spell's duration, your attack deals an extra 1d6 psychic damage. Additionally, if the target is a creature, it must make a Wisdom saving throw or be frightened of you until the spell ends. As an action, the creature can make a Wisdom check against your spell save DC to steel its resolve and end this spell.",
-        "time": "1 bonus action",
-        "concentration": true
     },
     "Zone of Truth": {
         "level": 2,

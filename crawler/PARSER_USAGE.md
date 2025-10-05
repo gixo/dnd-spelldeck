@@ -27,14 +27,15 @@ The spell parser extracts spell data from downloaded D&D Beyond HTML pages and c
 ## Quick Start
 
 ```bash
-# 1. Parse all downloaded spells
-python3 spell_parser.py
+# 1. Parse all spells from spell_pages/in_source (works from any directory)
+cd /path/to/dnd-spellcheck-gixo
+python3 crawler/spell_parser.py
 
-# 2. View the output
-cat data/spells_parsed.json
+# 2. View the output (saved to crawler/data/spells_parsed.json)
+cat crawler/data/spells_parsed.json
 
 # 3. Merge with existing spells.json
-python3 spell_parser.py --merge ../data/spells.json --output ../data/spells_updated.json
+python3 crawler/spell_parser.py --output data/spells.json
 ```
 
 ## Output Format
@@ -90,37 +91,48 @@ The parser generates JSON matching the format expected by `generate.py`:
 python3 spell_parser.py [OPTIONS]
 
 Options:
-  --input, -i PATH      Input directory with HTML files (default: spell_pages)
-  --output, -o PATH     Output JSON file (default: data/spells_parsed.json)
+  --input, -i PATH      Input directory with HTML files 
+                        (default: spell_pages/in_source relative to script location)
+  --output, -o PATH     Output JSON file path 
+                        (default: data/spells_parsed.json relative to script location)
   --merge, -m PATH      Merge with existing JSON file
   --verbose, -v         Enable verbose logging
   --help               Show help message
+
+Note: Default paths are always relative to the script's location, regardless of where you call it from.
 ```
 
 ## Examples
 
 ### Parse and Save
 ```bash
-# Parse all spells in spell_pages/
-python3 spell_parser.py
+# Parse all spells from spell_pages/in_source/ (saves to crawler/data/spells_parsed.json)
+# Works from any directory!
+python3 crawler/spell_parser.py
 
-# Use custom directories
-python3 spell_parser.py --input my_spells --output my_output.json
+# Parse spells from not_in_source directory (relative to script location)
+python3 crawler/spell_parser.py --input spell_pages/not_in_source
+
+# Save directly to project's data folder
+python3 crawler/spell_parser.py --output ../data/spells.json
+
+# Use absolute paths for full control
+python3 crawler/spell_parser.py --input /absolute/path/to/spells --output /absolute/path/to/output.json
 ```
 
 ### Merge with Existing Data
 ```bash
-# Merge new spells with existing database
-python3 spell_parser.py --merge ../data/spells.json
+# Merge and output directly to project's main spells.json
+python3 crawler/spell_parser.py --output ../data/spells.json
 
-# Save merged data to new file
-python3 spell_parser.py --merge ../data/spells.json --output ../data/spells_complete.json
+# Merge with existing and save to new file
+python3 crawler/spell_parser.py --merge ../data/spells_old.json --output ../data/spells.json
 ```
 
 ### Debug Parsing Issues
 ```bash
 # Enable verbose logging to see detailed parsing info
-python3 spell_parser.py --verbose
+python3 crawler/spell_parser.py --verbose
 ```
 
 ## Testing Parsed Data
@@ -128,12 +140,11 @@ python3 spell_parser.py --verbose
 Verify the parsed spells work with the card generator:
 
 ```bash
-# Copy parsed data to main data directory (backup first!)
-cp ../data/spells.json ../data/spells_backup.json
-cp data/spells_parsed.json ../data/spells.json
+# Parse directly to the main data directory (backup first!)
+cp data/spells.json data/spells_backup.json
+python3 crawler/spell_parser.py --output data/spells.json
 
 # Generate a test card
-cd ..
 python3 generate.py --name "Acid Arrow" > tex/test_spell.tex
 
 # Or generate cards for all parsed spells
@@ -161,27 +172,29 @@ python3 generate_cards.py
 
 1. **Download spells:**
    ```bash
-   python3 spell_crawler.py --max-spells 10
+   cd /path/to/dnd-spellcheck-gixo
+   python3 crawler/spell_crawler.py --max-spells 10
    ```
 
 2. **Parse HTML files:**
    ```bash
-   python3 spell_parser.py
+   # From anywhere - saves to crawler/data/spells_parsed.json
+   python3 crawler/spell_parser.py
    ```
 
 3. **Review parsed data:**
    ```bash
-   python3 -c "import json; print(json.dumps(json.load(open('data/spells_parsed.json')), indent=2))" | less
+   python3 -c "import json; print(json.dumps(json.load(open('crawler/data/spells_parsed.json')), indent=2))" | less
    ```
 
-4. **Merge with existing:**
+4. **Copy to main data folder:**
    ```bash
-   python3 spell_parser.py --merge ../data/spells.json --output ../data/spells_complete.json
+   # Or parse directly to the main data folder
+   python3 crawler/spell_parser.py --output data/spells.json
    ```
 
 5. **Generate cards:**
    ```bash
-   cd ..
    python3 generate_cards.py
    ```
 

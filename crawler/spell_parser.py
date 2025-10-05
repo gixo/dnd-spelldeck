@@ -21,20 +21,33 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+# Get the directory where this script is located
+SCRIPT_DIR = Path(__file__).resolve().parent
+
 
 class SpellParser:
     """Parser for D&D Beyond spell HTML pages."""
     
-    def __init__(self, html_dir: str = "spell_pages", output_file: str = None):
+    def __init__(self, html_dir: Path = None, output_file: Path = None):
         """
         Initialize the parser.
         
         Args:
-            html_dir: Directory containing HTML files
-            output_file: Output JSON file path
+            html_dir: Directory containing HTML files (default: spell_pages/in_source relative to script)
+            output_file: Output JSON file path (default: data/spells_parsed.json relative to script)
         """
-        self.html_dir = Path(html_dir)
-        self.output_file = output_file or self.html_dir.parent / "data" / "spells_parsed.json"
+        # Default input: spell_pages/in_source relative to script location
+        if html_dir is None:
+            self.html_dir = SCRIPT_DIR / "spell_pages" / "in_source"
+        else:
+            self.html_dir = Path(html_dir).resolve()
+        
+        # Default output: data/spells_parsed.json relative to script location
+        if output_file is None:
+            self.output_file = SCRIPT_DIR / "data" / "spells_parsed.json"
+        else:
+            self.output_file = Path(output_file).resolve()
+        
         self.spells = {}
     
     def _clean_text(self, text: str) -> str:
@@ -376,6 +389,9 @@ class SpellParser:
     
     def parse_all_spells(self):
         """Parse all HTML files in the directory."""
+        logger.info(f"Input directory: {self.html_dir}")
+        logger.info(f"Output file: {self.output_file}")
+        
         if not self.html_dir.exists():
             logger.error(f"Directory not found: {self.html_dir}")
             return
@@ -451,26 +467,35 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  # Parse all spells in spell_pages directory
+  # Parse all spells in spell_pages/in_source (relative to script location)
   python spell_parser.py
   
-  # Specify custom input/output
-  python spell_parser.py --input my_spells --output spells_new.json
+  # Parse spells from not_in_source directory (relative to script location)
+  python spell_parser.py --input spell_pages/not_in_source
+  
+  # Specify custom output path (absolute or relative to current directory)
+  python spell_parser.py --output /absolute/path/to/spells.json
+  
+  # Specify both input directory and output file
+  python spell_parser.py --input /absolute/path/to/spells --output /absolute/path/to/output.json
   
   # Merge with existing spells.json
-  python spell_parser.py --merge ../data/spells.json
+  python spell_parser.py --merge ../data/spells.json --output ../data/spells_merged.json
         """
     )
     
     parser.add_argument(
         '--input', '-i',
-        default='spell_pages',
-        help='Input directory containing HTML files (default: spell_pages)'
+        type=str,
+        default=None,
+        help='Input directory containing HTML files (default: spell_pages/in_source relative to script)'
     )
     
     parser.add_argument(
         '--output', '-o',
-        help='Output JSON file (default: ../data/spells_parsed.json)'
+        type=str,
+        default=None,
+        help='Output JSON file path (default: data/spells_parsed.json relative to script)'
     )
     
     parser.add_argument(
