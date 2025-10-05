@@ -34,6 +34,12 @@ def truncate_string(string, max_len=MAX_TEXT_LENGTH):
     # remove trailing space at the point of truncation
     string = string[:max_len-3].rstrip() + "..." #add ellipsis at the point of truncation   
 
+    # close unbalance parentheses
+    open_parens = string.count('{')
+    close_parens = string.count('}')
+    if open_parens > close_parens:
+        string += '}' * (open_parens - close_parens)
+
     return string
 
 
