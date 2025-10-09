@@ -10,6 +10,7 @@ The test suite is organized into several modules:
 - **`test_latex_generation.py`** - Tests for LaTeX generation, formatting, and text truncation
 - **`test_card_generation.py`** - Tests for generating cards with different spell types and edge cases
 - **`test_integration.py`** - Integration tests for the full generation pipeline (requires LaTeX)
+- **`test_script_generation.py`** - End-to-end tests for `generate_cards.py` and `export_card_image.py` scripts
 
 ## Running Tests
 
@@ -72,6 +73,15 @@ pytest tests/test_card_generation.py
 
 # Run only integration tests
 pytest tests/test_integration.py
+
+# Run only script generation tests
+pytest tests/test_script_generation.py
+
+# Run only generate_cards.py tests
+pytest tests/test_script_generation.py::TestGenerateCardsScript
+
+# Run only export_card_image.py tests
+pytest tests/test_script_generation.py::TestExportCardImageScript
 ```
 
 ### Run Specific Test Classes or Functions
@@ -154,6 +164,16 @@ The test suite aims to cover:
    - Real spell data validation
    - LaTeX compilation (requires LaTeX installation)
    - Output validation and integrity checks
+
+6. **Script Generation** (End-to-End)
+   - `generate_cards.py` script execution with various filters
+   - `export_card_image.py` image export functionality
+   - PDF generation and validation
+   - Image format conversion (PNG, JPG)
+   - DPI settings and image quality
+   - Intermediate file cleanup
+   - Error handling and edge cases
+   - Performance benchmarks
 
 ## Continuous Integration
 
@@ -239,12 +259,52 @@ pytest
 
 Current test coverage includes:
 
-- 100+ individual test cases
+- 142 individual test cases
 - All 10 spell levels (0-9)
 - All 6 area effect types
 - Multiple spell schools and classes
 - Edge cases and error conditions
 - Real spell data validation
+- End-to-end script execution tests
+- Image export in multiple formats
+- LaTeX compilation validation
 
 Run `pytest --collect-only` to see all available tests.
+
+### Script Generation Tests
+
+The `test_script_generation.py` module includes 30 comprehensive tests:
+
+- **TestGenerateCardsScript** (12 tests)
+  - Help command validation
+  - Spells.tex generation without compilation
+  - Single and multiple spell card generation
+  - Filtering by class, level, school
+  - Level range support (e.g., "1-3")
+  - Output directory creation
+  - Cleanup functionality
+  - Statistics reporting
+
+- **TestExportCardImageScript** (10 tests)
+  - Help command validation
+  - PNG and JPG export
+  - Custom DPI settings (300-900)
+  - Keeping intermediate PDFs
+  - Default samples directory
+  - Nonexistent spell handling
+  - Multiple format export
+  - High-resolution output
+
+- **TestScriptIntegration** (2 tests)
+  - Generate then export workflow
+  - Consistency between scripts
+
+- **TestScriptErrorHandling** (4 tests)
+  - Missing data file handling
+  - Invalid class/level filters
+  - Dependency checking
+
+- **TestScriptPerformance** (2 tests)
+  - Single spell generation speed
+  - Multiple spell generation scalability
 

@@ -17,7 +17,7 @@ pytest
 
 ## Test Suite Overview
 
-The test suite contains **110+ test cases** covering all aspects of card generation:
+The test suite contains **142 test cases** covering all aspects of card generation:
 
 ### Test Files
 
@@ -46,6 +46,14 @@ The test suite contains **110+ test cases** covering all aspects of card generat
    - Real spell data validation
    - Output validation
    - LaTeX compilation (optional)
+
+5. **`test_script_generation.py`** (30 tests) **NEW!**
+   - End-to-end testing of `generate_cards.py` script
+   - End-to-end testing of `export_card_image.py` script
+   - PDF generation and validation
+   - Image export (PNG, JPG) with various DPI settings
+   - Script error handling and edge cases
+   - Performance benchmarks
 
 ## Running Tests
 
@@ -164,6 +172,46 @@ Tests are organized with pytest markers:
 ✅ Balanced LaTeX environments  
 ✅ Class spellbooks  
 ✅ School collections  
+
+### 6. Script Generation (30 tests)
+
+**generate_cards.py Tests (12 tests):**  
+✅ Help command functionality  
+✅ Spells.tex generation without compilation  
+✅ Single spell card generation  
+✅ Multiple spell cards generation  
+✅ Filter by class (e.g., Wizard)  
+✅ Filter by level range (e.g., "1-3")  
+✅ Filter by school (e.g., Evocation)  
+✅ Output directory creation  
+✅ Cleanup of intermediate files  
+✅ Statistics reporting  
+
+**export_card_image.py Tests (10 tests):**  
+✅ Help command functionality  
+✅ PNG export with various DPI settings  
+✅ JPG export with quality optimization  
+✅ Custom DPI (300-900)  
+✅ Intermediate PDF preservation  
+✅ Default samples directory usage  
+✅ Nonexistent spell handling  
+✅ Multiple format export (PNG/JPG)  
+✅ High-resolution output validation  
+✅ File format verification (magic bytes)  
+
+**Integration Tests (2 tests):**  
+✅ Generate then export workflow  
+✅ Consistency between scripts  
+
+**Error Handling Tests (4 tests):**  
+✅ Invalid class filter handling  
+✅ Invalid level filter handling  
+✅ Missing data file detection  
+✅ Dependency checking  
+
+**Performance Tests (2 tests):**  
+✅ Single spell generation speed (<10s)  
+✅ Multiple spell generation scalability (<30s)  
 
 ## Test Coverage
 
