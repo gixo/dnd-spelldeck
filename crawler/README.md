@@ -45,6 +45,10 @@ python3 spell_crawler.py --output my_spells --delay 3.0
 - `--delay`, `-d`: Delay between requests in seconds (default: `2.0`)
 - `--max-spells`, `-m`: Maximum number of spells to download
 - `--source`, `-s`: Filter by source book (e.g., `phb`, `xge`, `tce`)
+- `--cookies-raw`: Session cookies in raw browser format (easiest method)
+- `--cookies-raw-file`: Path to file containing raw browser format cookies
+- `--cookies`: Session cookies as JSON string for authenticated access
+- `--cookies-file`: Path to JSON file containing session cookies
 - `--verbose`, `-v`: Enable verbose logging
 
 ### Source Book Filtering
@@ -76,6 +80,57 @@ python3 spell_crawler.py --source tce
 - `ai` - Acquisitions Incorporated
 
 Note: The crawler will check each spell's source information in the HTML to ensure it matches the specified source book.
+
+### Authentication with Session Cookies
+
+If you need to access content that requires authentication (e.g., content from books you own on D&D Beyond), you can provide session cookies:
+
+**Option 1: Raw browser format from command line**
+```bash
+# Just copy-paste cookies directly from your browser
+python3 spell_crawler.py --cookies-raw "ResponsiveSwitch.DesktopMode=1; CobaltSession=eyJ...; LoginState=c17..."
+```
+
+**Option 2: Raw browser format from file (recommended for long cookie strings)**
+```bash
+# Save your cookie string to a file and reference it
+# (see cookies.txt.example for format)
+echo "ResponsiveSwitch.DesktopMode=1; CobaltSession=eyJ...; LoginState=c17..." > cookies.txt
+python3 spell_crawler.py --cookies-raw-file cookies.txt
+```
+
+**Option 3: JSON string on command line**
+```bash
+python3 spell_crawler.py --cookies '{"CobaltSession": "your-session-cookie-value"}'
+```
+
+**Option 4: JSON file**
+```bash
+# Create a cookies.json file (see cookies.json.example for format)
+python3 spell_crawler.py --cookies-file cookies.json
+```
+
+**Cookie file format (cookies.json):**
+```json
+{
+  "CobaltSession": "your-session-cookie-value-here",
+  "other-cookie-name": "other-cookie-value-if-needed"
+}
+```
+
+To get your session cookies:
+1. Log into D&D Beyond in your browser
+2. Open browser DevTools (F12 or Right-click → Inspect)
+3. Go to the **Application** tab (Chrome/Edge) or **Storage** tab (Firefox)
+4. In the left sidebar, expand **Cookies** and click on `https://www.dndbeyond.com`
+5. You'll see all cookies listed. For raw format:
+   - Right-click on any cookie → "Show Requests With This Cookie"
+   - In the **Headers** section, find `Cookie:` and copy the entire value
+   - Or manually copy values from the cookie list
+
+**Tip:** The raw format is easiest - just copy the entire cookie string from the Headers tab and wrap it in quotes (or save to a file)!
+
+**Important:** Keep your cookies private and never commit them to version control. Both `cookies.json` and `cookies.txt` are already in `.gitignore`.
 
 ## Features
 

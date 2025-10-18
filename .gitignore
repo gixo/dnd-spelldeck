@@ -190,3 +190,6 @@ tex/printable.xdv
 crawler/spell_pages/*
 crawler/spell_pages/.*
 crawler/data/spells_parsed.json
+crawler/cookies.json
+crawler/cookies.txt
+cookies.txt

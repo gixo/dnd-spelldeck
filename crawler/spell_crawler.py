@@ -53,8 +53,8 @@ class SpellCrawler:
         # Popular expansions
         'xge': (27, "Xanathar's Guide to Everything"),
         'xanathars': (27, "Xanathar's Guide to Everything"),
-        'tce': (67, "Tasha's Cauldron of Everything"),
-        'tashas': (67, "Tasha's Cauldron of Everything"),
+        'tce': (67, "Tasha’s Cauldron of Everything"),
+        'tashas': (67, "Tasha’s Cauldron of Everything"),
         'ftod': (81, "Fizban's Treasury of Dragons"),
         'fizbans': (81, "Fizban's Treasury of Dragons"),
         'scag': (13, "Sword Coast Adventurer's Guide"),
@@ -110,7 +110,7 @@ class SpellCrawler:
     }
     
     def __init__(self, output_dir: str = "crawler/spell_pages", delay: float = 1.0, 
-                 source_filter: str = None):
+                 source_filter: str = None, cookies: dict = None):
         """
         Initialize the crawler.
         
@@ -118,6 +118,7 @@ class SpellCrawler:
             output_dir: Directory to save HTML files
             delay: Delay between requests in seconds (be respectful!)
             source_filter: Optional source book filter (e.g., 'phb', 'xge', 'tce')
+            cookies: Optional dictionary of cookies for authenticated requests
         """
         self.base_dir = Path(output_dir)
         self.base_dir.mkdir(exist_ok=True)
@@ -148,6 +149,10 @@ class SpellCrawler:
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
             'Accept-Language': 'en-US,en;q=0.5',
         })
+        
+        # Add cookies if provided
+        if cookies:
+            self.session.cookies.update(cookies)
     
     def _load_progress(self) -> tuple[Set[str], Set[str], List[str]]:
         """Load previously downloaded, skipped, and discovered URLs from progress file."""
@@ -491,6 +496,25 @@ class SpellCrawler:
         logger.info("="*50)
 
 
+def parse_raw_cookies(cookie_string: str) -> dict:
+    """
+    Parse raw browser cookie string into a dictionary.
+    
+    Args:
+        cookie_string: Cookie string in format "key1=value1; key2=value2"
+        
+    Returns:
+        Dictionary of cookie key-value pairs
+    """
+    cookies = {}
+    for item in cookie_string.split(';'):
+        item = item.strip()
+        if '=' in item:
+            key, value = item.split('=', 1)
+            cookies[key.strip()] = value.strip()
+    return cookies
+
+
 def main():
     """CLI entry point."""
     parser = argparse.ArgumentParser(
@@ -512,6 +536,18 @@ Examples:
   
   # Use custom output directory and faster rate
   python spell_crawler.py --output my_spells --delay 1.0
+  
+  # Use session cookies (raw browser format - easiest!)
+  python spell_crawler.py --cookies-raw "CobaltSession=eyJ...; LoginState=c17..."
+  
+  # Use raw cookies from a file (good for long cookie strings)
+  python spell_crawler.py --cookies-raw-file cookies.txt
+  
+  # Use session cookies (JSON format)
+  python spell_crawler.py --cookies '{"CobaltSession": "your-session-cookie"}'
+  
+  # Use cookies from a JSON file
+  python spell_crawler.py --cookies-file cookies.json
   
 Source book codes (common):
   Core rulebooks:
@@ -588,16 +624,81 @@ This is for personal/educational use only.
         help='Enable verbose logging'
     )
     
+    parser.add_argument(
+        '--cookies',
+        type=str,
+        help='Session cookies as JSON string (e.g., \'{"CobaltSession": "value"}\')'
+    )
+    
+    parser.add_argument(
+        '--cookies-raw',
+        type=str,
+        help='Session cookies in raw browser format (e.g., "cookie1=value1; cookie2=value2")'
+    )
+    
+    parser.add_argument(
+        '--cookies-file',
+        type=str,
+        help='Path to JSON file containing session cookies'
+    )
+    
+    parser.add_argument(
+        '--cookies-raw-file',
+        type=str,
+        help='Path to file containing raw browser format cookies'
+    )
+    
     args = parser.parse_args()
     
     if args.verbose:
         logging.getLogger().setLevel(logging.DEBUG)
     
+    # Parse cookies if provided
+    cookies = None
+    if args.cookies:
+        try:
+            cookies = json.loads(args.cookies)
+            logger.info(f"Loaded cookies from command line (JSON)")
+        except json.JSONDecodeError as e:
+            logger.error(f"Failed to parse cookies JSON: {e}")
+            return
+    elif args.cookies_raw:
+        try:
+            cookies = parse_raw_cookies(args.cookies_raw)
+            logger.info(f"Loaded {len(cookies)} cookies from raw format")
+        except Exception as e:
+            logger.error(f"Failed to parse raw cookies: {e}")
+            return
+    elif args.cookies_file:
+        try:
+            with open(args.cookies_file, 'r') as f:
+                cookies = json.load(f)
+            logger.info(f"Loaded cookies from file: {args.cookies_file}")
+        except FileNotFoundError:
+            logger.error(f"Cookies file not found: {args.cookies_file}")
+            return
+        except json.JSONDecodeError as e:
+            logger.error(f"Failed to parse cookies file: {e}")
+            return
+    elif args.cookies_raw_file:
+        try:
+            with open(args.cookies_raw_file, 'r') as f:
+                cookie_string = f.read().strip()
+            cookies = parse_raw_cookies(cookie_string)
+            logger.info(f"Loaded {len(cookies)} cookies from raw file: {args.cookies_raw_file}")
+        except FileNotFoundError:
+            logger.error(f"Cookies file not found: {args.cookies_raw_file}")
+            return
+        except Exception as e:
+            logger.error(f"Failed to parse raw cookies file: {e}")
+            return
+    
     # Create crawler and run
     crawler = SpellCrawler(
         output_dir=args.output, 
         delay=args.delay,
-        source_filter=args.source
+        source_filter=args.source,
+        cookies=cookies
     )
     crawler.crawl(max_spells=args.max_spells)
 
