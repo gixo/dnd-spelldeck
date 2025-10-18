@@ -16,6 +16,7 @@ Options:
     -l, --level LEVEL     Filter by level (can be used multiple times, supports ranges like 1-3)
     -s, --school SCHOOL   Filter by school (can be used multiple times)
     -n, --name NAME       Filter by spell name (can be used multiple times)
+    --sort-by {name,level} Sort spells by name (default) or by level (then by name)
     -o, --output DIR      Output directory (default: pdf/)
     --clean               Clean up intermediate files after generation
     --no-compile          Skip LaTeX compilation (only generate spells.tex)
@@ -156,6 +157,9 @@ def generate_spells_tex(args):
         for name in args.names:
             cmd_parts.extend(['-n', name])
     
+    if args.sort_by:
+        cmd_parts.extend(['--sort-by', args.sort_by])
+    
     # Run the command and redirect output to spells.tex in tex/ directory
     # Quote each argument to be safe for the shell
     cmd = ' '.join(shlex.quote(part) for part in cmd_parts)
@@ -283,6 +287,9 @@ Examples:
   # Generate and clean up intermediate files
   python3 generate_cards.py --clean
 
+  # Generate spells sorted by level
+  python3 generate_cards.py --sort-by level
+
   # Skip LaTeX compilation (only generate spells.tex)
   python3 generate_cards.py --no-compile
         """
@@ -304,6 +311,10 @@ Examples:
     parser.add_argument(
         "-n", "--name", type=str, action='append', dest='names',
         help="select spells with one of several given names"
+    )
+    parser.add_argument(
+        "--sort-by", type=str, choices=['name', 'level'], default='name',
+        help="sort spells by name (default) or by level (then by name)"
     )
     
     # Output options

@@ -112,13 +112,19 @@ def print_spell(name, level, school, range, time, ritual, duration, components,
          kwargs.get('attack_save', 'None'), kwargs.get('damage_effect', 'None'), formatted_text))
 
 
-def get_spells(classes=None, levels=None, schools=None, names=None):
+def get_spells(classes=None, levels=None, schools=None, names=None, sort_by='name'):
     classes = {i.lower() for i in classes} if classes is not None else None
     schools = {i.lower() for i in schools} if schools is not None else None
     names = {i.lower() for i in names} if names is not None else None
 
+    # Determine the sort key based on the sort_by parameter
+    if sort_by == 'level':
+        sort_key = lambda x: (x[1]['level'], x[0])  # Sort by level, then by name
+    else:
+        sort_key = lambda x: x[0]  # Sort by name only
+
     return [
-        (name, spell) for name, spell in sorted(SPELLS.items(), key=lambda x: x[0]) if
+        (name, spell) for name, spell in sorted(SPELLS.items(), key=sort_key) if
         (classes is None or len(classes & {i.lower() for i in spell['classes']}) > 0) and
         (schools is None or spell['school'].lower() in schools) and
         (levels is None or spell['level'] in levels) and
@@ -160,9 +166,13 @@ if __name__ == '__main__':
         "-n", "--name", type=str, action='append', dest='names',
         help="select spells with one of several given names."
     )
+    parser.add_argument(
+        "--sort-by", type=str, choices=['name', 'level'], default='name',
+        help="sort spells by name (default) or by level (then by name)."
+    )
     args = parser.parse_args()
 
-    for name, spell in get_spells(args.classes, parse_levels(args.levels), args.schools, args.names):
+    for name, spell in get_spells(args.classes, parse_levels(args.levels), args.schools, args.names, args.sort_by):
         print_spell(name, **spell)
 
     print('Had to truncate %d out of %d spells at %d characters.' % (SPELLS_TRUNCATED, SPELLS_TOTAL, MAX_TEXT_LENGTH), file=sys.stderr)

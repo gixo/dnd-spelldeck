@@ -45,6 +45,12 @@ examples of this:
     # This outputs all warlock spells of levels 0 through 3
     $ ./generate.py -c warlock -l 0-3 > tex/spells.tex
 
+    # Sort spells by level (then by name) instead of alphabetically
+    $ ./generate.py --sort-by level > tex/spells.tex
+
+    # Combine filters and sort by level
+    $ ./generate.py -c wizard -l 1-3 --sort-by level > tex/spells.tex
+
 After this is finished, use your favourite LaTeX compiler to first compile
 `cards.tex` which will produce a 8.89x6.35cm page for every spell (same size as
 a Magic: The Gathering card so your sleeves will work!). Then, compile
@@ -65,6 +71,9 @@ For a simpler workflow, use the `generate_cards.py` script which handles everyth
     # Generate only wizard spells of levels 1-3
     $ python3 generate_cards.py -c wizard -l 1-3
 
+    # Generate spells sorted by level instead of alphabetically
+    $ python3 generate_cards.py --sort-by level
+
     # Generate and clean up intermediate files
     $ python3 generate_cards.py --clean
 
@@ -72,6 +81,10 @@ This script automatically:
 1. Generates the spell LaTeX file
 2. Compiles both `cards.tex` and `printable.tex`
 3. Moves the final PDFs to the `pdf/` directory
+
+**Sorting Options:**
+- `--sort-by name` (default): Sorts spells alphabetically by name
+- `--sort-by level`: Sorts spells by level first, then alphabetically within each level
 
 ### Exporting Individual Cards as Images
 

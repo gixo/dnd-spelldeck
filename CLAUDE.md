@@ -20,6 +20,7 @@ This is a D&D spell card generator that creates printable spell cards from D&D 5
 ### Key Features
 
 - **Spell Filtering**: By class, level, school, or name
+- **Spell Sorting**: By name (alphabetically) or by level (grouped by level, then alphabetically)
 - **Text Truncation**: Automatically truncates long spell descriptions to fit cards (MAX_TEXT_LENGTH = 670)
 - **Area Effect Icons**: Displays cube/emanation icons for spells with area effects
 - **Concentration Indicators**: Visual indicators for concentration spells
@@ -37,6 +38,12 @@ python3 generate_cards.py -c wizard -c sorcerer
 
 # Generate specific levels (supports ranges)
 python3 generate_cards.py -l 1-3
+
+# Sort spells by level (default is alphabetical by name)
+python3 generate_cards.py --sort-by level
+
+# Combine filters and sorting
+python3 generate_cards.py -c wizard -l 1-3 --sort-by level
 
 # Generate and clean up intermediate files
 python3 generate_cards.py --clean

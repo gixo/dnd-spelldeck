@@ -4657,7 +4657,7 @@
         "source": "Player’s Handbook",
         "source_page": 292
     },
-    "Locate Animals or Plants": {
+    "Locate Animals Plants": {
         "level": 2,
         "ritual": true,
         "time": "1 action",
@@ -6224,7 +6224,7 @@
         "source": "Player’s Handbook",
         "source_page": 309
     },
-    "Protection from Evil and Good": {
+    "Protection Evil Good": {
         "level": 1,
         "ritual": false,
         "time": "1 action",
