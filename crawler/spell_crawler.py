@@ -34,24 +34,79 @@ class SpellCrawler:
     BASE_URL = "https://www.dndbeyond.com"
     SPELLS_URL = "https://www.dndbeyond.com/spells"
     
-    # Source book filter mapping (common sources)
+    # Source book filter mapping: shorthand -> (numeric_id, full_name)
+    # Numeric IDs match the filter-source select options on dndbeyond.com
     SOURCE_FILTERS = {
-        'phb': 'Player’s Handbook',
-        'players-handbook': 'Player\'s Handbook',
-        'xge': 'Xanathar\'s Guide to Everything',
-        'xanathars': 'Xanathar\'s Guide to Everything',
-        'tce': 'Tasha\'s Cauldron of Everything',
-        'tashas': 'Tasha\'s Cauldron of Everything',
-        'scag': 'Sword Coast Adventurer\'s Guide',
-        'eepc': 'Elemental Evil Player\'s Companion',
-        'ftod': 'Fizban\'s Treasury of Dragons',
-        'fizbans': 'Fizban\'s Treasury of Dragons',
-        'basic': 'Basic Rules',
-        'basic-rules': 'Basic Rules',
-        'dmg': 'Dungeon Master\'s Guide',
-        'explorers-guide': 'Explorer\'s Guide to Wildemount',
-        'ggtr': 'Guildmasters\' Guide to Ravnica',
-        'ai': 'Acquisitions Incorporated',
+        # Core rulebooks
+        'phb': (2, "Player's Handbook (2014)"),
+        'players-handbook': (2, "Player's Handbook (2014)"),
+        'phb-2024': (145, "Player's Handbook"),
+        'dmg': (3, "Dungeon Master's Guide (2014)"),
+        'dmg-2024': (146, "Dungeon Master's Guide"),
+        'mm': (5, "Monster Manual (2014)"),
+        'monster-manual': (5, "Monster Manual (2014)"),
+        'mm-2024': (147, "Monster Manual"),
+        'basic': (1, "Basic Rules (2014)"),
+        'basic-rules': (1, "Basic Rules (2014)"),
+        'basic-2024': (148, "D&D Beyond Basic Rules"),
+        
+        # Popular expansions
+        'xge': (27, "Xanathar's Guide to Everything"),
+        'xanathars': (27, "Xanathar's Guide to Everything"),
+        'tce': (67, "Tasha's Cauldron of Everything"),
+        'tashas': (67, "Tasha's Cauldron of Everything"),
+        'ftod': (81, "Fizban's Treasury of Dragons"),
+        'fizbans': (81, "Fizban's Treasury of Dragons"),
+        'scag': (13, "Sword Coast Adventurer's Guide"),
+        'eepc': (4, "Elemental Evil Player's Companion"),
+        'vgtm': (15, "Volo's Guide to Monsters"),
+        'volos': (15, "Volo's Guide to Monsters"),
+        'mtof': (33, "Mordenkainen's Tome of Foes"),
+        'mordenkainens': (33, "Mordenkainen's Tome of Foes"),
+        'mpmm': (85, "Mordenkainen Presents: Monsters of the Multiverse"),
+        
+        # Campaign settings
+        'ggtr': (38, "Guildmasters' Guide to Ravnica"),
+        'ravnica': (38, "Guildmasters' Guide to Ravnica"),
+        'egtw': (59, "Explorer's Guide to Wildemount"),
+        'explorers-guide': (59, "Explorer's Guide to Wildemount"),
+        'wildemount': (59, "Explorer's Guide to Wildemount"),
+        'mot': (61, "Mythic Odysseys of Theros"),
+        'theros': (61, "Mythic Odysseys of Theros"),
+        'erlw': (49, "Eberron: Rising from the Last War"),
+        'eberron': (49, "Eberron: Rising from the Last War"),
+        'scc': (80, "Strixhaven: A Curriculum of Chaos"),
+        'strixhaven': (80, "Strixhaven: A Curriculum of Chaos"),
+        'vrgtr': (69, "Van Richten's Guide to Ravenloft"),
+        'ravenloft': (69, "Van Richten's Guide to Ravenloft"),
+        'tcsr': (123, "Tal'Dorei Campaign Setting Reborn"),
+        'taldorei': (123, "Tal'Dorei Campaign Setting Reborn"),
+        
+        # Adventures with spells
+        'ai': (44, "Acquisitions Incorporated"),
+        'acquisitions': (44, "Acquisitions Incorporated"),
+        'bgdia': (48, "Baldur's Gate: Descent into Avernus"),
+        'idrotf': (66, "Icewind Dale: Rime of the Frostmaiden"),
+        'cos': (6, "Curse of Strahd"),
+        'wbtw': (79, "The Wild Beyond the Witchlight"),
+        'sato': (90, "Spelljammer: Adventures in Space"),
+        'spelljammer': (90, "Spelljammer: Adventures in Space"),
+        'jttrc': (87, "Journeys through the Radiant Citadel"),
+        'dsotdq': (95, "Dragonlance: Shadow of the Dragon Queen"),
+        'dragonlance': (95, "Dragonlance: Shadow of the Dragon Queen"),
+        'kftgv': (103, "Keys from the Golden Vault"),
+        'bgpgg': (110, "Bigby Presents: Glory of the Giants"),
+        'pbtso': (113, "Phandelver and Below: The Shattered Obelisk"),
+        'paitm': (114, "Planescape: Adventures in the Multiverse"),
+        'planescape': (114, "Planescape: Adventures in the Multiverse"),
+        'tbmt': (109, "The Book of Many Things"),
+        'qftis': (137, "Quests from the Infinite Staircase"),
+        'veor': (132, "Vecna: Eve of Ruin"),
+        
+        # Third-party content
+        'humblewood': (133, "Humblewood Campaign Setting"),
+        'dod': (131, "Dungeons of Drakkenheim"),
+        'drakkenheim': (131, "Dungeons of Drakkenheim"),
     }
     
     def __init__(self, output_dir: str = "crawler/spell_pages", delay: float = 1.0, 
@@ -166,12 +221,14 @@ class SpellCrawler:
         if page > 1:
             params.append(f"page={page}")
         
-        # Note: D&D Beyond's actual filter parameters may differ
-        # The site likely uses POST requests or JavaScript for filtering
-        # This is a basic implementation that may need adjustment
+        # Add source filter using numeric ID
         if self.source_filter:
-            # Try to add source filter (actual parameter name may vary)
-            params.append(f"filter-source={self.source_filter}")
+            source_data = self.SOURCE_FILTERS.get(self.source_filter.lower())
+            if source_data:
+                source_id = source_data[0]  # Extract numeric ID
+                params.append(f"filter-source={source_id}")
+            else:
+                logger.warning(f"Unknown source filter: {self.source_filter}")
         
         if params:
             return f"{base_url}?{'&'.join(params)}"
@@ -191,7 +248,12 @@ class SpellCrawler:
             return True
         
         # Get the friendly name for the source filter
-        source_name = self.SOURCE_FILTERS.get(self.source_filter.lower(), self.source_filter)
+        source_data = self.SOURCE_FILTERS.get(self.source_filter.lower())
+        if not source_data:
+            logger.warning(f"Unknown source filter: {self.source_filter}")
+            return False
+        
+        source_name = source_data[1]  # Extract friendly name
         
         # Parse HTML and look specifically at the spell-source tag
         soup = BeautifulSoup(spell_html, 'html.parser')
@@ -217,8 +279,13 @@ class SpellCrawler:
             List of spell URLs
         """
         if self.source_filter:
-            source_name = self.SOURCE_FILTERS.get(self.source_filter.lower(), self.source_filter)
-            logger.info(f"Fetching spell list (filtering by source: {source_name})...")
+            source_data = self.SOURCE_FILTERS.get(self.source_filter.lower())
+            if source_data:
+                source_name = source_data[1]  # Extract friendly name
+                logger.info(f"Fetching spell list (filtering by source: {source_name})...")
+            else:
+                logger.warning(f"Unknown source filter: {self.source_filter}")
+                logger.info("Fetching spell list from main page...")
         else:
             logger.info("Fetching spell list from main page...")
         
@@ -329,7 +396,8 @@ class SpellCrawler:
                     logger.info(f"Saved to other sources: {other_filepath}")
                 else:
                     # If no other_sources_dir, track as skipped (shouldn't happen)
-                    source_name = self.SOURCE_FILTERS.get(self.source_filter.lower(), self.source_filter)
+                    source_data = self.SOURCE_FILTERS.get(self.source_filter.lower())
+                    source_name = source_data[1] if source_data else self.source_filter
                     logger.info(f"Skipping (not from {source_name}): {url}")
                     self.skipped_urls.add(url)
                     self._save_progress()
@@ -445,16 +513,36 @@ Examples:
   # Use custom output directory and faster rate
   python spell_crawler.py --output my_spells --delay 1.0
   
-Source book codes:
-  phb, players-handbook    - Player's Handbook
-  xge, xanathars          - Xanathar's Guide to Everything
-  tce, tashas             - Tasha's Cauldron of Everything
-  scag                    - Sword Coast Adventurer's Guide
-  eepc                    - Elemental Evil Player's Companion
-  ftod, fizbans           - Fizban's Treasury of Dragons
-  basic, basic-rules      - Basic Rules
-  dmg                     - Dungeon Master's Guide
-  (See SOURCE_FILTERS in code for full list)
+Source book codes (common):
+  Core rulebooks:
+    phb, players-handbook  - Player's Handbook (2014)
+    phb-2024              - Player's Handbook (2024)
+    dmg                   - Dungeon Master's Guide (2014)
+    dmg-2024              - Dungeon Master's Guide (2024)
+    mm, monster-manual    - Monster Manual (2014)
+    mm-2024               - Monster Manual (2024)
+    basic, basic-rules    - Basic Rules (2014)
+    basic-2024            - D&D Beyond Basic Rules (2024)
+  
+  Popular expansions:
+    xge, xanathars        - Xanathar's Guide to Everything
+    tce, tashas           - Tasha's Cauldron of Everything
+    ftod, fizbans         - Fizban's Treasury of Dragons
+    scag                  - Sword Coast Adventurer's Guide
+    eepc                  - Elemental Evil Player's Companion
+    vgtm, volos           - Volo's Guide to Monsters
+    mtof, mordenkainens   - Mordenkainen's Tome of Foes
+    mpmm                  - Mordenkainen Presents: Monsters of the Multiverse
+  
+  Campaign settings:
+    ggtr, ravnica         - Guildmasters' Guide to Ravnica
+    egtw, wildemount      - Explorer's Guide to Wildemount
+    mot, theros           - Mythic Odysseys of Theros
+    erlw, eberron         - Eberron: Rising from the Last War
+    scc, strixhaven       - Strixhaven: A Curriculum of Chaos
+    vrgtr, ravenloft      - Van Richten's Guide to Ravenloft
+  
+  (See SOURCE_FILTERS in code for complete list including adventures)
 
 Directory structure:
   Without --source filter:
