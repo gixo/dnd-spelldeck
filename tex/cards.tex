@@ -5,7 +5,7 @@
 \usepackage{graphicx}
 \usepackage{svg}
 \usepackage{xstring}
-\usepackage[paperheight=8.89cm,paperwidth=6.35cm,margin=0.3cm,top=20mm,bottom=0mm,headheight=25mm]{geometry}
+\usepackage[paperheight=8.89cm,paperwidth=6.35cm,margin=0.3cm,top=12mm,bottom=0mm,headheight=5mm]{geometry}
 
 % Debug packages - comment out when not needed
  %\usepackage{showframe}  % Shows page margins and frames
@@ -65,7 +65,8 @@
 \setlength{\headsep}{0mm}  % Space between header and main content
 \setlength{\footskip}{5mm}  % Distance from bottom of text to baseline of footer
 \pagestyle{fancy}
-\chead{\scriptsize{\spellheader}\\[-1.8mm]\Large\color{headercolor}\fauxsc{\spelltitle}\ifnum\pdfstrcmp{\concentration}{CONCENTRATION}=0\hspace{1mm}\includesvg[width=0.2cm, height=0.2cm, keepaspectratio]{../images/concentration}\fi\ifnum\pdfstrcmp{\ritualcastflag}{RITUAL}=0\hspace{1mm}\includesvg[width=0.2cm, height=0.2cm, keepaspectratio]{../images/ritual}\fi}
+\renewcommand{\headrulewidth}{0pt}
+\chead{}
 \cfoot{\if\relax\spellsource\relax\else\scriptsize\color{headercolor}\itshape\spellsource\fi}
 \setlength{\parindent}{0pt}
 
@@ -124,9 +125,25 @@
     \StrBehind{\duration}{|}[\concentrationflag]
     \def\concentration{\concentrationflag}
 
-    \begin{minipage}[t][5.7cm][t]{\textwidth}  % Main content height
+    \begin{minipage}{\textwidth}  
+        \centering
+
+        \scriptsize{\spellheader}
+
+        \vspace{-0.55em}
+        
+        \Large\color{headercolor}\fauxsc{\spelltitle}\ifnum\pdfstrcmp{\concentration}{CONCENTRATION}=0~\includesvg[width=0.25cm, height=0.25cm, keepaspectratio]{../images/concentration}\fi\ifnum\pdfstrcmp{\ritualcastflag}{RITUAL}=0~\includesvg[width=0.25cm, height=0.25cm, keepaspectratio]{../images/ritual}\fi
+        
+        \vspace{0.5em}
+
+        \hrule
+
+        \vspace{0.5em}
+
+    \end{minipage}
+
+    \begin{minipage}[t][3cm][t]{\textwidth}  % Main content height
         \setlength{\parskip}{0.5em}%
-        \vspace{-0.2em}
         % Spell attributes section
         \begin{minipage}[t]{\textwidth}
             \begin{minipage}[t]{0.32\textwidth}
