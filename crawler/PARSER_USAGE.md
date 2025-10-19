@@ -122,11 +122,10 @@ python3 crawler/spell_parser.py --input /absolute/path/to/spells --output /absol
 
 ### Merge with Existing Data
 ```bash
-# Merge and output directly to project's main spells.json
-python3 crawler/spell_parser.py --output ../data/spells.json
-
 # Merge with existing and save to new file
-python3 crawler/spell_parser.py --merge ../data/spells_old.json --output ../data/spells.json
+python3 crawler/spell_parser.py --merge ../data/spells_old.json --output ../data/spells_new.json
+
+python3 crawler/spell_parser.py --input spell_pages/all_spells  -m ../data/spells_expanded.json --output ../data/spells.json
 ```
 
 ### Debug Parsing Issues
@@ -193,7 +192,7 @@ python3 generate_cards.py
    python3 crawler/spell_parser.py --output data/spells.json
    ```
 
-5. **Generate cards:**
+5. **Generate cards:** 
    ```bash
    python3 generate_cards.py
    ```

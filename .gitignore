@@ -193,3 +193,4 @@ crawler/data/spells_parsed.json
 crawler/cookies.json
 crawler/cookies.txt
 cookies.txt
+data/spells_expanded.json
