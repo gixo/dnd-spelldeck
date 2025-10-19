@@ -125,6 +125,10 @@ class SpellCrawler:
         self.delay = delay
         self.source_filter = source_filter
         
+        # Create subdirectory for inaccessible spells
+        self.unaccessible_dir = self.base_dir / "unaccessible"
+        self.unaccessible_dir.mkdir(exist_ok=True)
+        
         # Create subdirectories for filtered sources
         if source_filter:
             self.output_dir = self.base_dir / "in_source"
@@ -238,6 +242,20 @@ class SpellCrawler:
         if params:
             return f"{base_url}?{'&'.join(params)}"
         return base_url
+    
+    def _is_spell_accessible(self, spell_html: str) -> bool:
+        """
+        Check if a spell is accessible by looking for the spell-source element.
+        
+        Args:
+            spell_html: HTML content of spell page
+            
+        Returns:
+            True if spell has a spell-source element, False otherwise
+        """
+        soup = BeautifulSoup(spell_html, 'html.parser')
+        source_elem = soup.find('p', class_='spell-source')
+        return source_elem is not None
     
     def _should_include_spell(self, spell_html: str) -> bool:
         """
@@ -373,8 +391,9 @@ class SpellCrawler:
             filename = self._sanitize_filename(spell_slug) + '.html'
             filepath = self.output_dir / filename
             other_filepath = self.other_sources_dir / filename if self.other_sources_dir else None
+            unaccessible_filepath = self.unaccessible_dir / filename
             
-            # Check if file already exists in either directory
+            # Check if file already exists in any directory
             if filepath.exists():
                 logger.info(f"File already exists, skipping: {filepath.name}")
                 # Mark as downloaded in progress tracker
@@ -389,8 +408,26 @@ class SpellCrawler:
                 self._save_progress()
                 return True
             
+            if unaccessible_filepath.exists():
+                logger.info(f"File already exists in unaccessible, skipping: {unaccessible_filepath.name}")
+                # Mark as downloaded in progress tracker
+                self.downloaded_urls.add(url)
+                self._save_progress()
+                return True
+            
             logger.info(f"Downloading: {url}")
             response = self._get_page(url)
+            
+            # Check if spell is accessible (has spell-source element)
+            if not self._is_spell_accessible(response.text):
+                # Save to unaccessible directory
+                with open(unaccessible_filepath, 'w', encoding='utf-8') as f:
+                    f.write(response.text)
+                logger.info(f"Saved to unaccessible (no spell-source): {unaccessible_filepath}")
+                # Mark as downloaded
+                self.downloaded_urls.add(url)
+                self._save_progress()
+                return True
             
             # Apply source filter if specified
             if self.source_filter and not self._should_include_spell(response.text):
@@ -435,6 +472,7 @@ class SpellCrawler:
         if self.source_filter:
             logger.info(f"  In-source spells → {self.output_dir.name}/")
             logger.info(f"  Other spells → {self.other_sources_dir.name}/")
+        logger.info(f"  Inaccessible spells → {self.unaccessible_dir.name}/")
         logger.info(f"Rate limit delay: {self.delay} seconds")
         
         # Get all spell links (from cache or by crawling)
@@ -479,16 +517,20 @@ class SpellCrawler:
         logger.info(f"Failed: {failed}")
         
         # Count files in each directory
+        unaccessible_count = len(list(self.unaccessible_dir.glob("*.html")))
+        
         if self.source_filter:
             in_source_count = len(list(self.output_dir.glob("*.html")))
             not_in_source_count = len(list(self.other_sources_dir.glob("*.html")))
             logger.info(f"\nBase directory: {self.base_dir.absolute()}")
             logger.info(f"  {self.output_dir.name}/: {in_source_count} spells")
             logger.info(f"  {self.other_sources_dir.name}/: {not_in_source_count} spells")
+            logger.info(f"  {self.unaccessible_dir.name}/: {unaccessible_count} spells")
         else:
             total_count = len(list(self.output_dir.glob("*.html")))
             logger.info(f"\nTotal spells saved: {total_count}")
             logger.info(f"  Location: {self.output_dir.absolute()}")
+            logger.info(f"  {self.unaccessible_dir.name}/: {unaccessible_count} spells")
         
         if self.skipped_urls:
             logger.info(f"\nSkipped (failed to download): {len(self.skipped_urls)}")
@@ -582,11 +624,16 @@ Source book codes (common):
 
 Directory structure:
   Without --source filter:
-    All spells saved to: <output_dir>/
+    Accessible spells     → <output_dir>/
+    Inaccessible spells   → <output_dir>/unaccessible/
   
   With --source filter (e.g., --source phb):
-    Matching spells → <output_dir>/in_source/
-    Other spells    → <output_dir>/not_in_source/
+    Matching spells       → <output_dir>/in_source/
+    Other spells          → <output_dir>/not_in_source/
+    Inaccessible spells   → <output_dir>/unaccessible/
+  
+  Note: Inaccessible spells are those without a 'spell-source' element,
+        typically indicating content you don't have access to.
   
 IMPORTANT: Please respect D&D Beyond's Terms of Service.
 This is for personal/educational use only.
