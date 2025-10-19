@@ -10,6 +10,19 @@ echo "Command: python3 spell_crawler.py --max-spells 5 --delay 2.0"
 echo ""
 # python3 spell_crawler.py --max-spells 5 --delay 2.0
 
+# Alternative examples:
+# Download only Core Rules spells:
+# python3 spell_crawler.py --category core-rules --max-spells 10
+
+# Download Core Rules and Expanded Rules spells:
+# python3 spell_crawler.py -c core-rules -c expanded-rules --max-spells 10
+
+# Download PHB spells from Core Rules category:
+# python3 spell_crawler.py --source phb --category core-rules --max-spells 10
+
+# Download all Critical Role spells:
+# python3 spell_crawler.py --category critical-role
+
 # Step 2: Parse the downloaded HTML files
 echo "Step 2: Parsing downloaded HTML files..."
 echo "Command: python3 spell_parser.py"

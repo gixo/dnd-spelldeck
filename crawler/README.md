@@ -45,6 +45,7 @@ python3 spell_crawler.py --output my_spells --delay 3.0
 - `--delay`, `-d`: Delay between requests in seconds (default: `2.0`)
 - `--max-spells`, `-m`: Maximum number of spells to download
 - `--source`, `-s`: Filter by source book (e.g., `phb`, `xge`, `tce`)
+- `--category`, `-c`: Filter by source category (can be used multiple times, e.g., `core-rules`, `expanded-rules`)
 - `--cookies-raw`: Session cookies in raw browser format (easiest method)
 - `--cookies-raw-file`: Path to file containing raw browser format cookies
 - `--cookies`: Session cookies as JSON string for authenticated access
@@ -80,6 +81,56 @@ python3 spell_crawler.py --source tce
 - `ai` - Acquisitions Incorporated
 
 Note: The crawler will check each spell's source information in the HTML to ensure it matches the specified source book.
+
+### Source Category Filtering
+
+You can filter spells by source category using the `--category` flag. This is useful for filtering by content type (e.g., Core Rules vs. Third-party content). You can specify multiple categories:
+
+```bash
+# Download only Core Rules spells
+python3 spell_crawler.py --category core-rules
+
+# Download both Core Rules and Expanded Rules spells
+python3 spell_crawler.py --category core-rules --category expanded-rules
+
+# Short form also works
+python3 spell_crawler.py -c core -c expanded
+
+# Combine with source book filtering
+python3 spell_crawler.py --source phb --category core-rules
+```
+
+**Available Category Codes:**
+
+**Core Categories:**
+- `core`, `core-rules` - Core Rules (2024)
+- `expanded`, `expanded-rules` - Expanded Rules (2024)
+- `2014-core`, `2014-core-rules` - 2014 Core Rules
+- `legacy`, `legacy-noncore` - Legacy/Noncore
+
+**Third-party Publishers:**
+- `cr`, `critical-role` - Critical Role
+- `drakkenheim` - Drakkenheim
+- `humblewood` - Humblewood
+- `grim-hollow` - Grim Hollow
+- `kobold-press` - Kobold Press
+- `mcdm` - MCDM
+- `free-league` - Free League
+- `griffon`, `griffons-saddlebag` - The Griffon's Saddlebag
+- `1985-games` - 1985 Games
+- `ithaka`, `road-to-ithaka` - Road to Ithaka Press
+- `avantris` - Avantris Entertainment
+- `loot-tavern` - Loot Tavern
+- `mage-hand-press` - Mage Hand Press
+- `roll-play-press` - Roll & Play Press
+- `chaosium` - Chaosium
+- `paizo` - Paizo
+
+**Other:**
+- `minecraft` - Minecraft
+- `rick-and-morty` - Rick and Morty
+
+Note: Categories can be combined with source book filters, and multiple categories will return spells that match ANY of the specified categories.
 
 ### Authentication with Session Cookies
 

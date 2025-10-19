@@ -34,6 +34,40 @@ class SpellCrawler:
     BASE_URL = "https://www.dndbeyond.com"
     SPELLS_URL = "https://www.dndbeyond.com/spells"
     
+    # Source category filter mapping: shorthand -> (numeric_id, full_name)
+    # Numeric IDs match the filter-source-category select options on dndbeyond.com
+    CATEGORY_FILTERS = {
+        'core-rules': (24, "Core Rules"),
+        'core': (24, "Core Rules"),
+        'expanded-rules': (1, "Expanded Rules"),
+        'expanded': (1, "Expanded Rules"),
+        '2014-core-rules': (26, "2014 Core Rules"),
+        '2014-core': (26, "2014 Core Rules"),
+        'legacy-noncore': (23, "Legacy/Noncore"),
+        'legacy': (23, "Legacy/Noncore"),
+        'critical-role': (2, "Critical Role"),
+        'cr': (2, "Critical Role"),
+        'drakkenheim': (19, "Drakkenheim"),
+        'humblewood': (20, "Humblewood"),
+        'grim-hollow': (18, "Grim Hollow"),
+        'kobold-press': (21, "Kobold Press"),
+        'mcdm': (22, "MCDM"),
+        'free-league': (25, "Free League"),
+        'griffons-saddlebag': (27, "The Griffon's Saddlebag"),
+        'griffon': (27, "The Griffon's Saddlebag"),
+        '1985-games': (29, "1985 Games"),
+        'road-to-ithaka': (30, "Road to Ithaka Press"),
+        'ithaka': (30, "Road to Ithaka Press"),
+        'avantris': (34, "Avantris Entertainment"),
+        'loot-tavern': (31, "Loot Tavern"),
+        'mage-hand-press': (32, "Mage Hand Press"),
+        'roll-play-press': (33, "Roll & Play Press"),
+        'chaosium': (36, "Chaosium"),
+        'paizo': (37, "Paizo"),
+        'minecraft': (15, "Minecraft"),
+        'rick-and-morty': (10, "Rick and Morty"),
+    }
+    
     # Source book filter mapping: shorthand -> (numeric_id, full_name)
     # Numeric IDs match the filter-source select options on dndbeyond.com
     SOURCE_FILTERS = {
@@ -110,7 +144,8 @@ class SpellCrawler:
     }
     
     def __init__(self, output_dir: str = "crawler/spell_pages", delay: float = 1.0, 
-                 source_filter: str = None, cookies: dict = None):
+                 source_filter: str = None, category_filters: List[str] = None, 
+                 cookies: dict = None):
         """
         Initialize the crawler.
         
@@ -118,12 +153,14 @@ class SpellCrawler:
             output_dir: Directory to save HTML files
             delay: Delay between requests in seconds (be respectful!)
             source_filter: Optional source book filter (e.g., 'phb', 'xge', 'tce')
+            category_filters: Optional list of category filters (e.g., ['core-rules', 'expanded-rules'])
             cookies: Optional dictionary of cookies for authenticated requests
         """
         self.base_dir = Path(output_dir)
         self.base_dir.mkdir(exist_ok=True)
         self.delay = delay
         self.source_filter = source_filter
+        self.category_filters = category_filters or []
         
         # Create subdirectory for inaccessible spells
         self.unaccessible_dir = self.base_dir / "unaccessible"
@@ -239,6 +276,16 @@ class SpellCrawler:
             else:
                 logger.warning(f"Unknown source filter: {self.source_filter}")
         
+        # Add category filters using numeric IDs (can have multiple)
+        if self.category_filters:
+            for category_filter in self.category_filters:
+                category_data = self.CATEGORY_FILTERS.get(category_filter.lower())
+                if category_data:
+                    category_id = category_data[0]  # Extract numeric ID
+                    params.append(f"filter-source-category={category_id}")
+                else:
+                    logger.warning(f"Unknown category filter: {category_filter}")
+        
         if params:
             return f"{base_url}?{'&'.join(params)}"
         return base_url
@@ -301,16 +348,31 @@ class SpellCrawler:
         Returns:
             List of spell URLs
         """
+        # Build log message for filters
+        filter_msg = "Fetching spell list"
+        filters_applied = []
+        
         if self.source_filter:
             source_data = self.SOURCE_FILTERS.get(self.source_filter.lower())
             if source_data:
                 source_name = source_data[1]  # Extract friendly name
-                logger.info(f"Fetching spell list (filtering by source: {source_name})...")
+                filters_applied.append(f"source: {source_name}")
             else:
                 logger.warning(f"Unknown source filter: {self.source_filter}")
-                logger.info("Fetching spell list from main page...")
-        else:
-            logger.info("Fetching spell list from main page...")
+        
+        if self.category_filters:
+            category_names = []
+            for cat_filter in self.category_filters:
+                category_data = self.CATEGORY_FILTERS.get(cat_filter.lower())
+                if category_data:
+                    category_names.append(category_data[1])
+            if category_names:
+                filters_applied.append(f"categories: {', '.join(category_names)}")
+        
+        if filters_applied:
+            filter_msg += f" (filtering by {' and '.join(filters_applied)})"
+        
+        logger.info(filter_msg + "...")
         
         spell_links = []
         page = 1
@@ -346,7 +408,7 @@ class SpellCrawler:
                 logger.info(f"Page {page}: Found {len(unique_new)} new spell links (total: {len(spell_links)})")
                 
                 # Check if there's a next page button
-                next_button = soup.select_one('a[href*="page="]')
+                next_button = soup.select_one('li.b-pagination-item-next a')
                 if not next_button or page > 50:  # Safety limit
                     break
                     
@@ -475,6 +537,19 @@ class SpellCrawler:
         logger.info(f"  Inaccessible spells → {self.unaccessible_dir.name}/")
         logger.info(f"Rate limit delay: {self.delay} seconds")
         
+        # Log active filters
+        if self.source_filter or self.category_filters:
+            logger.info("Active filters:")
+            if self.source_filter:
+                source_data = self.SOURCE_FILTERS.get(self.source_filter.lower())
+                if source_data:
+                    logger.info(f"  Source: {source_data[1]}")
+            if self.category_filters:
+                for cat_filter in self.category_filters:
+                    category_data = self.CATEGORY_FILTERS.get(cat_filter.lower())
+                    if category_data:
+                        logger.info(f"  Category: {category_data[1]}")
+        
         # Get all spell links (from cache or by crawling)
         if self.all_spell_urls:
             logger.info(f"Using {len(self.all_spell_urls)} cached spell URLs from progress file")
@@ -576,6 +651,15 @@ Examples:
   # Download Xanathar's Guide spells
   python spell_crawler.py --source xge
   
+  # Download spells from Core Rules category
+  python spell_crawler.py --category core-rules
+  
+  # Download spells from multiple categories (Core Rules AND Expanded Rules)
+  python spell_crawler.py --category core-rules --category expanded-rules
+  
+  # Combine source and category filters
+  python spell_crawler.py --source phb --category core-rules
+  
   # Use custom output directory and faster rate
   python spell_crawler.py --output my_spells --delay 1.0
   
@@ -622,6 +706,35 @@ Source book codes (common):
   
   (See SOURCE_FILTERS in code for complete list including adventures)
 
+Source category codes:
+  Core categories:
+    core, core-rules           - Core Rules (2024)
+    expanded, expanded-rules   - Expanded Rules (2024)
+    2014-core, 2014-core-rules - 2014 Core Rules
+    legacy, legacy-noncore     - Legacy/Noncore
+  
+  Third-party publishers:
+    cr, critical-role          - Critical Role
+    drakkenheim                - Drakkenheim
+    humblewood                 - Humblewood
+    grim-hollow                - Grim Hollow
+    kobold-press               - Kobold Press
+    mcdm                       - MCDM
+    free-league                - Free League
+    griffon, griffons-saddlebag - The Griffon's Saddlebag
+    1985-games                 - 1985 Games
+    ithaka, road-to-ithaka     - Road to Ithaka Press
+    avantris                   - Avantris Entertainment
+    loot-tavern                - Loot Tavern
+    mage-hand-press            - Mage Hand Press
+    roll-play-press            - Roll & Play Press
+    chaosium                   - Chaosium
+    paizo                      - Paizo
+  
+  Other:
+    minecraft                  - Minecraft
+    rick-and-morty             - Rick and Morty
+
 Directory structure:
   Without --source filter:
     Accessible spells     → <output_dir>/
@@ -663,6 +776,13 @@ This is for personal/educational use only.
         '--source', '-s',
         type=str,
         help='Filter by source book (e.g., phb, xge, tce)'
+    )
+    
+    parser.add_argument(
+        '--category', '-c',
+        type=str,
+        action='append',
+        help='Filter by source category (can be specified multiple times, e.g., -c core-rules -c expanded-rules)'
     )
     
     parser.add_argument(
@@ -745,6 +865,7 @@ This is for personal/educational use only.
         output_dir=args.output, 
         delay=args.delay,
         source_filter=args.source,
+        category_filters=args.category,
         cookies=cookies
     )
     crawler.crawl(max_spells=args.max_spells)
