@@ -12,6 +12,7 @@ Usage:
     python3 generate_cards.py [options]
 
 Options:
+    -i, --input FILE      Input spells JSON file (default: data/spells.json)
     -c, --class CLASS     Filter by class (can be used multiple times)
     -l, --level LEVEL     Filter by level (can be used multiple times, supports ranges like 1-3)
     -s, --school SCHOOL   Filter by school (can be used multiple times)
@@ -33,7 +34,7 @@ from pathlib import Path
 import shlex
 
 
-def check_dependencies():
+def check_dependencies(input_file='data/spells.json'):
     """Check if required dependencies are available."""
     missing_deps = []
     
@@ -45,9 +46,9 @@ def check_dependencies():
     if not os.path.exists('generate.py'):
         missing_deps.append("generate.py script")
     
-    # Check if data/spells.json exists
-    if not os.path.exists('data/spells.json'):
-        missing_deps.append("data/spells.json file")
+    # Check if input spells.json exists
+    if not os.path.exists(input_file):
+        missing_deps.append(f"{input_file} file")
     
     # Check LaTeX tools
     latexmk = shutil.which('latexmk')
@@ -140,6 +141,9 @@ def generate_spells_tex(args):
     
     # Build the generate.py command
     cmd_parts = ['python3', 'generate.py']
+    
+    if args.input:
+        cmd_parts.extend(['-i', args.input])
     
     if args.classes:
         for cls in args.classes:
@@ -278,6 +282,9 @@ Examples:
   # Generate all spells
   python3 generate_cards.py
 
+  # Generate from a custom spells file
+  python3 generate_cards.py -i data/spells_expanded.json
+
   # Generate only wizard spells of levels 1-3
   python3 generate_cards.py -c wizard -l 1-3
 
@@ -293,6 +300,12 @@ Examples:
   # Skip LaTeX compilation (only generate spells.tex)
   python3 generate_cards.py --no-compile
         """
+    )
+    
+    # Input file option
+    parser.add_argument(
+        "-i", "--input", type=str, default="data/spells.json",
+        help="input JSON file containing spells data (default: data/spells.json)"
     )
     
     # Filter options (same as generate.py)
@@ -343,9 +356,14 @@ Examples:
 
     args = parser.parse_args()
     
+    # Always check if the input file exists
+    if not os.path.exists(args.input):
+        print(f"Error: Input file '{args.input}' not found")
+        sys.exit(1)
+    
     # Check dependencies unless we are skipping LaTeX compilation
     if not args.no_compile:
-        if not check_dependencies():
+        if not check_dependencies(args.input):
             sys.exit(1)
     
     # Create output directory if it doesn't exist

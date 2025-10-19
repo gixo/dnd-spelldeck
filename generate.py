@@ -23,8 +23,7 @@ LEVEL_STRING = {
     9: '9th level {school} {ritual}',
 }
 
-with open('data/spells.json') as json_data:
-    SPELLS = json.load(json_data)
+# SPELLS will be loaded in main after parsing args
 
 
 def truncate_string(string, max_len=MAX_TEXT_LENGTH):
@@ -149,6 +148,10 @@ def parse_levels(levels):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument(
+        "-i", "--input", type=str, default="data/spells.json",
+        help="input JSON file containing spells data (default: data/spells.json)"
+    )
+    parser.add_argument(
         "-c", "--class", type=str, action='append', dest='classes',
         help="only select spells for this class, can be used multiple times "
              "to select multiple classes."
@@ -171,6 +174,17 @@ if __name__ == '__main__':
         help="sort spells by name (default) or by level (then by name)."
     )
     args = parser.parse_args()
+
+    # Load spells from the specified input file
+    try:
+        with open(args.input) as json_data:
+            SPELLS = json.load(json_data)
+    except FileNotFoundError:
+        print(f"Error: Input file '{args.input}' not found", file=sys.stderr)
+        sys.exit(1)
+    except json.JSONDecodeError as e:
+        print(f"Error: Failed to parse JSON from '{args.input}': {e}", file=sys.stderr)
+        sys.exit(1)
 
     for name, spell in get_spells(args.classes, parse_levels(args.levels), args.schools, args.names, args.sort_by):
         print_spell(name, **spell)
