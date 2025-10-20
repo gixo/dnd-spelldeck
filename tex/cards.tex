@@ -104,6 +104,45 @@
     \fi%
 }
 
+% Helper command to display a single damage type icon
+\newcommand{\displaydamagetypeicon}[1]{%
+    \ifx\relax#1\relax%
+    \else%
+        \IfStrEq{#1}{}{}{\includesvg[width=0.15cm, height=0.15cm, keepaspectratio]{../images/damage_types/#1}\hspace{0.5mm}}%
+    \fi%
+}
+
+% Command to display damage/effect with damage type icons
+\newcommand{\displaydamageeffect}[1]{%
+    \ifx\relax#1\relax%
+        \relax%
+    \else%
+        \StrBefore{#1}{|}[\damagetext]%
+        \StrBehind{#1}{|}[\damagetypes]%
+        % Check if there are damage types
+        \IfStrEq{\damagetypes}{}{%
+            % No damage types, just display text
+            {\italicfont\damagetext}%
+        }{%
+            % Display icons for each damage type, then the text
+            \IfSubStr{\damagetypes}{acid}{\displaydamagetypeicon{acid}}{}%
+            \IfSubStr{\damagetypes}{bludgeoning}{\displaydamagetypeicon{bludgeoning}}{}%
+            \IfSubStr{\damagetypes}{cold}{\displaydamagetypeicon{cold}}{}%
+            \IfSubStr{\damagetypes}{fire}{\displaydamagetypeicon{fire}}{}%
+            \IfSubStr{\damagetypes}{force}{\displaydamagetypeicon{force}}{}%
+            \IfSubStr{\damagetypes}{lightning}{\displaydamagetypeicon{lightning}}{}%
+            \IfSubStr{\damagetypes}{necrotic}{\displaydamagetypeicon{necrotic}}{}%
+            \IfSubStr{\damagetypes}{piercing}{\displaydamagetypeicon{piercing}}{}%
+            \IfSubStr{\damagetypes}{poison}{\displaydamagetypeicon{poison}}{}%
+            \IfSubStr{\damagetypes}{psychic}{\displaydamagetypeicon{psychic}}{}%
+            \IfSubStr{\damagetypes}{radiant}{\displaydamagetypeicon{radiant}}{}%
+            \IfSubStr{\damagetypes}{slashing}{\displaydamagetypeicon{slashing}}{}%
+            \IfSubStr{\damagetypes}{thunder}{\displaydamagetypeicon{thunder}}{}%
+            {\italicfont\damagetext}%
+        }%
+    \fi%
+}
+
 
 \newenvironment{spell}[9]{
     \def\spelltitle{#1}
@@ -174,7 +213,7 @@
             \begin{minipage}[t]{0.325\textwidth}
                 \centering\footnotesize{\color{headercolor}\fauxsc{Damage/Effect}}
 
-                {\italicfont\damageeffect}
+                \displaydamageeffect{\damageeffect}
             \end{minipage}
             \begin{minipage}[t]{0.325\textwidth}
                 \vspace{0.1em} %ensures duration is aligned with other attributes

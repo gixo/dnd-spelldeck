@@ -106,9 +106,24 @@ def print_spell(name, level, school, range, time, ritual, duration, components,
     else:
         duration_with_concentration = f"{duration}|NONCONCENTRATION"
 
+    # Parse damage types from damage_effect field
+    damage_effect = kwargs.get('damage_effect', 'None')
+    damage_types_list = ['acid', 'bludgeoning', 'cold', 'fire', 'force', 'lightning',
+                         'necrotic', 'piercing', 'poison', 'psychic', 'radiant', 'slashing', 'thunder']
+    found_damage_types = []
+
+    if damage_effect and damage_effect != 'None':
+        damage_effect_lower = damage_effect.lower()
+        for dtype in damage_types_list:
+            if dtype in damage_effect_lower:
+                found_damage_types.append(dtype)
+
+    # Add damage types to the damage_effect string
+    damage_effect_with_icons = f"{damage_effect}|{','.join(found_damage_types)}"
+
     print("\\begin{spell}{%s}{%s}{%s}{%s}{%s}{%s}{%s}{%s}{%s}\n\n%s\n\n\\end{spell}\n" %
         (name, header, range_with_icon, time_with_ritual, duration_with_concentration, ", ".join(components), source or '',
-         kwargs.get('attack_save', 'None'), kwargs.get('damage_effect', 'None'), formatted_text))
+         kwargs.get('attack_save', 'None'), damage_effect_with_icons, formatted_text))
 
 
 def get_spells(classes=None, levels=None, schools=None, names=None, sort_by='name'):
