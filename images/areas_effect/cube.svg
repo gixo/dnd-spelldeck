@@ -1,1 +1,77 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16.89 17.57"><defs><style>.cls-1{fill:#231f20;}</style></defs><title>Asset 4</title><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path class="cls-1" d="M13.43,17.57H.5a.5.5,0,0,1-.5-.5V4.14a.5.5,0,0,1,.5-.5H13.43a.5.5,0,0,1,.5.5V17.07A.5.5,0,0,1,13.43,17.57ZM1,16.57H12.93V4.64H1Z"/><path class="cls-1" d="M13.43,17.57a.5.5,0,0,1-.4-.81l2.86-3.71V1.91L13.82,4.46A.5.5,0,1,1,13,3.83L16,.18a.5.5,0,0,1,.89.32V13.23a.5.5,0,0,1-.1.31l-3,3.85A.5.5,0,0,1,13.43,17.57Z"/><path class="cls-1" d="M.5,4.64A.5.5,0,0,1,.13,3.8L3.55.16A.5.5,0,0,1,3.91,0H16.39a.5.5,0,0,1,0,1H4.13L.87,4.48A.5.5,0,0,1,.5,4.64Z"/></g></g></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 17.093798 17.777472"
+   version="1.1"
+   id="svg3"
+   sodipodi:docname="cube.svg"
+   width="17.093798"
+   height="17.777472"
+   inkscape:version="1.4.2 (ebf0e940, 2025-05-08)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <sodipodi:namedview
+     id="namedview3"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="49.259919"
+     inkscape:cx="8.5363519"
+     inkscape:cy="8.8916103"
+     inkscape:window-width="1856"
+     inkscape:window-height="1201"
+     inkscape:window-x="155"
+     inkscape:window-y="97"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg3" />
+  <defs
+     id="defs1">
+    <style
+       id="style1">.cls-1{fill:#231f20;}</style>
+  </defs>
+  <title
+     id="title1">Asset 4</title>
+  <g
+     id="Layer_2"
+     data-name="Layer 2"
+     style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-dasharray:none;stroke-opacity:1"
+     transform="translate(0.10369965,0.10740814)">
+    <g
+       id="Layer_1-2"
+       data-name="Layer 1"
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-dasharray:none;stroke-opacity:1">
+      <path
+         class="cls-1"
+         d="M 13.43,17.57 H 0.5 A 0.5,0.5 0 0 1 0,17.07 V 4.14 a 0.5,0.5 0 0 1 0.5,-0.5 h 12.93 a 0.5,0.5 0 0 1 0.5,0.5 v 12.93 a 0.5,0.5 0 0 1 -0.5,0.5 z M 1,16.57 H 12.93 V 4.64 H 1 Z"
+         id="path1"
+         style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         class="cls-1"
+         d="m 13.43,17.57 a 0.5,0.5 0 0 1 -0.4,-0.81 l 2.86,-3.71 V 1.91 L 13.82,4.46 A 0.51703482,0.51703482 0 1 1 13,3.83 l 3,-3.65 a 0.5,0.5 0 0 1 0.89,0.32 v 12.73 a 0.5,0.5 0 0 1 -0.1,0.31 l -3,3.85 a 0.5,0.5 0 0 1 -0.36,0.18 z"
+         id="path2"
+         style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         class="cls-1"
+         d="M 0.5,4.64 A 0.5,0.5 0 0 1 0.13,3.8 L 3.55,0.16 A 0.5,0.5 0 0 1 3.91,0 h 12.48 a 0.5,0.5 0 0 1 0,1 H 4.13 L 0.87,4.48 A 0.5,0.5 0 0 1 0.5,4.64 Z"
+         id="path3"
+         style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-dasharray:none;stroke-opacity:1" />
+    </g>
+  </g>
+  <metadata
+     id="metadata4">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:title>Asset 4</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>
