@@ -70,36 +70,24 @@
 \cfoot{\if\relax\spellsource\relax\else\scriptsize\color{headercolor}\itshape\spellsource\fi}
 \setlength{\parindent}{0pt}
 
-% Helper command to add closing parenthesis if needed
-\newcommand{\addclosingparen}[1]{%
-    \ifx#1\empty%
-    \else%
-        \StrBefore{#1}{(}[\beforeparen]%
-        \StrBehind{#1}{(}[\afterparen]%
-        \ifx\beforeparen#1%
-            % No opening parenthesis found
-        \else%
-            {\italicfont )}%
-        \fi%
-    \fi%
-}
-
-
 % Command to display range with area effect icons if applicable
 \newcommand{\displayrange}[1]{%
     \ifx\relax#1\relax%
         \relax%
     \else%
+        % Split the input: rangetext|areaeffect|closingparen
         \StrBefore{#1}{|}[\rangetext]%
-        \StrBehind{#1}{|}[\areaeffect]%
+        \StrBehind{#1}{|}[\remaining]%
+        \StrBefore{\remaining}{|}[\areaeffect]%
+        \StrBehind{\remaining}{|}[\closingparen]%
         % Check if there's an area effect (not "none")
         \ifnum\pdfstrcmp{\areaeffect}{none}=0%
             % No area effect icon
             {\italicfont\rangetext}%
         \else%
-            % Show area effect icon
+            % Show area effect icon and add closing parenthesis
             {\italicfont\rangetext}\hspace{0.5mm}\includesvg[width=0.15cm]{../images/areas_effect/\areaeffect}%
-            \addclosingparen{\rangetext}%
+            \IfStrEq{\closingparen}{}{}{{\italicfont\closingparen}}%
         \fi%
     \fi%
 }

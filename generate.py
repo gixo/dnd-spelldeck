@@ -76,6 +76,7 @@ def print_spell(name, level, school, range, time, ritual, duration, components,
     # Check if range contains area effect text and extract it for icon display
     display_range = range
     area_effect = "none"  # Possible values: none, cone, cube, cylinder, emanation, line, sphere
+    closing_paren = ""  # Will contain the closing parenthesis and optional asterisk
 
     if range:
         import re
@@ -87,13 +88,20 @@ def print_spell(name, level, school, range, time, ritual, duration, components,
         # Check for each area effect type
         for area_type in area_types:
             if area_type in range_lower:
-                # Remove the area effect word and any following closing parenthesis
-                display_range = re.sub(r'\s*' + area_type + r'\s*\)?', '', range, flags=re.IGNORECASE).strip()
+                # Check if there's an asterisk before the closing parenthesis
+                asterisk_pattern = r'\s*' + area_type + r'\s*\*\)'
+                if re.search(asterisk_pattern, range, flags=re.IGNORECASE):
+                    closing_paren = "*)"
+                elif re.search(r'\s*' + area_type + r'\s*\)', range, flags=re.IGNORECASE):
+                    closing_paren = ")"
+                
+                # Remove the area effect word, any following asterisk, and closing parenthesis
+                display_range = re.sub(r'\s*' + area_type + r'\s*\*?\)?', '', range, flags=re.IGNORECASE).strip()
                 area_effect = area_type
                 break
 
-    # Add area effect info to the range
-    range_with_icon = f"{display_range}|{area_effect}"
+    # Add area effect info to the range with closing parenthesis info
+    range_with_icon = f"{display_range}|{area_effect}|{closing_paren}"
 
     # Add ritual flag to casting time
     time_with_ritual = f"{time}|RITUAL" if ritual else f"{time}|NONRITUAL"
